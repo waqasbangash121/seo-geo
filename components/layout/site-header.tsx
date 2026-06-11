@@ -14,7 +14,7 @@ export function SiteHeader() {
       <Container className="flex items-center justify-between gap-6 py-5">
         <Link href="/" className="flex items-center gap-3 text-sm font-semibold text-foreground">
           <BrandMark className="h-10 w-10" />
-          <span className="uppercase tracking-[0.35em]">Hyper</span>
+          <span className="uppercase tracking-[0.35em]">Hyper Apps</span>
         </Link>
 
         <nav aria-label="Main navigation" className="hidden items-center gap-6 md:flex">
