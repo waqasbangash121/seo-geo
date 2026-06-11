@@ -1,0 +1,80 @@
+@import "tailwindcss";
+
+@theme inline {
+    --color-background: var(--background);
+    --color-foreground: var(--foreground);
+    --color-surface: var(--surface);
+    --color-surface-foreground: var(--surface-foreground);
+    --color-muted: var(--muted);
+    --color-muted-foreground: var(--muted-foreground);
+    --color-border: var(--border);
+    --color-ring: var(--ring);
+    --color-primary: var(--primary);
+    --color-primary-foreground: var(--primary-foreground);
+    --font-sans: var(--font-hyper-sans);
+    --font-mono: var(--font-hyper-mono);
+}
+
+:root {
+    color-scheme: light;
+    --background: 32 60% 98%;
+    --foreground: 222 47% 11%;
+    --surface: 0 0% 100%;
+    --surface-foreground: 222 47% 11%;
+    --muted: 24 33% 94%;
+    --muted-foreground: 215 16% 45%;
+    --border: 24 28% 88%;
+    --ring: 15 95% 55%;
+    --primary: 15 92% 53%;
+    --primary-foreground: 0 0% 100%;
+    --shadow: 15 70% 12%;
+    --brand-start: 28 100% 50%;
+    --brand-end: 348 90% 55%;
+}
+
+@media (prefers-color-scheme: dark) {
+    :root {
+        color-scheme: dark;
+        --background: 222 47% 7%;
+        --foreground: 210 40% 98%;
+        --surface: 223 43% 11%;
+        --surface-foreground: 210 40% 98%;
+        --muted: 223 32% 18%;
+        --muted-foreground: 215 20% 65%;
+        --border: 223 32% 18%;
+        --ring: 15 100% 62%;
+        --primary: 15 92% 58%;
+        --primary-foreground: 222 47% 8%;
+        --shadow: 222 47% 2%;
+        --brand-start: 28 100% 55%;
+        --brand-end: 348 90% 58%;
+    }
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    @apply min-h-screen bg-background text-foreground antialiased;
+    background-color: hsl(var(--background));
+    background-image:
+        radial-gradient(circle at top left, hsl(var(--brand-start) / 0.14), transparent 28%),
+        radial-gradient(circle at top right, hsl(var(--brand-end) / 0.12), transparent 24%),
+        linear-gradient(180deg, hsl(var(--background)), hsl(var(--background)));
+    background-attachment: fixed;
+}
+
+* {
+    @apply border-border;
+}
+
+::selection {
+    background: hsl(var(--primary));
+    color: hsl(var(--primary-foreground));
+}
+
+:focus-visible {
+    outline: 2px solid hsl(var(--ring));
+    outline-offset: 3px;
+}
