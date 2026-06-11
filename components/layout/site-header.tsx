@@ -33,7 +33,7 @@ export function SiteHeader() {
           href="/contact"
           className="inline-flex items-center justify-center rounded-full border border-transparent bg-[linear-gradient(135deg,#f97316_0%,#ef4444_100%)] px-4 py-2 text-sm font-medium text-white shadow-[0_18px_36px_-18px_rgba(249,115,22,0.7)] transition-transform duration-200 hover:-translate-y-0.5"
         >
-          Start a project
+          Explore Apps
         </Link>
       </Container>
     </header>
