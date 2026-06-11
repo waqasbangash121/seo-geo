@@ -4,6 +4,18 @@ export type RouteItem = {
   description: string;
 };
 
+export type NavigationItem = RouteItem;
+
+export type MegaMenuColumn = {
+  title: string;
+  links: RouteItem[];
+};
+
+export type FooterNavigationGroup = {
+  title: string;
+  links: RouteItem[];
+};
+
 export type SiteConfig = {
   name: string;
   shortName: string;

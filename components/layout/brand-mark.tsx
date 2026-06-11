@@ -1,14 +1,18 @@
+import Image from "next/image";
+
 type BrandMarkProps = {
   className?: string;
 };
 
 export function BrandMark({ className }: BrandMarkProps) {
   return (
-    <img
+    <Image
       src="/icon.svg"
       alt=""
       aria-hidden="true"
-      className={className}
+      className={`${className} rounded-xl`}
+      width={40}
+      height={40}
     />
   );
 }

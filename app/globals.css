@@ -30,10 +30,51 @@
     --shadow: 15 70% 12%;
     --brand-start: 28 100% 50%;
     --brand-end: 348 90% 55%;
+    --space-2xs: 0.25rem;
+    --space-xs: 0.5rem;
+    --space-sm: 0.75rem;
+    --space-md: 1rem;
+    --space-lg: 1.5rem;
+    --space-xl: 2rem;
+    --space-2xl: 3rem;
+}
+
+html.light {
+    color-scheme: light;
+    --background: 32 60% 98%;
+    --foreground: 222 47% 11%;
+    --surface: 0 0% 100%;
+    --surface-foreground: 222 47% 11%;
+    --muted: 24 33% 94%;
+    --muted-foreground: 215 16% 45%;
+    --border: 24 28% 88%;
+    --ring: 15 95% 55%;
+    --primary: 15 92% 53%;
+    --primary-foreground: 0 0% 100%;
+    --shadow: 15 70% 12%;
+    --brand-start: 28 100% 50%;
+    --brand-end: 348 90% 55%;
+}
+
+html.dark {
+    color-scheme: dark;
+    --background: 222 47% 7%;
+    --foreground: 210 40% 98%;
+    --surface: 223 43% 11%;
+    --surface-foreground: 210 40% 98%;
+    --muted: 223 32% 18%;
+    --muted-foreground: 215 20% 65%;
+    --border: 223 32% 18%;
+    --ring: 15 100% 62%;
+    --primary: 15 92% 58%;
+    --primary-foreground: 222 47% 8%;
+    --shadow: 222 47% 2%;
+    --brand-start: 28 100% 55%;
+    --brand-end: 348 90% 58%;
 }
 
 @media (prefers-color-scheme: dark) {
-    :root {
+    :root:not(.light):not(.dark) {
         color-scheme: dark;
         --background: 222 47% 7%;
         --foreground: 210 40% 98%;
@@ -77,4 +118,64 @@ body {
 :focus-visible {
     outline: 2px solid hsl(var(--ring));
     outline-offset: 3px;
+}
+
+.type-display {
+    @apply text-4xl font-semibold tracking-tight sm:text-5xl lg:text-6xl;
+}
+
+.type-heading {
+    @apply text-2xl font-semibold tracking-tight sm:text-3xl;
+}
+
+.type-subheading {
+    @apply text-xl font-semibold tracking-tight;
+}
+
+.type-body {
+    @apply text-base leading-7 text-muted-foreground;
+}
+
+.type-caption {
+    @apply text-sm leading-6 text-muted-foreground;
+}
+
+.stack-2xs>*+* {
+    margin-top: var(--space-2xs);
+}
+
+.stack-xs>*+* {
+    margin-top: var(--space-xs);
+}
+
+.stack-sm>*+* {
+    margin-top: var(--space-sm);
+}
+
+.stack-md>*+* {
+    margin-top: var(--space-md);
+}
+
+.stack-lg>*+* {
+    margin-top: var(--space-lg);
+}
+
+.stack-xl>*+* {
+    margin-top: var(--space-xl);
+}
+
+.stack-2xl>*+* {
+    margin-top: var(--space-2xl);
+}
+
+.pad-section-sm {
+    padding-block: var(--space-xl);
+}
+
+.pad-section-md {
+    padding-block: var(--space-2xl);
+}
+
+.pad-section-lg {
+    padding-block: 5rem;
 }

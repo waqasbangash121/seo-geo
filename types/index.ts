@@ -1,1 +1,7 @@
-export type { RouteItem, SiteConfig } from "./site";
+export type {
+  FooterNavigationGroup,
+  MegaMenuColumn,
+  NavigationItem,
+  RouteItem,
+  SiteConfig,
+} from "./site";

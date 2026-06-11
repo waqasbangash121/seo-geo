@@ -1,4 +1,3 @@
-import { siteRoutes } from "@/data";
+import { appsMegaMenu, footerNavigation, primaryNavigation, siteRoutes } from "@/data";
 
-export const primaryNavigation = siteRoutes;
-export const footerNavigation = siteRoutes;
+export { appsMegaMenu, footerNavigation, primaryNavigation, siteRoutes };

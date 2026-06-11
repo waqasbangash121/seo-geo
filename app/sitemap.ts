@@ -1,8 +1,19 @@
 import type { MetadataRoute } from "next";
 
+import { primaryNavigation } from "@/config/navigation";
 import { siteConfig } from "@/config/site";
 
-const routes = ["/", "/about", "/services", "/contact", "/search"];
+const routes = [
+  ...new Set([
+    ...primaryNavigation.map((route) => route.href),
+    "/about",
+    "/services",
+    "/search",
+    "/privacy",
+    "/terms",
+    "/cookie-policy",
+  ]),
+];
 
 export default function sitemap(): MetadataRoute.Sitemap {
   return routes.map((route) => ({
