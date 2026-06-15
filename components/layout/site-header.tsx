@@ -34,7 +34,7 @@ export function SiteHeader() {
             <div className="group/mega relative">
               <Link
                 href={appsNavigationItem.href}
-                className="rounded-md px-2 py-1 text-sm text-muted-foreground transition-colors hover:text-foreground"
+                className="rounded-md px-2 py-1 text-sm text-muted-foreground transition-colors hover:text-foreground hover:bg-orange-600"
               >
                 {appsNavigationItem.label}
               </Link>
@@ -46,7 +46,7 @@ export function SiteHeader() {
             <Link
               key={item.href + item.label}
               href={item.href}
-              className="rounded-md px-2 py-1 text-sm text-muted-foreground transition-colors hover:text-foreground"
+              className="rounded-md px-2 py-1 text-sm text-muted-foreground transition-colors hover:text-foreground hover:bg-orange-600"
             >
               {item.label}
             </Link>

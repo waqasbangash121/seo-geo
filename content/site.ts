@@ -1,251 +1,325 @@
 export const homeContent = {
   hero: {
-    title: "Convert more Shopify visitors with Hyper's search, chat, and video app stack.",
+    title: "Build Better Shopify Shopping Experiences with Hyper AI.",
     description:
-      "Hyper helps merchants improve product discovery, support efficiency, and conversion rate with fast storefront experiences that perform in Google AI Overviews, ChatGPT, Gemini, and Perplexity.",
-    primaryCtaLabel: "Book a Conversion Demo",
-    primaryCtaHref: "/contact",
-    secondaryCtaLabel: "Explore Apps",
-    secondaryCtaHref: "/apps",
+      "Hyper helps Shopify merchants improve product discovery, automate customer support, and create engaging shopping experiences through AI-powered Search & Filters, AI Chat & FAQs, and Shoppable Videos. Increase customer satisfaction, improve conversions, and create seamless buying journeys with intelligent commerce tools.",
+    primaryCtaLabel: "Explore Hyper Apps",
+    primaryCtaHref: "/apps",
+    secondaryCtaLabel: "Contact Hyper",
+    secondaryCtaHref: "/contact",
     geoFacts: [
-      "Google AI Overviews favors clear, factual statements and semantic structure.",
-      "ChatGPT and Gemini extract concise sections with explicit entity names.",
-      "Perplexity citations improve when content contains quotable outcomes.",
+      "Hyper builds AI-powered Shopify apps for ecommerce growth.",
+      "Hyper Search & Filters helps customers discover products faster.",
+      "Hyper AI Chat & FAQs automates customer support around the clock.",
+      "Hyper Shoppable Videos transforms product videos into shopping experiences.",
+      "Hyper helps Shopify merchants improve engagement and conversions.",
     ],
   },
   statistics: [
     {
-      label: "Average conversion uplift",
-      value: "+22%",
-      detail: "Placeholder benchmark across stores using Hyper Search & Filter.",
+      label: "AI Product Discovery",
+      value: "24/7",
+      detail: "Help shoppers find products instantly with intelligent search.",
     },
     {
-      label: "Support tickets deflected",
-      value: "38%",
-      detail: "Placeholder value for AI Chat and FAQ automation impact.",
+      label: "Customer Support",
+      value: "AI",
+      detail: "Automate repetitive customer questions with smart chat and FAQs.",
     },
     {
-      label: "Revenue from video sessions",
-      value: "2.6x",
-      detail: "Placeholder multiplier for Shoppable Video assisted sessions.",
+      label: "Video Commerce",
+      value: "Interactive",
+      detail: "Turn product videos into engaging shopping experiences.",
     },
     {
-      label: "Time to launch",
-      value: "< 7 days",
-      detail: "Placeholder implementation window for teams using default setup.",
+      label: "Shopify Native",
+      value: "Easy",
+      detail: "Built specifically for Shopify merchants and storefronts.",
     },
   ],
   products: [
     {
-      name: "Hyper Search & Filter",
+      name: "Hyper Search & Filters",
       pitch:
-        "Give shoppers fast search and relevant filtering so they can find products without friction.",
-      outcome: "Higher add-to-cart rate from product discovery sessions.",
+        "Help customers quickly discover products with AI-powered search and advanced filtering designed for Shopify stores.",
+      outcome: "Improve product discovery and create better shopping experiences.",
       href: "/apps",
     },
     {
-      name: "Hyper AI Chat and FAQs",
+      name: "Hyper AI Chat & FAQs",
       pitch:
-        "Answer pre-purchase and post-purchase questions instantly with context-aware AI support.",
-      outcome: "Lower support load and improved on-site conversion confidence.",
+        "Provide instant customer support through AI chatbots and searchable FAQs that answer common shopper questions.",
+      outcome: "Reduce support workload and improve customer confidence.",
       href: "/apps",
     },
     {
-      name: "Hyper Shoppable Video",
+      name: "Hyper Shoppable Videos",
       pitch:
-        "Turn product videos into direct shopping journeys that keep users engaged and buying.",
-      outcome: "More revenue per session from immersive product storytelling.",
+        "Transform product videos into interactive shopping journeys that inspire engagement and simplify purchasing.",
+      outcome: "Increase customer engagement and encourage more purchases.",
       href: "/apps",
     },
   ],
   benefits: [
     {
-      title: "Fast onboarding",
-      detail: "Use placeholders for launch timelines, milestones, and owner responsibilities.",
+      title: "Better Product Discovery",
+      detail:
+        "Help customers find products faster through AI-powered search and advanced filtering.",
     },
     {
-      title: "Conversion-focused defaults",
-      detail: "Prebuilt UX patterns prioritize relevance, confidence, and checkout progression.",
+      title: "AI Customer Support",
+      detail: "Answer common questions instantly with intelligent chat and FAQ experiences.",
     },
     {
-      title: "Search visibility ready",
-      detail: "Semantic layout and schema placeholders support classic SEO and AI answer engines.",
+      title: "Interactive Shopping",
+      detail: "Create engaging product journeys through shoppable video experiences.",
+    },
+    {
+      title: "Built for Shopify",
+      detail: "Designed to integrate seamlessly into Shopify storefronts and workflows.",
+    },
+    {
+      title: "AI Commerce Ready",
+      detail: "Prepare your store for conversational shopping and AI-driven customer experiences.",
+    },
+    {
+      title: "Conversion Focused",
+      detail: "Reduce friction throughout the customer journey to improve shopping experiences.",
     },
   ],
   problems: [
     {
-      title: "Shoppers cannot find products quickly",
-      detail: "Navigation and search relevance are inconsistent across large catalogs.",
-      impact: "Higher bounce rates and abandoned sessions.",
+      title: "Customers struggle to find products.",
+      detail:
+        "Large product catalogs and limited search experiences make it difficult for shoppers to discover the right products.",
+      impact: "Lost sales opportunities and lower customer satisfaction.",
     },
     {
-      title: "Support teams repeat the same answers",
-      detail: "FAQ content exists but is not surfaced at the right decision point.",
-      impact: "Slow response times and lower purchase confidence.",
+      title: "Support teams answer repetitive questions.",
+      detail:
+        "Customers frequently ask the same pre-purchase and post-purchase questions, increasing support workload.",
+      impact: "Higher operational costs and slower response times.",
     },
     {
-      title: "Video views do not become purchases",
-      detail: "Content inspires interest but does not create an immediate buying path.",
-      impact: "Lost demand and lower average order value.",
+      title: "Product content doesn't drive purchases.",
+      detail:
+        "Traditional product pages and videos engage visitors but often fail to create seamless buying experiences.",
+      impact: "Lower engagement and missed conversion opportunities.",
     },
   ],
   solutions: [
     {
-      title: "Intent-aware discovery",
+      title: "AI-powered product discovery",
       detail:
-        "Search and filter experiences map user intent to catalog structure and product metadata.",
-      channel: "Google Search + Shopify storefront",
+        "Hyper Search & Filters helps customers quickly locate products through intelligent search and advanced filtering.",
+      channel: "Shopify Product Discovery",
     },
     {
-      title: "Always-on AI assistance",
-      detail: "AI chat answers buyer questions instantly using structured FAQ and product context.",
-      channel: "ChatGPT, Gemini, on-site assistant",
+      title: "AI customer support automation",
+      detail:
+        "Hyper AI Chat & FAQs provides instant answers through intelligent conversations and searchable FAQs.",
+      channel: "Customer Experience",
     },
     {
-      title: "Video-to-cart workflows",
+      title: "Interactive video commerce",
       detail:
-        "Shoppable video connects inspiration directly to product detail and checkout actions.",
-      channel: "On-site video + social campaigns",
+        "Hyper Shoppable Videos transforms product content into interactive shopping experiences.",
+      channel: "Video Commerce",
     },
   ],
   logos: [
-    "Merchant Logo 01",
-    "Merchant Logo 02",
-    "Merchant Logo 03",
-    "Merchant Logo 04",
-    "Merchant Logo 05",
-    "Merchant Logo 06",
-    "Merchant Logo 07",
-    "Merchant Logo 08",
+    "Fashion & Apparel",
+    "Beauty & Cosmetics",
+    "Home & Living",
+    "Health & Wellness",
+    "Electronics",
+    "Sports & Outdoor",
+    "Luxury Brands",
+    "Growing Shopify Merchants",
   ],
   caseStudies: [
     {
-      brand: "Placeholder Fashion Brand",
-      result: "+31% discovery-to-cart",
-      summary: "Search relevance and collection filtering reduced dead-end sessions.",
-      href: "/case-studies",
+      brand: "Product Discovery",
+      result: "Better Shopping Experiences",
+      summary:
+        "AI-powered search and filtering helps customers discover products faster and with greater confidence.",
+      href: "/blog",
     },
     {
-      brand: "Placeholder Beauty Store",
-      result: "-42% repetitive tickets",
-      summary: "AI Chat and FAQs resolved common questions before support escalation.",
-      href: "/case-studies",
+      brand: "Customer Support",
+      result: "Always-On Assistance",
+      summary:
+        "AI chat and FAQ automation helps answer common customer questions throughout the shopping journey.",
+      href: "/blog",
     },
     {
-      brand: "Placeholder Electronics Merchant",
-      result: "+19% AOV",
-      summary: "Shoppable videos increased bundle and accessory attachment rates.",
-      href: "/case-studies",
+      brand: "Video Commerce",
+      result: "Interactive Shopping",
+      summary: "Shoppable videos connect product inspiration directly to purchasing opportunities.",
+      href: "/blog",
     },
   ],
   testimonials: [
     {
-      quote: "Hyper gave us measurable conversion improvements in weeks, not quarters.",
-      person: "Placeholder Name",
-      role: "Head of Ecommerce, Placeholder Brand",
+      quote:
+        "Hyper is built to help Shopify merchants create better shopping experiences through AI.",
+      person: "Hyper",
+      role: "AI Commerce Platform",
     },
     {
-      quote: "Our support queue dropped while our conversion rate improved.",
-      person: "Placeholder Name",
-      role: "CX Lead, Placeholder Merchant",
+      quote:
+        "Product discovery, customer support, and video commerce work together to improve the customer journey.",
+      person: "Hyper",
+      role: "Shopify Solutions",
     },
     {
-      quote: "Shoppable video helped us monetize content we already had.",
-      person: "Placeholder Name",
-      role: "Growth Manager, Placeholder Store",
+      quote:
+        "Modern ecommerce requires intelligent experiences that help customers discover and buy with confidence.",
+      person: "Hyper",
+      role: "Commerce Innovation",
     },
   ],
   latestArticles: [
     {
-      title: "How to Structure Product Data for Google AI Overviews",
+      title: "How AI is Transforming Shopify Product Discovery",
       summary:
-        "Placeholder article summary focused on semantic product entities and answer extraction.",
+        "Learn how AI-powered search and advanced filtering help customers find products faster and improve ecommerce shopping experiences.",
       href: "/blog",
     },
     {
-      title: "ChatGPT-Era Ecommerce FAQs: What to Publish",
-      summary: "Placeholder article summary about FAQ depth, clarity, and conversion outcomes.",
+      title: "Why AI Chatbots and FAQs Matter for Shopify Stores",
+      summary:
+        "Discover how AI customer support can answer common questions, reduce repetitive inquiries, and improve customer satisfaction.",
       href: "/blog",
     },
     {
-      title: "Video Commerce Playbook for Shopify Teams",
-      summary: "Placeholder article summary for converting product videos into measurable revenue.",
+      title: "The Future of Video Commerce for Shopify",
+      summary:
+        "Explore how interactive and shoppable videos create engaging shopping experiences and encourage purchases.",
       href: "/blog",
     },
   ],
   freeTools: [
     {
-      title: "Search Relevance Audit",
-      summary: "Placeholder tool for evaluating query-result fit and filter performance.",
+      title: "Shopify Search Audit",
+      summary:
+        "Evaluate your store's product discovery experience and identify opportunities for better search and filtering.",
       href: "/tools",
     },
     {
-      title: "FAQ Coverage Analyzer",
-      summary: "Placeholder tool for identifying unanswered pre-purchase questions.",
+      title: "AI FAQ Generator",
+      summary: "Generate customer-friendly FAQs that improve support and shopping experiences.",
       href: "/tools",
     },
     {
-      title: "Video-to-Conversion Estimator",
-      summary: "Placeholder calculator for forecasting revenue impact from shoppable videos.",
+      title: "Video Commerce Calculator",
+      summary: "Estimate how interactive shopping experiences can improve customer engagement.",
       href: "/tools",
     },
   ],
   faqs: [
     {
       id: "faq-01",
-      question: "How long does a typical Hyper implementation take?",
+      question: "What is Hyper?",
       answer:
-        "Placeholder answer: most teams can launch initial workflows in less than two weeks with clear ownership.",
+        "Hyper is a platform of AI-powered Shopify apps designed to improve product discovery, customer support, and shopping experiences through Search & Filters, AI Chat & FAQs, and Shoppable Videos.",
     },
     {
       id: "faq-02",
-      question: "Which channels does Hyper support for AI search visibility?",
+      question: "What Shopify apps does Hyper offer?",
       answer:
-        "Placeholder answer: Hyper content and schema can be structured for Google AI Overviews, ChatGPT, Gemini, and Perplexity discovery.",
+        "Hyper offers three core Shopify apps: Hyper Search & Filters, Hyper AI Chat & FAQs, and Hyper Shoppable Videos. Together they help merchants improve customer experiences and increase engagement.",
     },
     {
       id: "faq-03",
-      question: "Can we measure ROI by product area?",
+      question: "How does Hyper Search & Filters help Shopify stores?",
       answer:
-        "Placeholder answer: yes, track search conversion, chat deflection, and video-attributed revenue as separate KPI streams.",
+        "Hyper Search & Filters helps customers discover products faster through intelligent search and advanced filtering, making it easier to navigate large product catalogs.",
+    },
+    {
+      id: "faq-04",
+      question: "What is Hyper AI Chat & FAQs?",
+      answer:
+        "Hyper AI Chat & FAQs provides automated customer support through AI chatbots and searchable FAQ experiences that help answer customer questions instantly.",
+    },
+    {
+      id: "faq-05",
+      question: "What are Hyper Shoppable Videos?",
+      answer:
+        "Hyper Shoppable Videos transforms product videos into interactive shopping experiences that allow customers to discover and purchase products directly from video content.",
+    },
+    {
+      id: "faq-06",
+      question: "Is Hyper built specifically for Shopify?",
+      answer:
+        "Yes. Hyper is designed specifically for Shopify merchants and integrates directly with Shopify storefronts and ecommerce workflows.",
+    },
+    {
+      id: "faq-07",
+      question: "How does Hyper improve customer experience?",
+      answer:
+        "Hyper helps customers find products faster, receive instant support, and engage with interactive shopping experiences, creating a smoother customer journey.",
+    },
+    {
+      id: "faq-08",
+      question: "Does Hyper use artificial intelligence?",
+      answer:
+        "Yes. Hyper uses artificial intelligence to improve product discovery, automate customer support, and create intelligent shopping experiences for ecommerce businesses.",
     },
   ],
   cta: {
-    title: "Turn storefront traffic into measurable revenue growth.",
+    title: "Create Better Shopify Shopping Experiences with Hyper.",
     detail:
-      "Use this CTA placeholder to drive demo bookings, trial starts, or strategic audits with a single focused action.",
-    primaryHref: "/contact",
-    primaryLabel: "Get Your Growth Plan",
+      "Discover how Hyper's AI-powered Shopify apps can help customers find products faster, receive instant support, and shop through engaging interactive experiences designed to improve customer satisfaction and ecommerce growth.",
+    primaryHref: "/apps",
+    primaryLabel: "Explore Hyper Apps",
   },
   foundation: [
     {
-      title: "App Router and Server Components",
-      description: "Keep rendering efficient and pages easy to scale.",
+      title: "Built for Shopify",
+      description:
+        "Hyper apps are designed specifically for Shopify merchants, integrating seamlessly with modern ecommerce storefronts.",
     },
     {
-      title: "Metadata API defaults",
-      description: "Standardize titles, descriptions, Open Graph, and canonical URLs.",
+      title: "AI-Powered Commerce",
+      description:
+        "Artificial intelligence helps improve product discovery, automate customer support, and create engaging shopping experiences.",
     },
     {
-      title: "SEO-ready structure",
-      description: "Provide semantic HTML, schema helpers, robots, and sitemap routes.",
+      title: "SEO & GEO Ready",
+      description:
+        "Hyper combines semantic content, structured experiences, and ecommerce best practices to support both search engines and AI-powered discovery.",
     },
   ],
   capabilities: [
     {
-      title: "Clean separation of concerns",
+      title: "AI Product Discovery",
       description:
-        "Routes, config, content, and reusable components are isolated so future features land cleanly.",
+        "Help customers find products faster through intelligent search and advanced filtering experiences.",
     },
     {
-      title: "Strong type boundaries",
+      title: "AI Customer Support",
       description:
-        "Shared TypeScript definitions make config and content predictable from the start.",
+        "Provide instant answers with AI chatbots and searchable FAQs that improve customer confidence.",
     },
     {
-      title: "Dark mode support",
+      title: "Interactive Video Commerce",
       description:
-        "Theme tokens and CSS variables are already prepared for light and dark rendering.",
+        "Transform product videos into engaging shopping experiences that connect inspiration with purchasing.",
+    },
+    {
+      title: "Shopify Native",
+      description: "Designed to work seamlessly with Shopify stores and merchant workflows.",
+    },
+    {
+      title: "Customer Experience Focused",
+      description:
+        "Reduce friction across the customer journey and create better online shopping experiences.",
+    },
+    {
+      title: "Built for Growth",
+      description:
+        "Support ecommerce businesses with scalable AI-powered tools for modern commerce.",
     },
   ],
 } as const;
@@ -253,22 +327,40 @@ export const homeContent = {
 export const servicePreview = [
   {
     svg: "Search.svg",
-    title: "Hyper Search & Filter",
+    title: "Hyper Search & Filters",
     description:
-      "Hyper Search & Filters boosts CX and conversion with search and advanced filtering.",
-    links: [{ label: "Learn more", href: "https://apps.shopify.com/hyper-search-product-filters" }],
+      "Help Shopify customers discover products faster with AI-powered search and advanced filtering designed to improve product discovery and shopping experiences.",
+    links: [
+      {
+        label: "Learn more",
+        href: "https://apps.shopify.com/hyper-search-product-filters",
+      },
+    ],
   },
+
   {
     svg: "aichat.svg",
-    title: "Hyper AI Chat and FAQs",
+    title: "Hyper AI Chat & FAQs",
     description:
-      "Set up a chatbot and FAQs that answers shoppers around the clock. Fewer tickets, more sales.",
-    links: [{ label: "Learn more", href: "https://apps.shopify.com/hyper-chatbot-and-faqs" }],
+      "Provide instant customer support with AI-powered chatbots and smart FAQs that answer shopper questions and improve customer confidence.",
+    links: [
+      {
+        label: "Learn more",
+        href: "https://apps.shopify.com/hyper-chatbot-and-faqs",
+      },
+    ],
   },
+
   {
     svg: "Video.svg",
-    title: "Hyper ‑ Shoppable Videos",
-    description: "Most shoppers discover products through video but have to hunt to buy.",
-    links: [{ label: "Learn more", href: "https://apps.shopify.com/hyper-shopable-videos" }],
+    title: "Hyper Shoppable Videos",
+    description:
+      "Turn product videos into interactive shopping experiences that engage customers and simplify product discovery and purchasing.",
+    links: [
+      {
+        label: "Learn more",
+        href: "https://apps.shopify.com/hyper-shopable-videos",
+      },
+    ],
   },
 ] as const;

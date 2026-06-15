@@ -43,7 +43,7 @@ export function SiteFooter() {
                   <Link
                     key={item.href + item.label}
                     href={item.href}
-                    className="text-muted-foreground transition-colors hover:text-primary"
+                    className="text-muted-foreground transition-colors hover:text-orange-600"
                   >
                     {item.label}
                   </Link>
