@@ -33,42 +33,42 @@ export const appsMegaMenu: MegaMenuColumn[] = [
       },
     ],
   },
-  {
-    title: "Use Cases",
-    links: [
-      {
-        label: "Conversion Optimization",
-        href: "/comparisons",
-        description: "Improve product discovery and revenue",
-      },
-      {
-        label: "Support Deflection",
-        href: "/resources",
-        description: "Reduce repetitive support tickets",
-      },
-      {
-        label: "Storefront Engagement",
-        href: "/case-studies",
-        description: "Increase session depth and retention",
-      },
-    ],
-  },
-  {
-    title: "Explore",
-    links: [
-      {
-        label: "Pricing and Plans",
-        href: "/apps",
-        description: "Find the right plan for your store",
-      },
-      {
-        label: "Implementation Guides",
-        href: "/resources",
-        description: "Technical and onboarding guides",
-      },
-      { label: "Book a Demo", href: "/contact", description: "Talk to product specialists" },
-    ],
-  },
+  // {
+  //   title: "Use Cases",
+  //   links: [
+  //     {
+  //       label: "Conversion Optimization",
+  //       href: "/comparisons",
+  //       description: "Improve product discovery and revenue",
+  //     },
+  //     {
+  //       label: "Support Deflection",
+  //       href: "/resources",
+  //       description: "Reduce repetitive support tickets",
+  //     },
+  //     {
+  //       label: "Storefront Engagement",
+  //       href: "/case-studies",
+  //       description: "Increase session depth and retention",
+  //     },
+  //   ],
+  // },
+  // {
+  //   title: "Explore",
+  //   links: [
+  //     {
+  //       label: "Pricing and Plans",
+  //       href: "/apps",
+  //       description: "Find the right plan for your store",
+  //     },
+  //     {
+  //       label: "Implementation Guides",
+  //       href: "/resources",
+  //       description: "Technical and onboarding guides",
+  //     },
+  //     { label: "Book a Demo", href: "/contact", description: "Talk to product specialists" },
+  //   ],
+  // },
 ];
 
 export const footerNavigation: FooterNavigationGroup[] = [

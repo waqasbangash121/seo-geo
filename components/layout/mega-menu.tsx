@@ -27,14 +27,14 @@ export function MegaMenu({ columns }: MegaMenuProps) {
                   <li key={item.href + item.label}>
                     <Link
                       href={item.href}
-                      className="block rounded-xl border border-transparent p-2 transition hover:border-border hover:bg-background"
+                      className="block rounded-xl border border-transparent p-2 transition hover:border-border hover:bg-orange-600"
                     >
                       <span className="block text-sm font-medium text-foreground">
                         {item.label}
                       </span>
-                      <span className="mt-1 block text-xs text-muted-foreground">
+                      {/* <span className="mt-1 block text-xs text-muted-foreground">
                         {item.description}
-                      </span>
+                      </span> */}
                     </Link>
                   </li>
                 ))}
