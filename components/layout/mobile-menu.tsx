@@ -1,7 +1,8 @@
 "use client";
 
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { createPortal } from "react-dom";
 
 import type { MegaMenuColumn, RouteItem } from "@/types";
 
@@ -16,13 +17,254 @@ type MobileMenuProps = {
 
 export function MobileMenu({ navigation, megaMenuColumns }: MobileMenuProps) {
   const [isOpen, setIsOpen] = useState(false);
+  const [mounted, setMounted] = useState(false);
+  const [isDark, setIsDark] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+    const check = () => setIsDark(document.documentElement.classList.contains("dark"));
+    check();
+    const observer = new MutationObserver(check);
+    observer.observe(document.documentElement, {
+      attributes: true,
+      attributeFilter: ["class"],
+    });
+    return () => observer.disconnect();
+  }, []);
+
+  useEffect(() => {
+    document.body.style.overflow = isOpen ? "hidden" : "";
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [isOpen]);
+
+  const panelBg = isDark ? "#18181b" : "#ffffff";
+  const textColor = isDark ? "#f4f4f5" : "#18181b";
+  const mutedColor = isDark ? "#a1a1aa" : "#71717a";
+  const borderColor = isDark ? "#27272a" : "#e4e4e7";
+  const hoverBg = isDark ? "#27272a" : "#f4f4f5";
+  const footerBg = isDark ? "#18181b" : "#ffffff";
+
+  const menu = isOpen ? (
+    <div
+      style={{
+        position: "fixed",
+        inset: 0,
+        zIndex: 9999,
+        display: "flex",
+        justifyContent: "flex-end",
+        backgroundColor: "rgba(0,0,0,0.4)",
+        backdropFilter: "blur(4px)",
+        WebkitBackdropFilter: "blur(4px)",
+      }}
+      role="dialog"
+      aria-modal="true"
+      onClick={() => setIsOpen(false)}
+    >
+      <div
+        id="mobile-nav-panel"
+        style={{
+          position: "relative",
+          zIndex: 9999,
+          backgroundColor: panelBg,
+          display: "flex",
+          flexDirection: "column",
+          height: "100%",
+          width: "100%",
+          maxWidth: "22rem",
+          borderLeft: `1px solid ${borderColor}`,
+          boxShadow: "-8px 0 32px rgba(0,0,0,0.25)",
+        }}
+        onClick={(e) => e.stopPropagation()}
+      >
+        {/* Header */}
+        <div
+          style={{
+            padding: "1.25rem 1.25rem 1rem",
+            borderBottom: `1px solid ${borderColor}`,
+            flexShrink: 0,
+          }}
+        >
+          <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "space-between",
+              marginBottom: "1rem",
+            }}
+          >
+            <p
+              style={{
+                fontSize: "0.75rem",
+                fontWeight: 600,
+                letterSpacing: "0.2em",
+                textTransform: "uppercase",
+                color: mutedColor,
+              }}
+            >
+              Hyper Apps
+            </p>
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={() => setIsOpen(false)}
+              className="border border-orange-500 ring-1 ring-orange-500 text-orange-500 hover:text-orange-500 hover:bg-orange-500/10"
+            >
+              Close
+            </Button>
+          </div>
+          <SearchBar compact />
+        </div>
+
+        {/* Nav — scrollable */}
+        <nav
+          aria-label="Mobile navigation"
+          style={{ flex: 1, overflowY: "auto", padding: "0.75rem" }}
+        >
+          <ul style={{ listStyle: "none", margin: 0, padding: 0 }}>
+            {navigation.map((item) => (
+              <li key={item.href + item.label}>
+                <Link
+                  href={item.href}
+                  onClick={() => setIsOpen(false)}
+                  style={{
+                    display: "block",
+                    padding: "0.6rem 0.75rem",
+                    borderRadius: "0.5rem",
+                    fontSize: "0.9rem",
+                    fontWeight: 500,
+                    color: textColor,
+                    textDecoration: "none",
+                  }}
+                  onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = hoverBg)}
+                  onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = "transparent")}
+                >
+                  {item.label}
+                </Link>
+              </li>
+            ))}
+          </ul>
+
+          {/* <div style={{ marginTop: "0.75rem" }}>
+            <details
+              style={{
+                borderRadius: "0.5rem",
+                border: `1px solid ${borderColor}`,
+                padding: "0.75rem",
+              }}
+            >
+              <summary
+                style={{
+                  cursor: "pointer",
+                  fontSize: "0.875rem",
+                  fontWeight: 500,
+                  color: textColor,
+                  listStyle: "none",
+                  display: "flex",
+                  alignItems: "center",
+                  gap: "0.5rem",
+                }}
+              >
+                ▸ Apps
+              </summary>
+              <div
+                style={{
+                  marginTop: "0.75rem",
+                  display: "flex",
+                  flexDirection: "column",
+                  gap: "1rem",
+                }}
+              >
+                {megaMenuColumns.map((column) => (
+                  <section key={column.title}>
+                    <p
+                      style={{
+                        fontSize: "0.7rem",
+                        fontWeight: 600,
+                        letterSpacing: "0.18em",
+                        textTransform: "uppercase",
+                        color: mutedColor,
+                        marginBottom: "0.5rem",
+                      }}
+                    >
+                      {column.title}
+                    </p>
+                    <ul
+                      style={{
+                        listStyle: "none",
+                        margin: 0,
+                        padding: 0,
+                        display: "flex",
+                        flexDirection: "column",
+                        gap: "0.15rem",
+                      }}
+                    >
+                      {column.links.map((link) => (
+                        <li key={link.href + link.label}>
+                          <Link
+                            href={link.href}
+                            onClick={() => setIsOpen(false)}
+                            style={{
+                              display: "block",
+                              padding: "0.35rem 0.5rem",
+                              borderRadius: "0.375rem",
+                              fontSize: "0.85rem",
+                              color: textColor,
+                              textDecoration: "none",
+                            }}
+                            onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = hoverBg)}
+                            onMouseLeave={(e) =>
+                              (e.currentTarget.style.backgroundColor = "transparent")
+                            }
+                          >
+                            {link.label}
+                          </Link>
+                        </li>
+                      ))}
+                    </ul>
+                  </section>
+                ))}
+              </div>
+            </details>
+          </div> */}
+        </nav>
+
+        {/* Footer — ThemeSwitcher always pinned at bottom */}
+        <div
+          style={{
+            padding: "1rem 1.25rem",
+            borderTop: `1px solid ${borderColor}`,
+            backgroundColor: footerBg,
+            flexShrink: 0,
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between",
+          }}
+        >
+          <p
+            style={{
+              fontSize: "0.7rem",
+              fontWeight: 600,
+              letterSpacing: "0.18em",
+              textTransform: "uppercase",
+              color: mutedColor,
+            }}
+          >
+            Mode
+          </p>
+          <ThemeSwitcher />
+        </div>
+      </div>
+    </div>
+  ) : null;
 
   return (
     <>
       <Button
         variant="outline"
         size="sm"
-        className="md:hidden"
+        className="md:hidden ml-auto border border-orange-500 ring-1 ring-orange-500 text-orange-500 hover:text-orange-500 hover:bg-orange-500/10"
         aria-label="Open mobile menu"
         aria-expanded={isOpen}
         aria-controls="mobile-nav-panel"
@@ -31,77 +273,7 @@ export function MobileMenu({ navigation, megaMenuColumns }: MobileMenuProps) {
         Menu
       </Button>
 
-      {isOpen ? (
-        <div
-          className="fixed inset-0 z-[80] bg-background/80 backdrop-blur-sm md:hidden"
-          role="dialog"
-          aria-modal="true"
-        >
-          <div
-            id="mobile-nav-panel"
-            className="ml-auto flex h-full w-full max-w-sm flex-col border-l border-border bg-surface p-5"
-          >
-            <div className="mb-5 flex items-center justify-between gap-3">
-              <p className="text-sm font-semibold uppercase tracking-[0.2em] text-foreground">
-                Navigation
-              </p>
-              <Button variant="ghost" size="sm" onClick={() => setIsOpen(false)}>
-                Close
-              </Button>
-            </div>
-
-            <SearchBar compact />
-
-            <nav aria-label="Mobile navigation" className="mt-5 flex-1 overflow-y-auto">
-              <ul className="space-y-1">
-                {navigation.map((item) => (
-                  <li key={item.href + item.label}>
-                    <Link
-                      href={item.href}
-                      className="block rounded-lg px-3 py-2 text-sm text-foreground hover:bg-background"
-                      onClick={() => setIsOpen(false)}
-                    >
-                      {item.label}
-                    </Link>
-                  </li>
-                ))}
-              </ul>
-
-              <details className="mt-4 rounded-lg border border-border p-3">
-                <summary className="cursor-pointer text-sm font-medium text-foreground">
-                  Apps Mega Menu
-                </summary>
-                <div className="mt-3 space-y-3">
-                  {megaMenuColumns.map((column) => (
-                    <section key={column.title}>
-                      <h2 className="text-xs font-semibold uppercase tracking-[0.18em] text-muted-foreground">
-                        {column.title}
-                      </h2>
-                      <ul className="mt-2 space-y-1">
-                        {column.links.map((link) => (
-                          <li key={link.href + link.label}>
-                            <Link
-                              href={link.href}
-                              onClick={() => setIsOpen(false)}
-                              className="block rounded-md px-2 py-1 text-sm text-foreground hover:bg-background"
-                            >
-                              {link.label}
-                            </Link>
-                          </li>
-                        ))}
-                      </ul>
-                    </section>
-                  ))}
-                </div>
-              </details>
-            </nav>
-
-            <div className="pt-4">
-              <ThemeSwitcher />
-            </div>
-          </div>
-        </div>
-      ) : null}
+      {mounted ? createPortal(menu, document.body) : null}
     </>
   );
 }

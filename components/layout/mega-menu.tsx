@@ -8,9 +8,9 @@ type MegaMenuProps = {
 
 export function MegaMenu({ columns }: MegaMenuProps) {
   return (
-    <div className="invisible absolute left-1/2 top-full z-[110] w-[min(92vw,58rem)] -translate-x-1/2 pt-4 opacity-0 transition duration-200 group-hover/mega:visible group-hover/mega:opacity-100 group-focus-within/mega:visible group-focus-within/mega:opacity-100">
-      <div className="rounded-2xl border border-border bg-[hsl(var(--surface))] p-5 shadow-[0_24px_60px_-20px_rgba(0,0,0,0.55)] ring-1 ring-border/60">
-        <div className="grid gap-4 md:grid-cols-3">
+    <div className="invisible absolute center top-full z-[110] w-[min(15vw,20rem)] -translate-x-1/2 pt-4 opacity-0 transition duration-200 group-hover/mega:visible group-hover/mega:opacity-100 group-focus-within/mega:visible group-focus-within/mega:opacity-100">
+      <div className="rounded-2xl border border-border bg-[hsl(var(--surface))] p-5 shadow-[0_24px_60px_-20px_rgba(0,0,0,0.55)] ring-1 ring-border/60 mx-auto">
+        <div className="grid gap-4 justify-items-center">
           {columns.map((column) => (
             <section
               key={column.title}

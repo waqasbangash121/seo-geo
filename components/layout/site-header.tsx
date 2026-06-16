@@ -18,7 +18,7 @@ export function SiteHeader() {
   return (
     <header
       role="banner"
-      className="sticky top-0 z-[100] isolate border-b border-border/70 bg-background/95 shadow-sm backdrop-blur-xl"
+      className="sticky top-0 z-[100] border-b border-border/70 bg-background/95 shadow-sm backdrop-blur-xl"
     >
       <Container className="flex items-center gap-3 py-3 md:py-4">
         <Link href="/" className="flex items-center gap-3 text-sm font-semibold text-foreground">
