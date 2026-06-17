@@ -1,165 +1,257 @@
 import Link from "next/link";
+import Image from "next/image";
 
 import { Container } from "@/components/ui/container";
 import { Section } from "@/components/ui/section";
 import { createPageMetadata } from "@/config/metadata";
 
 export const metadata = createPageMetadata({
-  title: "Shopify AI Apps for Search, Chat & Video Commerce",
+  title: "Shopify AI Apps for Search, Chat & Video Commerce | Hyper AI Tools",
   description:
-    "Discover Hyper's AI-powered Shopify apps for product search and filters, AI chat and FAQs, and shoppable videos. Improve customer experience, increase conversions, and grow your ecommerce business.",
+    "Discover Hyper AI Shopify apps for smart product search, AI chat support, FAQs, and shoppable video commerce. Improve SEO, conversions, and customer experience with AI-powered ecommerce tools.",
   path: "/apps",
 });
 
 const apps = [
   {
-    title: "Hyper Search & Filters",
+    title: "Hyper AI Search & Filters",
     description:
-      "Help customers find products faster with AI-powered product search and advanced filtering. Improve product discovery, reduce friction, and increase Shopify store conversions with intelligent search experiences.",
+      "Improve Shopify store SEO and conversions with AI-powered search, semantic product discovery, and intelligent filtering that helps customers find products instantly.",
     features: [
-      "AI-powered product search",
-      "Advanced collection filtering",
-      "Fast product discovery",
-      "Custom filter options",
-      "Improved shopping experience",
+      "Semantic AI product search",
+      "Advanced Shopify collection filters",
+      "Faster product discovery",
+      "Higher conversion rate",
+      "Improved store navigation",
     ],
     href: "/apps/hyper-search-filter",
-    cta: "Explore Search & Filters",
+    cta: "Explore AI Search",
+    icon: "/hyper-search.svg",
   },
   {
     title: "Hyper AI Chat & FAQs",
     description:
-      "Deliver instant customer support with AI chatbots and searchable FAQ experiences. Answer common questions automatically, reduce support workload, and help shoppers purchase with confidence.",
+      "Reduce support load and increase sales with AI chatbots and intelligent FAQ systems that answer customer questions 24/7.",
     features: [
-      "AI customer support",
-      "Smart FAQ pages",
-      "24/7 automated responses",
+      "AI customer support chatbot",
+      "Auto-generated FAQ pages",
+      "24/7 instant responses",
       "Reduced support tickets",
-      "Improved customer satisfaction",
+      "Higher customer trust",
     ],
     href: "/apps/hyper-ai-chat-faq",
     cta: "Explore AI Chat",
+    icon: "/hyper-aichat.svg",
   },
   {
     title: "Hyper Shoppable Videos",
     description:
-      "Turn product videos into interactive shopping experiences. Increase customer engagement, simplify product discovery, and create immersive ecommerce journeys that drive conversions.",
+      "Turn videos into interactive shopping experiences that increase engagement, improve SEO signals, and boost conversions.",
     features: [
-      "Interactive product videos",
-      "Video commerce experiences",
-      "Higher customer engagement",
-      "Mobile-friendly shopping",
+      "Interactive shoppable videos",
+      "Video-based product discovery",
+      "Higher engagement rates",
+      "Mobile-first commerce",
       "Seamless Shopify integration",
     ],
     href: "/apps/hyper-shoppable-videos",
     cta: "Explore Shoppable Videos",
+    icon: "/hyper-videos.svg",
   },
 ];
 
 export default function AppsPage() {
   return (
     <>
-      <Section className="pt-20 pb-12 sm:pt-28 lg:pt-32">
-        <Container className="max-w-5xl text-center">
-          <p className="text-sm font-medium uppercase tracking-[0.35em] text-muted-foreground">
-            Hyper Apps
-          </p>
+      {/* HERO (SEO optimized intro block) */}
+      <Section className="pt-28 pb-16">
+        <Container className="max-w-6xl">
+          <div className="text-center">
+            <p className="text-sm uppercase tracking-[0.25em] text-muted-foreground">
+              Shopify AI Apps Suite
+            </p>
 
-          <h1 className="mt-4 type-display">AI-Powered Shopify Apps Built for Growth</h1>
+            <h1 className="mt-4 text-4xl sm:text-5xl font-semibold tracking-tight">
+              AI-Powered Shopify Apps for Search, Chat & Video Commerce
+            </h1>
 
-          <p className="mx-auto mt-6 max-w-3xl type-body">
-            Hyper builds intelligent Shopify apps that help merchants improve product discovery,
-            automate customer support, and create engaging shopping experiences. Whether customers
-            are searching for products, asking questions, or shopping through interactive videos,
-            Hyper helps ecommerce brands increase conversions and customer satisfaction.
-          </p>
-        </Container>
-      </Section>
+            <p className="mx-auto mt-6 max-w-3xl text-muted-foreground text-base sm:text-lg leading-7">
+              Hyper provides a complete AI toolkit for Shopify merchants — including intelligent
+              product search, AI customer support, FAQ automation, and shoppable video experiences
+              designed to increase conversions and improve SEO performance.
+            </p>
 
-      <Section className="pb-20">
-        <Container>
-          <div className="grid gap-8 lg:grid-cols-3">
-            {apps.map((app) => (
-              <article
-                key={app.title}
-                className="rounded-[10px] border border-border bg-surface p-8"
+            <div className="mt-8 flex items-center justify-center gap-4">
+              <Link
+                href="/contact"
+                className="rounded-full bg-primary px-6 py-3 text-sm font-medium text-white hover:opacity-90"
               >
-                <h2 className="text-2xl font-semibold tracking-tight">{app.title}</h2>
+                Talk to Hyper
+              </Link>
 
-                <p className="mt-4 text-sm leading-7 text-muted-foreground">{app.description}</p>
-
-                <ul className="mt-6 space-y-3">
-                  {app.features.map((feature) => (
-                    <li
-                      key={feature}
-                      className="flex items-start gap-3 text-sm text-muted-foreground"
-                    >
-                      <span className="mt-1 h-2 w-2 rounded-full bg-primary" />
-                      <span>{feature}</span>
-                    </li>
-                  ))}
-                </ul>
-
-                <Link
-                  href={app.href}
-                  className="mt-8 inline-flex text-sm font-medium text-primary underline decoration-primary/40 underline-offset-4"
-                >
-                  {app.cta}
-                </Link>
-              </article>
-            ))}
+              <Link href="#apps" className="text-sm font-medium text-primary underline">
+                Explore Apps
+              </Link>
+            </div>
           </div>
         </Container>
       </Section>
 
-      <Section className="pb-20">
-        <Container className="max-w-4xl">
-          <div className="rounded-[10px] border border-border bg-surface p-8 sm:p-12">
-            <h2 className="text-3xl font-semibold tracking-tight">
-              Why Shopify Merchants Choose Hyper
+      {/* SEO CONTENT BLOCK (important for GEO + ranking) */}
+      <Section className="pb-16">
+        <Container className="max-w-5xl">
+          <div className="rounded-2xl border border-border bg-surface p-8 sm:p-10">
+            <h2 className="text-2xl font-semibold tracking-tight">
+              Why Shopify Stores Need AI Commerce Tools
             </h2>
 
-            <div className="mt-6 space-y-5 text-muted-foreground leading-8">
+            <div className="mt-5 space-y-5 text-muted-foreground leading-7">
               <p>
-                Hyper combines artificial intelligence with practical ecommerce solutions to help
-                Shopify merchants solve everyday challenges. Our apps are designed to improve every
-                stage of the customer journey, from product discovery to post-purchase support.
+                Modern ecommerce success depends on fast product discovery, intelligent customer
+                support, and engaging shopping experiences. Without AI, most Shopify stores struggle
+                with poor search relevance and high support load.
               </p>
 
               <p>
-                With AI-powered search, intelligent chatbots, searchable FAQs, and interactive
-                shoppable videos, Hyper helps businesses create seamless shopping experiences that
-                increase engagement and drive more sales.
+                Hyper solves this with AI-powered Shopify apps that improve product visibility,
+                reduce friction in the buying journey, and increase conversion rates across all
+                devices.
               </p>
 
               <p>
-                As online shopping continues to evolve with conversational AI and intelligent
-                search, Hyper provides merchants with the tools they need to stay competitive and
-                deliver exceptional customer experiences.
+                These tools also enhance SEO performance by improving user engagement signals such
+                as time on site, interaction rate, and product discovery depth.
               </p>
             </div>
           </div>
         </Container>
       </Section>
 
+      {/* APPS GRID (conversion-focused cards) */}
+      <Section id="apps" className="pb-16">
+        <Container className="max-w-6xl">
+          <h2 className="text-2xl sm:text-3xl font-semibold tracking-tight text-center">
+            Hyper AI Shopify Apps
+          </h2>
+
+          <p className="mt-4 text-center text-muted-foreground max-w-2xl mx-auto">
+            Choose from our suite of AI-powered tools built to improve search, support, and
+            engagement in your Shopify store.
+          </p>
+
+          <div className="mt-10 grid gap-6 md:grid-cols-3">
+            {apps.map((app) => (
+              <Link
+                key={app.title}
+                href={app.href}
+                className="group rounded-2xl border border-border bg-surface p-7 transition hover:-translate-y-1 hover:border-primary/40 hover:shadow-xl"
+              >
+                <Image
+                  src={app.icon}
+                  alt={`${app.title} logo`}
+                  width={42}
+                  height={42}
+                  className="rounded-md object-contain"
+                />
+
+                <h3 className="mt-4 text-lg font-semibold">{app.title}</h3>
+
+                <p className="mt-2 text-sm text-muted-foreground leading-6">{app.description}</p>
+
+                <ul className="mt-5 space-y-2">
+                  {app.features.map((f) => (
+                    <li key={f} className="text-sm text-muted-foreground flex gap-2">
+                      <span className="text-primary">•</span>
+                      {f}
+                    </li>
+                  ))}
+                </ul>
+
+                <div className="mt-6 text-sm font-medium text-primary">{app.cta} →</div>
+              </Link>
+            ))}
+          </div>
+        </Container>
+      </Section>
+
+      {/* BENEFITS SECTION (SEO + trust builder) */}
+      <Section className="pb-16">
+        <Container className="max-w-5xl">
+          <div className="grid gap-6 md:grid-cols-2">
+            {[
+              {
+                title: "Increase Shopify Conversions",
+                desc: "Improve product discovery and reduce friction in the buying journey using AI-powered tools.",
+              },
+              {
+                title: "Improve SEO Performance",
+                desc: "Better engagement signals, lower bounce rate, and improved internal search indexing behavior.",
+              },
+              {
+                title: "Reduce Support Load",
+                desc: "Automate FAQs and customer queries using AI chat systems available 24/7.",
+              },
+              {
+                title: "Enhance User Experience",
+                desc: "Make shopping faster, smarter, and more interactive with AI-driven commerce tools.",
+              },
+            ].map((b) => (
+              <div key={b.title} className="rounded-xl border border-border bg-surface p-6">
+                <h3 className="font-semibold">{b.title}</h3>
+                <p className="mt-2 text-sm text-muted-foreground">{b.desc}</p>
+              </div>
+            ))}
+          </div>
+        </Container>
+      </Section>
+
+      {/* FAQ SECTION (VERY IMPORTANT FOR SEO/GEO) */}
+      <Section className="pb-20">
+        <Container className="max-w-4xl">
+          <h2 className="text-2xl font-semibold text-center">Frequently Asked Questions</h2>
+
+          <div className="mt-8 space-y-5">
+            {[
+              {
+                q: "What are Shopify AI apps?",
+                a: "They are tools that use artificial intelligence to improve product search, customer support, and shopping experiences in Shopify stores.",
+              },
+              {
+                q: "Do AI apps improve SEO?",
+                a: "Yes. AI improves user engagement, reduces bounce rate, and increases interaction depth, which helps SEO performance.",
+              },
+              {
+                q: "Can Hyper replace my support team?",
+                a: "It can automate most common queries using AI chat and FAQ systems, reducing support workload significantly.",
+              },
+            ].map((f) => (
+              <div key={f.q} className="rounded-xl border border-border bg-surface p-5">
+                <h3 className="font-semibold">{f.q}</h3>
+                <p className="mt-2 text-sm text-muted-foreground">{f.a}</p>
+              </div>
+            ))}
+          </div>
+        </Container>
+      </Section>
+
+      {/* FINAL CTA */}
       <Section className="pb-24">
-        <Container>
-          <div className="rounded-[10px] border border-border bg-surface p-8 text-center sm:p-12">
-            <h2 className="text-3xl font-semibold tracking-tight">
-              Build Better Shopify Shopping Experiences
+        <Container className="max-w-5xl">
+          <div className="rounded-2xl border border-border bg-gradient-to-br from-primary/10 to-transparent p-10 text-center">
+            <h2 className="text-2xl sm:text-3xl font-semibold">
+              Ready to Upgrade Your Shopify Store with AI?
             </h2>
 
-            <p className="mx-auto mt-4 max-w-3xl type-body">
-              Discover how Hyper AI-powered Shopify apps can help your customers find products
-              faster, receive instant support, and shop through engaging interactive experiences
-              designed to improve conversions and long-term customer loyalty.
+            <p className="mt-4 text-muted-foreground max-w-2xl mx-auto">
+              Start using Hyper AI apps to improve search, automate support, and increase
+              conversions with intelligent commerce experiences.
             </p>
 
             <Link
               href="/contact"
-              className="mt-8 inline-flex items-center justify-center rounded-full bg-[linear-gradient(135deg,hsl(var(--brand-start))_0%,hsl(var(--brand-end))_100%)] px-7 py-3 text-sm font-medium text-primary-foreground shadow-[0_18px_36px_-18px_hsl(var(--primary)/0.7)] transition-transform duration-200 hover:-translate-y-0.5"
+              className="mt-8 inline-flex rounded-full bg-primary px-7 py-3 text-sm font-medium text-white hover:opacity-90"
             >
-              Talk to Hyper
+              Get Started
             </Link>
           </div>
         </Container>
