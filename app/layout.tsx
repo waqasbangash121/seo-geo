@@ -9,6 +9,17 @@ import { createOrganizationSchema, createWebsiteSchema } from "@/schemas";
 
 import "./globals.css";
 
+const themeInitScript = `
+try {
+  var savedTheme = window.localStorage.getItem("hyper-theme");
+  var theme = savedTheme === "dark" || savedTheme === "light"
+    ? savedTheme
+    : window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+  document.documentElement.classList.remove("light", "dark");
+  document.documentElement.classList.add(theme);
+} catch (error) {}
+`;
+
 const sans = Manrope({
   subsets: ["latin"],
   variable: "--font-hyper-sans",
@@ -28,6 +39,7 @@ export default function RootLayout({ children }: Readonly<{ children: ReactNode 
   return (
     <html lang="en" className={`${sans.variable} ${mono.variable}`} suppressHydrationWarning>
       <body className="bg-background font-sans text-foreground">
+        <script dangerouslySetInnerHTML={{ __html: themeInitScript }} />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(createOrganizationSchema()) }}

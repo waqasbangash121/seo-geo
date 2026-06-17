@@ -65,7 +65,7 @@ export default function BlogPage() {
 
       <Section className="pb-12">
         <Container className="max-w-5xl">
-          <div className="rounded-3xl border border-border bg-surface p-8">
+          <div className="rounded-[10px] border border-border bg-surface p-8">
             <h2 className="text-3xl font-semibold tracking-tight">What Youll Learn</h2>
 
             <p className="mt-4 text-muted-foreground leading-8">
@@ -96,7 +96,7 @@ export default function BlogPage() {
             {featuredTopics.map((topic) => (
               <article
                 key={topic.title}
-                className="rounded-3xl border border-border bg-surface p-8"
+                className="rounded-[10px] border border-border bg-surface p-8"
               >
                 <h3 className="text-2xl font-semibold tracking-tight">{topic.title}</h3>
 
@@ -109,7 +109,7 @@ export default function BlogPage() {
 
       <Section className="pb-12">
         <Container className="max-w-5xl">
-          <div className="rounded-3xl border border-border bg-surface p-8 sm:p-10">
+          <div className="rounded-[10px] border border-border bg-surface p-8 sm:p-10">
             <h2 className="text-3xl font-semibold tracking-tight">
               Why Hyper Writes About AI Commerce
             </h2>
@@ -140,7 +140,7 @@ export default function BlogPage() {
 
       <Section className="pb-12">
         <Container className="max-w-5xl">
-          <div className="rounded-3xl border border-dashed border-border bg-surface p-10 text-center">
+          <div className="rounded-[10px] border border-dashed border-border bg-surface p-10 text-center">
             <p className="text-sm font-medium uppercase tracking-[0.35em] text-muted-foreground">
               Coming Soon
             </p>
@@ -161,7 +161,7 @@ export default function BlogPage() {
 
       <Section className="pb-20 sm:pb-24">
         <Container>
-          <div className="rounded-3xl border border-border bg-surface p-8 text-center sm:p-12">
+          <div className="rounded-[10px] border border-border bg-surface p-8 text-center sm:p-12">
             <h2 className="text-3xl font-semibold tracking-tight sm:text-4xl">
               Explore the Future of AI Commerce
             </h2>
@@ -175,7 +175,7 @@ export default function BlogPage() {
             <div className="mt-8">
               <Link
                 href="/apps"
-                className="inline-flex items-center justify-center rounded-full bg-[linear-gradient(135deg,#f97316_0%,#ef4444_100%)] px-7 py-3 text-sm font-medium text-white shadow-[0_18px_36px_-18px_rgba(239,68,68,0.7)] transition-transform duration-200 hover:-translate-y-0.5"
+                className="inline-flex items-center justify-center rounded-full bg-[linear-gradient(135deg,hsl(var(--brand-start))_0%,hsl(var(--brand-end))_100%)] px-7 py-3 text-sm font-medium text-primary-foreground shadow-[0_18px_36px_-18px_hsl(var(--primary)/0.7)] transition-transform duration-200 hover:-translate-y-0.5"
               >
                 Explore Hyper Apps
               </Link>

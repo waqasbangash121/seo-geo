@@ -34,7 +34,7 @@ export function SiteHeader() {
             <div className="group/mega relative">
               <Link
                 href={appsNavigationItem.href}
-                className="rounded-md px-2 py-1 text-sm text-muted-foreground transition-colors hover:text-foreground hover:bg-orange-600"
+                className="rounded-md px-2 py-1 text-sm text-muted-foreground transition-colors hover:bg-primary/10 hover:text-primary"
               >
                 {appsNavigationItem.label}
               </Link>
@@ -46,7 +46,7 @@ export function SiteHeader() {
             <Link
               key={item.href + item.label}
               href={item.href}
-              className="rounded-md px-2 py-1 text-sm text-muted-foreground transition-colors hover:text-foreground hover:bg-orange-600"
+              className="rounded-md px-2 py-1 text-sm text-muted-foreground transition-colors hover:bg-primary/10 hover:text-primary"
             >
               {item.label}
             </Link>
@@ -62,7 +62,7 @@ export function SiteHeader() {
                 More
               </button>
               <div className="invisible absolute right-0 top-full z-[65] min-w-48 pt-3 opacity-0 transition duration-150 group-hover/overflow:visible group-hover/overflow:opacity-100 group-focus-within/overflow:visible group-focus-within/overflow:opacity-100">
-                <div className="rounded-xl border border-border bg-surface p-2 shadow-xl">
+                <div className="rounded-[8px] border border-border bg-surface p-2 shadow-xl">
                   <ul className="space-y-1">
                     {overflowNavigationItems.map((item) => (
                       <li key={item.href + item.label}>

@@ -80,7 +80,10 @@ export default function AppsPage() {
         <Container>
           <div className="grid gap-8 lg:grid-cols-3">
             {apps.map((app) => (
-              <article key={app.title} className="rounded-3xl border border-border bg-surface p-8">
+              <article
+                key={app.title}
+                className="rounded-[10px] border border-border bg-surface p-8"
+              >
                 <h2 className="text-2xl font-semibold tracking-tight">{app.title}</h2>
 
                 <p className="mt-4 text-sm leading-7 text-muted-foreground">{app.description}</p>
@@ -111,7 +114,7 @@ export default function AppsPage() {
 
       <Section className="pb-20">
         <Container className="max-w-4xl">
-          <div className="rounded-3xl border border-border bg-surface p-8 sm:p-12">
+          <div className="rounded-[10px] border border-border bg-surface p-8 sm:p-12">
             <h2 className="text-3xl font-semibold tracking-tight">
               Why Shopify Merchants Choose Hyper
             </h2>
@@ -141,7 +144,7 @@ export default function AppsPage() {
 
       <Section className="pb-24">
         <Container>
-          <div className="rounded-3xl border border-border bg-surface p-8 text-center sm:p-12">
+          <div className="rounded-[10px] border border-border bg-surface p-8 text-center sm:p-12">
             <h2 className="text-3xl font-semibold tracking-tight">
               Build Better Shopify Shopping Experiences
             </h2>
@@ -154,7 +157,7 @@ export default function AppsPage() {
 
             <Link
               href="/contact"
-              className="mt-8 inline-flex items-center justify-center rounded-full bg-[linear-gradient(135deg,#f97316_0%,#ef4444_100%)] px-7 py-3 text-sm font-medium text-white shadow-[0_18px_36px_-18px_rgba(239,68,68,0.7)] transition-transform duration-200 hover:-translate-y-0.5"
+              className="mt-8 inline-flex items-center justify-center rounded-full bg-[linear-gradient(135deg,hsl(var(--brand-start))_0%,hsl(var(--brand-end))_100%)] px-7 py-3 text-sm font-medium text-primary-foreground shadow-[0_18px_36px_-18px_hsl(var(--primary)/0.7)] transition-transform duration-200 hover:-translate-y-0.5"
             >
               Talk to Hyper
             </Link>

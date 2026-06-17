@@ -1,181 +1,188 @@
 @import "tailwindcss";
 
 @theme inline {
-    --color-background: var(--background);
-    --color-foreground: var(--foreground);
-    --color-surface: var(--surface);
-    --color-surface-foreground: var(--surface-foreground);
-    --color-muted: var(--muted);
-    --color-muted-foreground: var(--muted-foreground);
-    --color-border: var(--border);
-    --color-ring: var(--ring);
-    --color-primary: var(--primary);
-    --color-primary-foreground: var(--primary-foreground);
-    --font-sans: var(--font-hyper-sans);
-    --font-mono: var(--font-hyper-mono);
+  --color-background: hsl(var(--background));
+  --color-foreground: hsl(var(--foreground));
+  --color-surface: hsl(var(--surface));
+  --color-surface-foreground: hsl(var(--surface-foreground));
+  --color-muted: hsl(var(--muted));
+  --color-muted-foreground: hsl(var(--muted-foreground));
+  --color-border: hsl(var(--border));
+  --color-ring: hsl(var(--ring));
+  --color-primary: hsl(var(--primary));
+  --color-primary-foreground: hsl(var(--primary-foreground));
+  --font-sans: var(--font-hyper-sans);
+  --font-mono: var(--font-hyper-mono);
 }
 
 :root {
-    color-scheme: light;
-    --background: 32 60% 98%;
-    --foreground: 222 47% 11%;
-    --surface: 0 0% 100%;
-    --surface-foreground: 222 47% 11%;
-    --muted: 24 33% 94%;
-    --muted-foreground: 215 16% 45%;
-    --border: 24 28% 88%;
-    --ring: 15 95% 55%;
-    --primary: 15 92% 53%;
-    --primary-foreground: 0 0% 100%;
-    --shadow: 15 70% 12%;
-    --brand-start: 28 100% 50%;
-    --brand-end: 348 90% 55%;
-    --space-2xs: 0.25rem;
-    --space-xs: 0.5rem;
-    --space-sm: 0.75rem;
-    --space-md: 1rem;
-    --space-lg: 1.5rem;
-    --space-xl: 2rem;
-    --space-2xl: 3rem;
+  color-scheme: light;
+  --background: 32 45% 98%;
+  --foreground: 222 47% 11%;
+  --surface: 0 0% 100%;
+  --surface-foreground: 222 47% 11%;
+  --muted: 28 32% 94%;
+  --muted-foreground: 220 11% 42%;
+  --border: 26 24% 86%;
+  --ring: 15 95% 55%;
+  --primary: 15 92% 53%;
+  --primary-foreground: 0 0% 100%;
+  --shadow: 15 70% 12%;
+  --brand-start: 28 100% 50%;
+  --brand-end: 348 90% 55%;
+  --space-2xs: 0.25rem;
+  --space-xs: 0.5rem;
+  --space-sm: 0.75rem;
+  --space-md: 1rem;
+  --space-lg: 1.5rem;
+  --space-xl: 2rem;
+  --space-2xl: 3rem;
 }
 
 html.light {
-    color-scheme: light;
-    --background: 32 60% 98%;
-    --foreground: 222 47% 11%;
-    --surface: 0 0% 100%;
-    --surface-foreground: 222 47% 11%;
-    --muted: 24 33% 94%;
-    --muted-foreground: 215 16% 45%;
-    --border: 24 28% 88%;
-    --ring: 15 95% 55%;
-    --primary: 15 92% 53%;
-    --primary-foreground: 0 0% 100%;
-    --shadow: 15 70% 12%;
-    --brand-start: 28 100% 50%;
-    --brand-end: 348 90% 55%;
+  color-scheme: light;
+  --background: 32 45% 98%;
+  --foreground: 222 47% 11%;
+  --surface: 0 0% 100%;
+  --surface-foreground: 222 47% 11%;
+  --muted: 28 32% 94%;
+  --muted-foreground: 220 11% 42%;
+  --border: 26 24% 86%;
+  --ring: 15 95% 55%;
+  --primary: 15 92% 53%;
+  --primary-foreground: 0 0% 100%;
+  --shadow: 15 70% 12%;
+  --brand-start: 28 100% 50%;
+  --brand-end: 348 90% 55%;
 }
 
 html.dark {
+  color-scheme: dark;
+  --background: 222 42% 7%;
+  --foreground: 210 40% 98%;
+  --surface: 222 33% 11%;
+  --surface-foreground: 210 40% 98%;
+  --muted: 222 24% 17%;
+  --muted-foreground: 216 18% 72%;
+  --border: 222 20% 23%;
+  --ring: 15 100% 62%;
+  --primary: 15 92% 58%;
+  --primary-foreground: 222 47% 8%;
+  --shadow: 222 47% 2%;
+  --brand-start: 28 100% 55%;
+  --brand-end: 348 90% 58%;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not(.light):not(.dark) {
     color-scheme: dark;
-    --background: 222 47% 7%;
+    --background: 222 42% 7%;
     --foreground: 210 40% 98%;
-    --surface: 223 43% 11%;
+    --surface: 222 33% 11%;
     --surface-foreground: 210 40% 98%;
-    --muted: 223 32% 18%;
-    --muted-foreground: 215 20% 65%;
-    --border: 223 32% 18%;
+    --muted: 222 24% 17%;
+    --muted-foreground: 216 18% 72%;
+    --border: 222 20% 23%;
     --ring: 15 100% 62%;
     --primary: 15 92% 58%;
     --primary-foreground: 222 47% 8%;
     --shadow: 222 47% 2%;
     --brand-start: 28 100% 55%;
     --brand-end: 348 90% 58%;
-}
-
-@media (prefers-color-scheme: dark) {
-    :root:not(.light):not(.dark) {
-        color-scheme: dark;
-        --background: 222 47% 7%;
-        --foreground: 210 40% 98%;
-        --surface: 223 43% 11%;
-        --surface-foreground: 210 40% 98%;
-        --muted: 223 32% 18%;
-        --muted-foreground: 215 20% 65%;
-        --border: 223 32% 18%;
-        --ring: 15 100% 62%;
-        --primary: 15 92% 58%;
-        --primary-foreground: 222 47% 8%;
-        --shadow: 222 47% 2%;
-        --brand-start: 28 100% 55%;
-        --brand-end: 348 90% 58%;
-    }
+  }
 }
 
 html {
-    scroll-behavior: smooth;
+  scroll-behavior: smooth;
 }
 
 body {
-    @apply min-h-screen bg-background text-foreground antialiased;
-    background-color: hsl(var(--background));
-    background-image:
-        radial-gradient(circle at top left, hsl(var(--brand-start) / 0.14), transparent 28%),
-        radial-gradient(circle at top right, hsl(var(--brand-end) / 0.12), transparent 24%),
-        linear-gradient(180deg, hsl(var(--background)), hsl(var(--background)));
-    background-attachment: fixed;
+  @apply min-h-screen bg-background text-foreground antialiased;
+  background-color: hsl(var(--background));
+  background-image:
+    radial-gradient(circle at top left, hsl(var(--brand-start) / 0.1), transparent 28%),
+    radial-gradient(circle at top right, hsl(var(--brand-end) / 0.09), transparent 24%),
+    linear-gradient(180deg, hsl(var(--background)), hsl(var(--background)));
+  background-attachment: fixed;
+}
+
+html.dark body {
+  background-image:
+    radial-gradient(circle at top left, hsl(var(--brand-start) / 0.13), transparent 30%),
+    radial-gradient(circle at top right, hsl(var(--brand-end) / 0.11), transparent 26%),
+    linear-gradient(180deg, hsl(var(--background)), hsl(var(--background)));
 }
 
 * {
-    @apply border-border;
+  @apply border-border;
 }
 
 ::selection {
-    background: hsl(var(--primary));
-    color: hsl(var(--primary-foreground));
+  background: hsl(var(--primary));
+  color: hsl(var(--primary-foreground));
 }
 
 :focus-visible {
-    outline: 2px solid hsl(var(--ring));
-    outline-offset: 3px;
+  outline: 2px solid hsl(var(--ring));
+  outline-offset: 3px;
 }
 
 .type-display {
-    @apply text-4xl font-semibold tracking-tight sm:text-5xl lg:text-6xl;
+  @apply text-4xl font-semibold tracking-tight sm:text-5xl lg:text-6xl;
 }
 
 .type-heading {
-    @apply text-2xl font-semibold tracking-tight sm:text-3xl;
+  @apply text-2xl font-semibold tracking-tight sm:text-3xl;
 }
 
 .type-subheading {
-    @apply text-xl font-semibold tracking-tight;
+  @apply text-xl font-semibold tracking-tight;
 }
 
 .type-body {
-    @apply text-base leading-7 text-muted-foreground;
+  @apply text-base leading-7 text-muted-foreground;
 }
 
 .type-caption {
-    @apply text-sm leading-6 text-muted-foreground;
+  @apply text-sm leading-6 text-muted-foreground;
 }
 
-.stack-2xs>*+* {
-    margin-top: var(--space-2xs);
+.stack-2xs > * + * {
+  margin-top: var(--space-2xs);
 }
 
-.stack-xs>*+* {
-    margin-top: var(--space-xs);
+.stack-xs > * + * {
+  margin-top: var(--space-xs);
 }
 
-.stack-sm>*+* {
-    margin-top: var(--space-sm);
+.stack-sm > * + * {
+  margin-top: var(--space-sm);
 }
 
-.stack-md>*+* {
-    margin-top: var(--space-md);
+.stack-md > * + * {
+  margin-top: var(--space-md);
 }
 
-.stack-lg>*+* {
-    margin-top: var(--space-lg);
+.stack-lg > * + * {
+  margin-top: var(--space-lg);
 }
 
-.stack-xl>*+* {
-    margin-top: var(--space-xl);
+.stack-xl > * + * {
+  margin-top: var(--space-xl);
 }
 
-.stack-2xl>*+* {
-    margin-top: var(--space-2xl);
+.stack-2xl > * + * {
+  margin-top: var(--space-2xl);
 }
 
 .pad-section-sm {
-    padding-block: var(--space-xl);
+  padding-block: var(--space-xl);
 }
 
 .pad-section-md {
-    padding-block: var(--space-2xl);
+  padding-block: var(--space-2xl);
 }
 
 .pad-section-lg {
-    padding-block: 5rem;
+  padding-block: 5rem;
 }

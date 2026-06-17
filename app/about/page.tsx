@@ -39,7 +39,7 @@ export default function AboutPage() {
 
       <Section aria-labelledby="hyper-platform" className="pb-20 sm:pb-24">
         <Container className="grid gap-6 md:grid-cols-2">
-          <article className="rounded-3xl border border-border bg-surface p-6">
+          <article className="rounded-[10px] border border-border bg-surface p-6">
             <h2 id="hyper-platform" className="text-2xl font-semibold tracking-tight">
               AI-powered product discovery
             </h2>
@@ -52,7 +52,7 @@ export default function AboutPage() {
             </p>
           </article>
 
-          <article className="rounded-3xl border border-border bg-surface p-6">
+          <article className="rounded-[10px] border border-border bg-surface p-6">
             <h2 className="text-2xl font-semibold tracking-tight">AI customer support</h2>
 
             <p className="mt-3 text-sm leading-7 text-muted-foreground">
@@ -62,7 +62,7 @@ export default function AboutPage() {
             </p>
           </article>
 
-          <article className="rounded-3xl border border-border bg-surface p-6">
+          <article className="rounded-[10px] border border-border bg-surface p-6">
             <h2 className="text-2xl font-semibold tracking-tight">Shop through video</h2>
 
             <p className="mt-3 text-sm leading-7 text-muted-foreground">
@@ -72,7 +72,7 @@ export default function AboutPage() {
             </p>
           </article>
 
-          <article className="rounded-3xl border border-border bg-surface p-6">
+          <article className="rounded-[10px] border border-border bg-surface p-6">
             <h2 className="text-2xl font-semibold tracking-tight">Built for modern ecommerce</h2>
 
             <p className="mt-3 text-sm leading-7 text-muted-foreground">

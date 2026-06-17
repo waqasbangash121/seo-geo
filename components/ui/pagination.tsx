@@ -25,7 +25,7 @@ export function Pagination({ currentPage, totalPages, getHref, className }: Pagi
         aria-disabled={previousDisabled}
         tabIndex={previousDisabled ? -1 : 0}
         className={cn(
-          "inline-flex h-9 items-center justify-center rounded-xl border px-3 text-sm font-medium transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
+          "inline-flex h-9 items-center justify-center rounded-[8px] border px-3 text-sm font-medium transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
           previousDisabled
             ? "pointer-events-none border-border text-muted-foreground/60"
             : "border-border text-foreground hover:bg-muted",
@@ -68,7 +68,7 @@ export function Pagination({ currentPage, totalPages, getHref, className }: Pagi
         aria-disabled={nextDisabled}
         tabIndex={nextDisabled ? -1 : 0}
         className={cn(
-          "inline-flex h-9 items-center justify-center rounded-xl border px-3 text-sm font-medium transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
+          "inline-flex h-9 items-center justify-center rounded-[8px] border px-3 text-sm font-medium transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
           nextDisabled
             ? "pointer-events-none border-border text-muted-foreground/60"
             : "border-border text-foreground hover:bg-muted",

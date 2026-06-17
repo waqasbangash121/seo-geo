@@ -34,7 +34,7 @@ export function Tabs({ items, defaultTabId }: TabsProps) {
       <div
         role="tablist"
         aria-label="Content tabs"
-        className="inline-flex rounded-xl border border-border bg-surface p-1"
+        className="inline-flex rounded-[8px] border border-border bg-surface p-1"
       >
         {items.map((item) => {
           const tabId = `${instanceId}-tab-${item.id}`;
@@ -75,7 +75,7 @@ export function Tabs({ items, defaultTabId }: TabsProps) {
             role="tabpanel"
             aria-labelledby={tabId}
             hidden={!selected}
-            className="mt-4 rounded-2xl border border-border bg-surface p-4"
+            className="mt-4 rounded-[10px] border border-border bg-surface p-4"
           >
             {item.content}
           </div>

@@ -1,17 +1,10 @@
 import {
   BenefitsSection,
-  CaseStudiesSection,
   CtaSection,
   CustomerLogosSection,
-  FaqSection,
-  FreeToolsSection,
   HeroSection,
-  LatestArticlesSection,
   MerchantProblemsSection,
-  NewsletterSection,
-  SolutionsSection,
   StatisticsSection,
-  TestimonialsSection,
   ThreeProductsSection,
 } from "@/components/home/home-sections";
 import { createPageMetadata } from "@/config/metadata";
@@ -75,18 +68,11 @@ export default function HomePage() {
       />
 
       <HeroSection content={homeContent.hero} />
-      <StatisticsSection items={homeContent.statistics} />
       <ThreeProductsSection products={homeContent.products} />
-      <BenefitsSection benefits={homeContent.benefits} />
       <MerchantProblemsSection problems={homeContent.problems} />
-      <SolutionsSection solutions={homeContent.solutions} />
+      <StatisticsSection items={homeContent.statistics} />
       <CustomerLogosSection logos={homeContent.logos} />
-      <CaseStudiesSection studies={homeContent.caseStudies} />
-      <TestimonialsSection testimonials={homeContent.testimonials} />
-      <LatestArticlesSection articles={homeContent.latestArticles} />
-      <FreeToolsSection tools={homeContent.freeTools} />
-      <FaqSection faqs={homeContent.faqs} />
-      <NewsletterSection />
+      <BenefitsSection benefits={homeContent.benefits} />
       <CtaSection
         title={homeContent.cta.title}
         detail={homeContent.cta.detail}

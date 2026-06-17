@@ -36,7 +36,7 @@ export default function ContactPage() {
 
       <Section aria-labelledby="contact-details" className="pb-12 sm:pb-16">
         <Container className="grid gap-6 md:grid-cols-2">
-          <article className="rounded-3xl border border-border bg-surface p-6">
+          <article className="rounded-[10px] border border-border bg-surface p-6">
             <h2 id="contact-details" className="text-2xl font-semibold tracking-tight">
               Get in Touch
             </h2>
@@ -57,7 +57,7 @@ export default function ContactPage() {
             </Link>
           </article>
 
-          <article className="rounded-3xl border border-border bg-surface p-6">
+          <article className="rounded-[10px] border border-border bg-surface p-6">
             <h2 className="text-2xl font-semibold tracking-tight">How We Can Help</h2>
 
             <ul className="mt-4 space-y-4 text-sm leading-7 text-muted-foreground">
@@ -77,7 +77,7 @@ export default function ContactPage() {
 
       <Section className="pb-12 sm:pb-16">
         <Container className="max-w-5xl">
-          <div className="rounded-3xl border border-border bg-surface p-8 sm:p-10">
+          <div className="rounded-[10px] border border-border bg-surface p-8 sm:p-10">
             <h2 className="text-3xl font-semibold tracking-tight">Why Contact Hyper?</h2>
 
             <div className="mt-6 space-y-5 text-muted-foreground leading-8">
@@ -105,7 +105,7 @@ export default function ContactPage() {
 
       <Section className="pb-20 sm:pb-24">
         <Container>
-          <div className="rounded-3xl border border-border bg-surface p-8 text-center sm:p-12">
+          <div className="rounded-[10px] border border-border bg-surface p-8 text-center sm:p-12">
             <p className="text-sm font-medium uppercase tracking-[0.35em] text-muted-foreground">
               Hyper Commerce Platform
             </p>
@@ -124,7 +124,7 @@ export default function ContactPage() {
             <div className="mt-8">
               <Link
                 href={`mailto:${siteConfig.email}`}
-                className="inline-flex items-center justify-center rounded-full bg-[linear-gradient(135deg,#f97316_0%,#ef4444_100%)] px-7 py-3 text-sm font-medium text-white shadow-[0_18px_36px_-18px_rgba(239,68,68,0.7)] transition-transform duration-200 hover:-translate-y-0.5"
+                className="inline-flex items-center justify-center rounded-full bg-[linear-gradient(135deg,hsl(var(--brand-start))_0%,hsl(var(--brand-end))_100%)] px-7 py-3 text-sm font-medium text-primary-foreground shadow-[0_18px_36px_-18px_hsl(var(--primary)/0.7)] transition-transform duration-200 hover:-translate-y-0.5"
               >
                 Contact Hyper
               </Link>

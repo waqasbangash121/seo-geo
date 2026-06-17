@@ -1,5 +1,7 @@
 import Image from "next/image";
 
+import { cn } from "@/lib/utils";
+
 type BrandMarkProps = {
   className?: string;
 };
@@ -10,7 +12,7 @@ export function BrandMark({ className }: BrandMarkProps) {
       src="/icon.svg"
       alt=""
       aria-hidden="true"
-      className={`${className} rounded-xl`}
+      className={cn("rounded-[8px]", className)}
       width={40}
       height={40}
     />

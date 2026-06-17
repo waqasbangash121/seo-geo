@@ -10,7 +10,7 @@ type CardProps = HTMLAttributes<HTMLDivElement> & {
 
 const cardVariantClasses: Record<ComponentVariant, string> = {
   primary:
-    "border-transparent bg-[linear-gradient(180deg,rgba(255,255,255,0.55),rgba(255,255,255,0.3))] shadow-soft",
+    "border-border/70 bg-[linear-gradient(180deg,hsl(var(--surface)/0.92),hsl(var(--muted)/0.72))] shadow-soft",
   secondary: "border-border bg-surface",
   ghost: "border-transparent bg-transparent",
   outline: "border-border bg-transparent",
@@ -20,7 +20,7 @@ export function Card({ className, variant = "secondary", ...props }: CardProps) 
   return (
     <div
       className={cn(
-        "rounded-3xl border p-6 text-surface-foreground",
+        "rounded-[10px] border p-6 text-surface-foreground",
         cardVariantClasses[variant],
         className,
       )}

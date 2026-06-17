@@ -326,7 +326,7 @@ export const homeContent = {
 
 export const servicePreview = [
   {
-    svg: "Search.svg",
+    svg: "/Search.svg",
     title: "Hyper Search & Filters",
     description:
       "Help Shopify customers discover products faster with AI-powered search and advanced filtering designed to improve product discovery and shopping experiences.",
@@ -339,7 +339,7 @@ export const servicePreview = [
   },
 
   {
-    svg: "aichat.svg",
+    svg: "/aichat.svg",
     title: "Hyper AI Chat & FAQs",
     description:
       "Provide instant customer support with AI-powered chatbots and smart FAQs that answer shopper questions and improve customer confidence.",
@@ -352,7 +352,7 @@ export const servicePreview = [
   },
 
   {
-    svg: "Video.svg",
+    svg: "/Video.svg",
     title: "Hyper Shoppable Videos",
     description:
       "Turn product videos into interactive shopping experiences that engage customers and simplify product discovery and purchasing.",

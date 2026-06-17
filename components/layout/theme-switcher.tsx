@@ -44,18 +44,15 @@ export function ThemeSwitcher() {
       type="button"
       onClick={toggleTheme}
       aria-label="Toggle theme"
-      className={`relative inline-flex h-7 w-14 items-center rounded-full transition-colors duration-300 ${
-        theme === "dark" ? "bg-orange-500" : "bg-slate-300 dark:bg-slate-700"
-      }`}
+      aria-pressed={theme === "dark"}
+      className="relative inline-flex h-7 w-14 items-center rounded-full border border-border bg-muted transition-colors duration-300"
     >
       <span
-        className={`inline-block h-5 w-5 transform rounded-full bg-white shadow-lg transition-transform duration-300 ${
+        className={`inline-flex h-5 w-5 transform items-center justify-center rounded-full bg-surface text-[10px] font-bold text-primary shadow-lg ring-1 ring-border transition-transform duration-300 ${
           theme === "dark" ? "translate-x-8" : "translate-x-1"
         }`}
       >
-        <span className="flex h-full w-full items-center justify-center text-xs">
-          {theme === "dark" ? "🌙" : "☀️"}
-        </span>
+        {theme === "dark" ? "D" : "L"}
       </span>
     </button>
   );

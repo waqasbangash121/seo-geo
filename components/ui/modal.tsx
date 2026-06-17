@@ -109,7 +109,7 @@ export function Modal({
         aria-modal="true"
         aria-labelledby={headingId}
         aria-describedby={description ? descriptionId : undefined}
-        className="w-full max-w-lg rounded-3xl border border-border bg-surface p-6 shadow-soft focus-visible:outline-none"
+        className="w-full max-w-lg rounded-[10px] border border-border bg-surface p-6 shadow-soft focus-visible:outline-none"
       >
         <div className="flex items-start justify-between gap-4">
           <div>

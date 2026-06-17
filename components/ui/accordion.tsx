@@ -30,7 +30,7 @@ export function Accordion({ items, defaultOpenId, allowMultiple = false }: Accor
   };
 
   return (
-    <div className="divide-y divide-border rounded-2xl border border-border bg-surface">
+    <div className="divide-y divide-border rounded-[10px] border border-border bg-surface">
       {items.map((item) => (
         <AccordionEntry
           key={item.id}

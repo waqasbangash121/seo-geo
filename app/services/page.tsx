@@ -38,16 +38,19 @@ export default function ServicesPage() {
             {servicePreview.map((service) => (
               <article
                 key={service.title}
-                className="rounded-3xl border border-border bg-surface p-6"
+                className="flex min-h-full flex-col rounded-[10px] border border-border bg-surface p-6 shadow-soft"
               >
                 <div className="flex items-center gap-3">
-                  <a href={service.links[0].href} className="flex items-center gap-3">
+                  <a
+                    href={service.links[0].href}
+                    className="flex size-14 shrink-0 items-center justify-center rounded-[10px] border border-border bg-background p-2 transition hover:border-primary"
+                  >
                     <Image
                       src={service.svg}
-                      alt="logo"
-                      width={40}
-                      height={40}
-                      className="h-10 w-10 object-contain rounded-xl"
+                      alt={`${service.title} icon`}
+                      width={44}
+                      height={44}
+                      className="h-11 w-11 object-contain"
                     />
                   </a>
                   <h3 className="text-lg font-semibold tracking-tight">{service.title}</h3>
@@ -57,12 +60,12 @@ export default function ServicesPage() {
                   {service.description}
                 </p>
 
-                <div className="mt-auto pt-6 flex flex-wrap gap-4">
+                <div className="mt-auto flex flex-wrap gap-4 pt-6">
                   {service.links.map((link) => (
                     <a
                       key={link.href}
                       href={link.href}
-                      className="inline-flex items-center justify-center rounded-full border border-border bg-[linear-gradient(135deg,#f97316_0%,#ef4444_100%)] px-4 py-2 text-sm font-medium text-white shadow-[0_18px_36px_-18px_rgba(239,68,68,0.7)] transition-transform duration-200 hover:-translate-y-0.5"
+                      className="inline-flex items-center justify-center rounded-full border border-border bg-[linear-gradient(135deg,hsl(var(--brand-start))_0%,hsl(var(--brand-end))_100%)] px-4 py-2 text-sm font-medium text-primary-foreground shadow-[0_18px_36px_-18px_hsl(var(--primary)/0.7)] transition-transform duration-200 hover:-translate-y-0.5"
                     >
                       {link.label}
                     </a>
