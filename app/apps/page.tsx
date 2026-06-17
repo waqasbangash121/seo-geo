@@ -23,7 +23,7 @@ const apps = [
       "Custom filter options",
       "Improved shopping experience",
     ],
-    href: "/apps/search-filter",
+    href: "/apps/hyper-search-filter",
     cta: "Explore Search & Filters",
   },
   {
@@ -37,7 +37,7 @@ const apps = [
       "Reduced support tickets",
       "Improved customer satisfaction",
     ],
-    href: "/apps/ai-chat-faq",
+    href: "/apps/hyper-ai-chat-faq",
     cta: "Explore AI Chat",
   },
   {
@@ -51,7 +51,7 @@ const apps = [
       "Mobile-friendly shopping",
       "Seamless Shopify integration",
     ],
-    href: "/apps/shopable-videos",
+    href: "/apps/hyper-shoppable-videos",
     cta: "Explore Shoppable Videos",
   },
 ];

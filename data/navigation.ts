@@ -17,18 +17,18 @@ export const appsMegaMenu: MegaMenuColumn[] = [
     title: "Products",
     links: [
       {
-        label: "Search & Filter",
-        href: "/apps",
+        label: "Hyper Search & Filter",
+        href: "/apps/hyper-search-filter",
         description: "Merchandising-focused search and filters",
       },
       {
-        label: "AI Chat and FAQs",
-        href: "/apps",
+        label: "Hyper AI Chat & FAQs",
+        href: "/apps/hyper-ai-chat-faq",
         description: "AI support and pre-sales assistant",
       },
       {
-        label: "Shoppable Video",
-        href: "/apps",
+        label: "Hyper Shoppable Videos",
+        href: "/apps/hyper-shoppable-videos",
         description: "Video commerce experiences for conversion",
       },
     ],

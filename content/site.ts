@@ -43,21 +43,21 @@ export const homeContent = {
       pitch:
         "Help customers quickly discover products with AI-powered search and advanced filtering designed for Shopify stores.",
       outcome: "Improve product discovery and create better shopping experiences.",
-      href: "/apps",
+      href: "/apps/hyper-search-filter",
     },
     {
       name: "Hyper AI Chat & FAQs",
       pitch:
         "Provide instant customer support through AI chatbots and searchable FAQs that answer common shopper questions.",
       outcome: "Reduce support workload and improve customer confidence.",
-      href: "/apps",
+      href: "/apps/hyper-ai-chat-faq",
     },
     {
       name: "Hyper Shoppable Videos",
       pitch:
         "Transform product videos into interactive shopping journeys that inspire engagement and simplify purchasing.",
       outcome: "Increase customer engagement and encourage more purchases.",
-      href: "/apps",
+      href: "/apps/hyper-shoppable-videos",
     },
   ],
   benefits: [

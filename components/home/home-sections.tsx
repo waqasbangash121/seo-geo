@@ -88,18 +88,21 @@ type HeroContent = {
 
 const productAccents = [
   {
+    logo: "/aichat.svg",
     label: "AI Shopping Assistant",
     color: "text-primary",
     bg: "bg-primary/10",
     border: "border-primary/20",
   },
   {
+    logo: "/shoppable-videos.svg",
     label: "Shoppable Videos",
     color: "text-[hsl(var(--brand-end))]",
     bg: "bg-[hsl(var(--brand-end)/0.12)]",
     border: "border-[hsl(var(--brand-end)/0.25)]",
   },
   {
+    logo: "/smart-search-filters.svg",
     label: "Smart Search & Filters",
     color: "text-primary",
     bg: "bg-primary/10",
@@ -277,7 +280,7 @@ export function HeroSection({ content }: { content: HeroContent }) {
             discovery. More engagement. More sales.
           </p>
           <div className="mt-8 flex flex-wrap gap-4">
-            <PrimaryButton href={content.primaryCtaHref}>Install All Free</PrimaryButton>
+            <PrimaryButton href={content.primaryCtaHref}>Explore Apps</PrimaryButton>
             <SecondaryButton href={content.secondaryCtaHref}>Book a Demo</SecondaryButton>
           </div>
           <div className="mt-6 flex flex-wrap items-center gap-x-5 gap-y-2 text-sm text-muted-foreground">
