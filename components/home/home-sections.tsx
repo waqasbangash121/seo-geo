@@ -194,68 +194,110 @@ function CheckLine({ children }: { children: ReactNode }) {
 
 function HeroOrbit() {
   return (
-    <div className="relative mx-auto flex aspect-square w-full max-w-[520px] items-center justify-center">
-      <div className="absolute inset-[13%] rounded-full border border-primary/20" />
-      <div className="absolute inset-[25%] rounded-full border border-dashed border-primary/30" />
-      <div className="absolute inset-[38%] rounded-full border border-primary/20 bg-surface shadow-[0_20px_70px_-38px_hsl(var(--primary)/0.75)]" />
-      <div className="absolute left-1/2 top-[8%] h-[74%] w-px -translate-x-1/2 bg-primary/20" />
-      <div className="absolute left-[14%] top-1/2 h-px w-[72%] -translate-y-1/2 bg-primary/20" />
-      <div className="absolute left-[24%] top-[24%] h-px w-[52%] rotate-45 bg-primary/20" />
-      <div className="absolute right-[24%] top-[24%] h-px w-[52%] -rotate-45 bg-primary/20" />
+    <div className="mx-auto flex w-full justify-center overflow-hidden py-8">
+      <div className="origin-center scale-[0.65] sm:scale-[0.8] md:scale-[0.9] lg:scale-100">
+        <div className="relative flex h-[520px] w-[520px] items-center justify-center">
+          {/* Rings */}
+          <div className="absolute inset-[13%] rounded-full border border-primary/20" />
+          <div className="absolute inset-[25%] rounded-full border border-dashed border-primary/30" />
+          <div className="absolute inset-[38%] rounded-full border border-primary/20 bg-surface shadow-[0_20px_70px_-38px_hsl(var(--primary)/0.75)]" />
 
-      <div className="absolute left-1/2 top-1/2 flex size-24 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full border border-primary/20 bg-surface shadow-[0_18px_50px_-28px_hsl(var(--primary)/0.8)]">
-        <div className="flex size-14 items-center justify-center rounded-[14px] bg-primary text-2xl font-black text-primary-foreground">
-          H
-        </div>
-      </div>
+          {/* Connection lines */}
+          <div className="absolute left-1/2 top-[8%] h-[74%] w-px -translate-x-1/2 bg-primary/20" />
+          <div className="absolute left-[14%] top-1/2 h-px w-[72%] -translate-y-1/2 bg-primary/20" />
+          <div className="absolute left-[24%] top-[24%] h-px w-[52%] rotate-45 bg-primary/20" />
+          <div className="absolute right-[24%] top-[24%] h-px w-[52%] -rotate-45 bg-primary/20" />
 
-      <div className="absolute left-1/2 top-4 w-52 -translate-x-1/2 rounded-[14px] border border-primary/20 bg-surface p-4 shadow-[0_18px_55px_-34px_hsl(var(--primary)/0.75)]">
-        <div className="flex items-center gap-3">
-          <MiniIcon className="border-primary/20 bg-primary/10 text-primary">AI</MiniIcon>
-          <div>
-            <p className="text-sm font-bold text-primary">AI Chatbot</p>
-            <p className="text-xs text-muted-foreground">Answer. Recommend. Convert.</p>
+          {/* Center */}
+          <div className="absolute left-1/2 top-1/2 flex h-24 w-24 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full border border-primary/20 bg-surface shadow-[0_18px_50px_-28px_hsl(var(--primary)/0.8)]">
+            <Image
+              src="/icon.svg"
+              alt="AI"
+              width={50}
+              height={50}
+              className="rounded-xl object-contain"
+            />
+          </div>
+
+          {/* Top Card */}
+          <Link href="/apps/hyper-ai-chat-faq">
+            <div className="absolute left-1/2 top-4 w-52 -translate-x-1/2 rounded-2xl border border-primary/20 bg-surface p-4 shadow-xl">
+              <div className="flex items-center gap-3">
+                <div className="flex h-10 w-12 items-center justify-center rounded-xl bg-primary/10">
+                  <Image
+                    src="/hyper-aichat.svg"
+                    alt="AI Chatbot"
+                    width={40}
+                    height={40}
+                    className="rounded-md object-contain"
+                  />
+                </div>
+                <div>
+                  <p className="text-sm font-bold text-primary">AI Chatbot</p>
+                  <p className="text-xs text-muted-foreground">Answer. Recommend. Convert.</p>
+                </div>
+              </div>
+            </div>
+          </Link>
+          {/* Bottom Card */}
+          <Link href="/apps/hyper-search-filter">
+            <div className="absolute bottom-5 left-1/2 w-56 -translate-x-1/2 rounded-2xl border border-primary/20 bg-surface p-4 shadow-xl">
+              <div className="flex items-center gap-3">
+                <div className="flex h-10 w-12 items-center justify-center rounded-xl bg-primary/10">
+                  <Image
+                    src="/hyper-search.svg"
+                    alt="Search"
+                    width={40}
+                    height={40}
+                    className="rounded-md object-contain"
+                  />
+                </div>
+                <div>
+                  <p className="text-sm font-bold text-primary">Smart Search & Filters</p>
+                  <p className="text-xs text-muted-foreground">Find. Filter. Convert.</p>
+                </div>
+              </div>
+            </div>
+          </Link>
+          {/* Right Card */}
+          <Link href="/apps/hyper-shoppable-videos">
+            <div className="absolute right-2 top-[55%] w-48 rounded-2xl border border-[hsl(var(--brand-end)/0.25)] bg-surface p-4 shadow-xl">
+              <div className="flex items-center gap-3">
+                <div className="flex h-10 w-12 items-center justify-center rounded-xl bg-[hsl(var(--brand-end)/0.12)]">
+                  <Image
+                    src="/hyper-videos.svg"
+                    alt="Videos"
+                    width={40}
+                    height={40}
+                    className="rounded-md object-contain"
+                  />
+                </div>
+                <div>
+                  <p className="text-sm font-bold text-[hsl(var(--brand-end))]">Shoppable Videos</p>
+                  <p className="text-xs text-muted-foreground">Engage. Inspire. Sell.</p>
+                </div>
+              </div>
+            </div>
+          </Link>
+          {/* Left Mock Card */}
+          <div className="absolute left-0 top-[42%] hidden w-40 rounded-xl border border-border bg-surface p-3 shadow-lg sm:block">
+            <div className="h-3 w-20 rounded bg-primary/10" />
+            <div className="mt-3 grid grid-cols-[1fr_36px] gap-2">
+              <div className="space-y-1.5">
+                <div className="h-2 rounded bg-primary/20" />
+                <div className="h-2 rounded bg-muted" />
+                <div className="h-2 rounded bg-muted" />
+              </div>
+              <div className="rounded bg-primary/10" />
+            </div>
+          </div>
+
+          {/* Right Mock Card */}
+          <div className="absolute right-5 top-[34%] hidden w-32 rounded-xl border border-border bg-surface p-2 shadow-lg sm:block">
+            <div className="h-16 rounded bg-[linear-gradient(135deg,hsl(var(--brand-start)/0.35),hsl(var(--brand-end)/0.5))]" />
+            <div className="mt-2 h-2 rounded bg-primary/20" />
           </div>
         </div>
-      </div>
-
-      <div className="absolute bottom-5 left-1/2 w-56 -translate-x-1/2 rounded-[14px] border border-primary/20 bg-surface p-4 shadow-[0_18px_55px_-34px_hsl(var(--primary)/0.72)]">
-        <div className="flex items-center gap-3">
-          <MiniIcon className="border-primary/20 bg-primary/10 text-primary">SF</MiniIcon>
-          <div>
-            <p className="text-sm font-bold text-primary">Smart Search & Filters</p>
-            <p className="text-xs text-muted-foreground">Find. Filter. Convert.</p>
-          </div>
-        </div>
-      </div>
-
-      <div className="absolute right-2 top-[55%] w-48 rounded-[14px] border border-[hsl(var(--brand-end)/0.25)] bg-surface p-4 shadow-[0_18px_55px_-34px_hsl(var(--brand-end)/0.65)]">
-        <div className="flex items-center gap-3">
-          <MiniIcon className="border-[hsl(var(--brand-end)/0.25)] bg-[hsl(var(--brand-end)/0.12)] text-[hsl(var(--brand-end))]">
-            SV
-          </MiniIcon>
-          <div>
-            <p className="text-sm font-bold text-[hsl(var(--brand-end))]">Shoppable Videos</p>
-            <p className="text-xs text-muted-foreground">Engage. Inspire. Sell.</p>
-          </div>
-        </div>
-      </div>
-
-      <div className="absolute left-0 top-[42%] hidden w-40 rounded-[10px] border border-border bg-surface p-3 shadow-[0_16px_40px_-30px_hsl(var(--shadow)/0.8)] sm:block">
-        <div className="h-3 w-20 rounded bg-primary/10" />
-        <div className="mt-3 grid grid-cols-[1fr_36px] gap-2">
-          <div className="space-y-1.5">
-            <div className="h-2 rounded bg-primary/20" />
-            <div className="h-2 rounded bg-muted" />
-            <div className="h-2 rounded bg-muted" />
-          </div>
-          <div className="rounded bg-primary/10" />
-        </div>
-      </div>
-
-      <div className="absolute right-5 top-[34%] hidden w-32 rounded-[10px] border border-border bg-surface p-2 shadow-[0_16px_40px_-30px_hsl(var(--shadow)/0.8)] sm:block">
-        <div className="h-16 rounded bg-[linear-gradient(135deg,hsl(var(--brand-start)/0.35),hsl(var(--brand-end)/0.5))]" />
-        <div className="mt-2 h-2 rounded bg-primary/20" />
       </div>
     </div>
   );
