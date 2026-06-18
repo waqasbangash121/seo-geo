@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { trackEvent } from "@/lib/analytics";
 
 type Props = {
   href: string;
@@ -11,11 +12,7 @@ type Props = {
 
 export default function TrackLink({ href, eventName, className, children }: Props) {
   const handleClick = () => {
-    if (typeof window === "undefined") return;
-    if (!window.gtag) return;
-
-    window.gtag("event", eventName, {
-      event_category: "engagement",
+    trackEvent(eventName, {
       event_label: href,
       value: 1,
     });

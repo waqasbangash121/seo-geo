@@ -1,18 +1,12 @@
 declare global {
   interface Window {
-    gtag?: (
-      command: "config" | "event" | "js",
-      targetId: string | Date,
-      config?: Record<string, unknown>,
-    ) => void;
+    dataLayer: unknown[];
+    gtag?: (...args: unknown[]) => void;
   }
 }
 
 export const GA_ID = "G-ZC5XNC1VDY";
 
-/**
- * Track page views (GA4)
- */
 export const pageview = (url: string): void => {
   if (typeof window === "undefined") return;
   if (!window.gtag) return;
@@ -22,13 +16,9 @@ export const pageview = (url: string): void => {
   });
 };
 
-/**
- * Track custom events
- */
-export const trackEvent = (
-  eventName: string,
-  params?: Record<string, string | number | boolean>,
-): void => {
+type GtagEventParams = Record<string, string | number | boolean | undefined>;
+
+export const trackEvent = (eventName: string, params?: GtagEventParams): void => {
   if (typeof window === "undefined") return;
   if (!window.gtag) return;
 
