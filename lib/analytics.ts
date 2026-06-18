@@ -1,10 +1,18 @@
+// components/analytics.ts
+
 declare global {
   interface Window {
-    gtag?: (...args: (string | Record<string, unknown> | number | boolean | undefined)[]) => void;
+    gtag?: (
+      command: "config" | "event",
+      targetId: string,
+      config?: Record<string, string | number | boolean>,
+    ) => void;
   }
 }
 
 export const GA_ID = "G-ZC5XNC1VDY";
+
+type GtagParams = Record<string, string | number | boolean>;
 
 export const pageview = (url: string): void => {
   if (typeof window === "undefined") return;
@@ -14,8 +22,6 @@ export const pageview = (url: string): void => {
     page_path: url,
   });
 };
-
-type GtagParams = Record<string, string | number | boolean>;
 
 export const trackEvent = (eventName: string, params?: GtagParams): void => {
   if (typeof window === "undefined") return;

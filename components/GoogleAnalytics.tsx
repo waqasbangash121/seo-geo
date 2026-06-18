@@ -2,17 +2,18 @@
 
 import { usePathname, useSearchParams } from "next/navigation";
 import { useEffect } from "react";
+import { pageview } from "@/lib/gtag";
 
 export default function GoogleAnalytics() {
   const pathname = usePathname();
   const searchParams = useSearchParams();
 
   useEffect(() => {
-    const url = pathname + (searchParams?.toString() ? `?${searchParams}` : "");
+    if (!pathname) return;
 
-    window.gtag?.("config", "G-ZC5XNC1VDY", {
-      page_path: url,
-    });
+    const url = pathname + (searchParams?.toString() ? `?${searchParams.toString()}` : "");
+
+    pageview(url);
   }, [pathname, searchParams]);
 
   return null;
