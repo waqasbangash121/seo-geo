@@ -21,7 +21,7 @@ export function SiteHeader() {
       className="sticky top-0 z-[100] border-b border-border/70 bg-background/95 shadow-sm backdrop-blur-xl"
     >
       <Container className="flex items-center gap-3 py-3 md:py-4">
-        <Link href="https://niagarat.com" className="flex items-center gap-3 text-sm font-semibold text-foreground">
+        <Link href="https://niagarat.com" className="flex items-center gap-3 text-sm font-semibold text-foreground" aria-label="Hyper Apps Homepage">
           <BrandMark className="h-9 w-9 sm:h-10 sm:w-10" />
           <span className="hidden uppercase tracking-[0.35em] sm:inline">Hyper Apps</span>
         </Link>
