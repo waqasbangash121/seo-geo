@@ -179,6 +179,14 @@ const faqs = [
     q: "Is it available 24/7?",
     a: "Yes. AI Chat works around the clock to support customers anytime.",
   },
+  {
+    q: "Does Hyper AI Chat work with Shopify themes?",
+    a: "Yes. The app integrates seamlessly with Shopify stores and is designed to work across modern Shopify themes.",
+  },
+  {
+    q: "Is coding required to use Hyper AI Chat & FAQs?",
+    a: "No. Hyper AI Chat & FAQs is designed as a plug-and-play Shopify app with an easy setup process.",
+  },
 ];
 
 export default function HyperAIChatFAQPage() {
@@ -235,17 +243,17 @@ export default function HyperAIChatFAQPage() {
             {/* LEFT */}
             <div className="flex flex-col gap-8">
               <div>
-                <span className="inline-flex rounded-full border border-border px-3 py-1 text-xs text-muted-foreground">
+                <span className="inline-flex items-center rounded-full border border-border px-3 py-1 text-xs font-medium text-muted-foreground">
                   Core Features
                 </span>
               </div>
 
-              <div>
+              <div className="flex flex-col gap-3">
                 <h2 className="text-3xl sm:text-4xl lg:text-5xl tracking-tight font-semibold">
                   AI Support Built for Shopify Stores
                 </h2>
 
-                <p className="mt-5 text-muted-foreground text-base sm:text-lg leading-7 max-w-xl">
+                <p className="text-muted-foreground text-base sm:text-lg leading-7 max-w-xl">
                   Hyper AI Chat understands customer questions and responds instantly using your
                   store data.
                 </p>
@@ -255,7 +263,8 @@ export default function HyperAIChatFAQPage() {
                 {features.map((feature) => (
                   <div key={feature} className="flex gap-4 items-start">
                     <Check className="w-5 h-5 mt-1 text-primary shrink-0" />
-                    <div>
+
+                    <div className="flex flex-col gap-1">
                       <p className="font-medium text-sm sm:text-base">{feature}</p>
                       <p className="text-sm text-muted-foreground leading-6">
                         Intelligent automation improves response quality and speed.
@@ -266,15 +275,15 @@ export default function HyperAIChatFAQPage() {
               </div>
             </div>
 
-            {/* RIGHT */}
+            {/* RIGHT VISUAL */}
             <div className="relative">
-              <div className="rounded-2xl border border-border overflow-hidden">
+              <div className="aspect-rectangle rounded-2xl bg-gradient-to-br from-primary/10 to-transparent border border-border flex items-center justify-center overflow-hidden">
                 <Image
                   src="/aichat-banner.png"
                   alt="AI Chat Dashboard"
                   width={1200}
                   height={900}
-                  className="w-full h-auto"
+                  className="opacity-80"
                 />
               </div>
 
@@ -286,24 +295,25 @@ export default function HyperAIChatFAQPage() {
         </Container>
       </Section>
 
-      {/* SEO / WHY SECTION */}
       <Section className="pb-20">
         <Container className="max-w-6xl">
-          <div className="text-center">
+          <div className="text-center mb-12">
             <p className="text-sm uppercase tracking-[0.25em] text-muted-foreground">
               AI Customer Support Intelligence
             </p>
 
             <h2 className="mt-3 text-2xl sm:text-3xl lg:text-4xl font-semibold tracking-tight">
-              Why Shopify Stores Need AI Support Automation
+              Increase Shopify Conversions with AI-Powered Customer Support
             </h2>
 
-            <p className="mt-5 max-w-3xl mx-auto text-muted-foreground leading-7">
-              Slow support kills conversions. Hyper AI Chat fixes this with instant AI responses
-              trained on your store.
+            <p className="mt-5 max-w-3xl mx-auto text-sm sm:text-base text-muted-foreground leading-7">
+              Explore how AI chat and automated FAQs improve customer satisfaction, reduce support
+              workload, and increase conversion rates for modern Shopify stores. Each benefit below
+              is based on real-world ecommerce behavior: instant responses, 24/7 availability, and
+              seamless support experiences that keep customers moving toward purchase.
             </p>
           </div>
-          {/* CARD STACK */}
+
           <div className="w-full flex justify-center">
             <CardStack
               items={benefits.map((b) => ({
@@ -316,12 +326,28 @@ export default function HyperAIChatFAQPage() {
               intervalMs={3500}
             />
           </div>
-          <div className="mt-14 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+
+          <div className="mt-16 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
             {seoBenefits.map((item) => (
-              <div key={item.title} className="rounded-3xl border border-border bg-surface p-8">
+              <div
+                key={item.title}
+                className="
+        rounded-3xl
+        border
+        border-border
+        bg-surface
+        p-8
+        transition-all
+        duration-300
+        hover:border-primary/30
+        hover:shadow-xl
+      "
+              >
                 <div className="text-4xl">{item.icon}</div>
+
                 <h3 className="mt-5 text-lg font-semibold">{item.title}</h3>
-                <p className="mt-3 text-sm text-muted-foreground leading-7">{item.desc}</p>
+
+                <p className="mt-3 text-sm leading-7 text-muted-foreground">{item.desc}</p>
               </div>
             ))}
           </div>
@@ -341,7 +367,9 @@ export default function HyperAIChatFAQPage() {
             </h2>
 
             <p className="mt-5 text-muted-foreground leading-7">
-              AI processes customer queries and responds instantly using store knowledge.
+              Hyper AI Chat transforms traditional customer support into intelligent automated
+              experiences. Customers can get instant answers, explore product details, and resolve
+              issues without waiting for human agents.
             </p>
           </div>
 
@@ -350,32 +378,71 @@ export default function HyperAIChatFAQPage() {
               {
                 step: "01",
                 icon: "💬",
-                title: "User asks question",
-                description: "Customer submits query in chat.",
+                title: "Customer Asks a Question",
+                description:
+                  "Shoppers submit product, order, or policy questions through the AI chat widget directly on your Shopify store.",
               },
               {
                 step: "02",
                 icon: "🧠",
-                title: "AI understands intent",
-                description: "System analyzes store data.",
+                title: "AI Understands Intent",
+                description:
+                  "The system analyzes store data, FAQs, and product information to understand what the customer needs and provide accurate answers.",
               },
               {
                 step: "03",
                 icon: "⚡",
-                title: "Instant answer",
-                description: "AI responds immediately.",
+                title: "Instant Response Delivered",
+                description:
+                  "Customers receive immediate answers 24/7, reducing wait times and helping them make faster purchase decisions.",
               },
             ].map((item) => (
-              <div key={item.step} className="rounded-3xl border border-border bg-surface p-8">
-                <div className="flex justify-between">
-                  <span className="text-primary text-sm font-medium">Step {item.step}</span>
-                  <span className="text-2xl">{item.icon}</span>
+              <div
+                key={item.step}
+                className="
+            group relative overflow-hidden rounded-3xl
+            border border-border
+            bg-linear-to-b from-background to-surface
+            p-8
+            transition-all duration-300
+            hover:-translate-y-1
+            hover:border-primary/40
+            hover:shadow-xl
+          "
+              >
+                <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition duration-500">
+                  <div className="absolute -top-20 -right-20 h-40 w-40 rounded-full bg-primary/10 blur-3xl" />
                 </div>
 
-                <h3 className="mt-6 text-xl font-semibold">{item.title}</h3>
-                <p className="mt-4 text-sm text-muted-foreground leading-7">{item.description}</p>
+                <div className="relative z-10 flex items-center justify-between">
+                  <span className="text-sm font-medium text-primary">Step {item.step}</span>
+
+                  <span className="text-3xl">{item.icon}</span>
+                </div>
+
+                <h3 className="relative z-10 mt-6 text-xl font-semibold tracking-tight">
+                  {item.title}
+                </h3>
+
+                <p className="relative z-10 mt-4 text-sm leading-7 text-muted-foreground">
+                  {item.description}
+                </p>
               </div>
             ))}
+          </div>
+
+          <div className="mt-14 rounded-3xl border border-border bg-surface p-8 sm:p-10">
+            <h3 className="text-2xl font-semibold tracking-tight">
+              Why AI Chat Matters for Shopify Brands
+            </h3>
+
+            <p className="mt-5 text-muted-foreground leading-8">
+              Automated customer support combines instant responses with store-specific intelligence,
+              helping Shopify merchants increase customer satisfaction, reduce support costs, and
+              improve conversion rates. By enabling shoppers to get answers immediately without
+              waiting for human agents, businesses can create modern support experiences that
+              encourage higher purchase confidence and stronger customer retention.
+            </p>
           </div>
         </Container>
       </Section>
@@ -388,30 +455,72 @@ export default function HyperAIChatFAQPage() {
       {/* FAQ */}
       <Section className="py-20 lg:py-24">
         <Container className="max-w-5xl">
-          <div className="text-center">
-            <h2 className="text-3xl font-semibold">Frequently Asked Questions</h2>
+          <div className="text-center max-w-3xl mx-auto">
+            <span className="inline-flex rounded-full border border-border px-3 py-1 text-xs font-medium text-muted-foreground">
+              FAQ
+            </span>
+
+            <h2 className="mt-4 text-3xl sm:text-4xl font-semibold tracking-tight">
+              Frequently Asked Questions About Shopify AI Chat & FAQs
+            </h2>
+
+            <p className="mt-5 text-muted-foreground leading-7">
+              Learn how Hyper AI Chat & FAQs helps Shopify merchants automate customer support,
+              reduce ticket volume, and improve customer satisfaction.
+            </p>
           </div>
 
-          <div className="mt-12 space-y-5">
-            {faqs.map((faq, i) => (
-              <div key={faq.q} className="rounded-3xl border border-border bg-surface p-6">
-                <div className="flex gap-5">
-                  <div className="h-10 w-10 rounded-full bg-primary/10 text-primary flex items-center justify-center font-semibold">
-                    {String(i + 1).padStart(2, "0")}
+          <div className="mt-14 space-y-5">
+            {faqs.map((faq, index) => (
+              <div
+                key={faq.q}
+                className="
+            group rounded-3xl
+            border border-border
+            bg-surface
+            p-6 sm:p-8
+            transition-all duration-300
+            hover:border-primary/30
+            hover:shadow-lg
+          "
+              >
+                <div className="flex items-start gap-5">
+                  <div
+                    className="
+              flex h-10 w-10 shrink-0 items-center justify-center
+              rounded-full bg-primary/10
+              text-sm font-semibold text-primary
+            "
+                  >
+                    {String(index + 1).padStart(2, "0")}
                   </div>
 
                   <div>
-                    <h3 className="font-semibold">{faq.q}</h3>
-                    <p className="mt-3 text-sm text-muted-foreground leading-7">{faq.a}</p>
+                    <h3 className="text-lg font-semibold tracking-tight">{faq.q}</h3>
+
+                    <p className="mt-3 text-sm leading-7 text-muted-foreground">{faq.a}</p>
                   </div>
                 </div>
               </div>
             ))}
           </div>
+
+          <div className="mt-14 rounded-3xl border border-border bg-gradient-to-br from-primary/5 to-transparent p-8 text-center">
+            <h3 className="text-2xl font-semibold">
+              Why Shopify Merchants Choose Hyper AI Chat & FAQs
+            </h3>
+
+            <p className="mt-5 text-muted-foreground leading-8 max-w-3xl mx-auto">
+              Hyper AI Chat & FAQs helps Shopify businesses transform traditional customer support
+              into intelligent automated experiences. By combining AI chat with smart FAQ automation,
+              merchants can improve customer satisfaction, reduce support costs, and create seamless
+              support journeys that drive higher conversion rates.
+            </p>
+          </div>
         </Container>
       </Section>
 
-      {/* FINAL CTA (MATCHED TEMPLATE STYLE) */}
+      {/* FINAL CTA */}
       <Section className="pb-24 pt-8">
         <Container className="max-w-6xl">
           <div className="relative overflow-hidden rounded-3xl border border-border bg-gradient-to-br from-primary/10 via-background to-surface p-8 sm:p-12 lg:p-16">

@@ -3,7 +3,7 @@ import { Section } from "@/components/ui/section";
 import { createPageMetadata } from "@/config/metadata";
 
 export const metadata = createPageMetadata({
-  title: "About Hyper",
+  title: "About Hyper Apps",
   description:
     "Hyper builds AI-powered Shopify apps for product discovery, customer support, and video commerce. Improve search, engagement, and conversions with intelligent commerce tools.",
   path: "/about",
