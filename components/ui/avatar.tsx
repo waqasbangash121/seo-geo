@@ -22,7 +22,7 @@ export function Avatar({ className, name, src, alt, ...props }: AvatarProps) {
         "inline-flex h-10 w-10 shrink-0 items-center justify-center overflow-hidden rounded-full border border-border bg-muted text-sm font-medium text-foreground",
         className,
       )}
-      aria-label={label}
+      {...(src ? {} : { role: "img", "aria-label": label })}
       {...props}
     >
       {src ? (

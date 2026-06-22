@@ -331,7 +331,7 @@ export function HeroSection({ content }: { content: HeroContent }) {
               <span className="size-4 rounded-full border border-primary/30 bg-primary/10" />
               Built for Shopify
             </span>
-            <span className="flex gap-1" aria-label="Rated 4.9 out of 5">
+            <span className="flex gap-1" aria-hidden="true">
               {Array.from({ length: 5 }).map((_, index) => (
                 <span key={index} className="size-2 rounded-full bg-primary" />
               ))}

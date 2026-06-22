@@ -92,6 +92,7 @@ const PricingComponent: React.FC<PricingComponentProps> = ({
           {tiers.map((tier, index) => (
             <Card
               key={index}
+              role="group"
               itemScope
               itemType="https://schema.org/Offer"
               aria-label={`${tier.name} plan${tier.price ? `, ${tier.price}${tier.period || ""}` : ""}`}

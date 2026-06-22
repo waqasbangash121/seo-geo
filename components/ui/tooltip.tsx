@@ -1,6 +1,13 @@
 "use client";
 
-import { useId, useState, type ReactNode } from "react";
+import {
+  cloneElement,
+  isValidElement,
+  useId,
+  useState,
+  type ReactElement,
+  type ReactNode,
+} from "react";
 
 import { cn } from "@/lib/utils";
 
@@ -9,19 +16,45 @@ type TooltipProps = {
   children: ReactNode;
 };
 
+type DescribedElementProps = {
+  "aria-describedby"?: string;
+  onFocus?: React.FocusEventHandler;
+  onBlur?: React.FocusEventHandler;
+};
+
+function mergeDescribedBy(existing: string | undefined, tooltipId: string | undefined) {
+  return [existing, tooltipId].filter(Boolean).join(" ") || undefined;
+}
+
 export function Tooltip({ label, children }: TooltipProps) {
   const [open, setOpen] = useState(false);
   const tooltipId = useId();
+  const describedBy = open ? tooltipId : undefined;
+
+  const handleFocus = () => setOpen(true);
+  const handleBlur = () => setOpen(false);
+
+  const trigger = isValidElement<DescribedElementProps>(children)
+    ? cloneElement(children as ReactElement<DescribedElementProps>, {
+        "aria-describedby": mergeDescribedBy(children.props["aria-describedby"], describedBy),
+        onFocus: (event) => {
+          handleFocus();
+          children.props.onFocus?.(event);
+        },
+        onBlur: (event) => {
+          handleBlur();
+          children.props.onBlur?.(event);
+        },
+      })
+    : children;
 
   return (
     <span
       className="relative inline-flex"
       onMouseEnter={() => setOpen(true)}
       onMouseLeave={() => setOpen(false)}
-      onFocus={() => setOpen(true)}
-      onBlur={() => setOpen(false)}
     >
-      <span aria-describedby={open ? tooltipId : undefined}>{children}</span>
+      {trigger}
       <span
         id={tooltipId}
         role="tooltip"
