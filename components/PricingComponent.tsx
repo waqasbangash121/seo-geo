@@ -187,7 +187,7 @@ const PricingComponent: React.FC<PricingComponentProps> = ({
                       "w-full py-3 sm:py-4 text-sm font-medium",
                       tier.highlighted && "bg-primary text-primary-foreground hover:bg-primary/80",
                     )}
-                    variant={tier.highlighted ? "default" : "secondary"}
+                    variant={tier.highlighted ? "primary" : "secondary"}
                   >
                     <TrackLink
                       href={tier.buttonHref}
