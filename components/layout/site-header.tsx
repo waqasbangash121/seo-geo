@@ -4,10 +4,15 @@ import { appsMegaMenu, primaryNavigation } from "@/config/navigation";
 
 import { BrandMark } from "./brand-mark";
 import { MegaMenu } from "./mega-menu";
-import { MobileMenu } from "./mobile-menu";
+
 import { SearchBar } from "./search-bar";
 import { ThemeSwitcher } from "./theme-switcher";
 import { Container } from "../ui/container";
+import dynamic from "next/dynamic";
+
+const MobileMenu = dynamic(
+  () => import("./mobile-menu").then((m) => m.MobileMenu)
+);
 
 export function SiteHeader() {
   const appsNavigationItem = primaryNavigation.find((item) => item.label === "Apps");

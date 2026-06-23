@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import * as React from "react";
-import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
+import { motion, useReducedMotion } from "framer-motion";
 
 export function cn(...classes: (string | undefined | null | false)[]) {
   return classes.filter(Boolean).join(" ");
@@ -50,30 +50,39 @@ export function CardStack<T extends CardStackItem>({
 
   const ref = React.useRef<HTMLDivElement>(null);
 
+  // ✅ safer ResizeObserver (no stale leaks)
   React.useEffect(() => {
-    if (!ref.current) return;
+    const el = ref.current;
+    if (!el) return;
 
-    const obs = new ResizeObserver((entries) => {
-      setWidth(entries[0].contentRect.width);
+    const ro = new ResizeObserver(([entry]) => {
+      setWidth(entry.contentRect.width);
     });
 
-    obs.observe(ref.current);
-    return () => obs.disconnect();
+    ro.observe(el);
+
+    return () => ro.disconnect();
   }, []);
 
   const isMobile = width < 640;
 
-  const cardWidth = isMobile ? width * 0.92 : Math.min(900, width * 0.75);
-  const spacing = cardWidth * 0.55;
+  const cardWidth = React.useMemo(
+    () => (isMobile ? width * 0.92 : Math.min(900, width * 0.75)),
+    [isMobile, width]
+  );
 
+  const spacing = React.useMemo(() => cardWidth * 0.55, [cardWidth]);
+
+  // ✅ stable auto-advance interval
   React.useEffect(() => {
-    if (!autoAdvance || reduceMotion) return;
-    const id = setInterval(() => {
+    if (!autoAdvance || reduceMotion || len <= 1) return;
+
+    const id = window.setInterval(() => {
       setActive((a) => wrapIndex(a + 1, len));
     }, intervalMs);
 
-    return () => clearInterval(id);
-  }, [len, autoAdvance, intervalMs, reduceMotion]);
+    return () => window.clearInterval(id);
+  }, [autoAdvance, intervalMs, len, reduceMotion]);
 
   if (!len) return null;
 
@@ -86,59 +95,66 @@ export function CardStack<T extends CardStackItem>({
           perspective: "1200px",
         }}
       >
-        <AnimatePresence>
-          {items.map((item, i) => {
-            const off = signedOffset(i, active, len, true);
-            const abs = Math.abs(off);
+        {items.map((item, i) => {
+          const off = signedOffset(i, active, len, true);
+          const abs = Math.abs(off);
 
-            if (abs > 2) return null;
+          if (abs > 2) return null;
 
-            const isActive = off === 0;
+          const isActive = off === 0;
 
-            return (
-              <motion.div
-                key={item.id}
-                onClick={() => setActive(i)}
-                className="absolute bottom-0 rounded-2xl overflow-hidden shadow-xl border border-border bg-black cursor-pointer"
-                style={{
-                  width: cardWidth,
-                  height: cardHeight,
-                  zIndex: 100 - abs,
-                }}
-                animate={{
-                  x: off * spacing,
-                  scale: isActive ? 1 : 0.92,
-                  rotateY: off * -8,
-                  y: abs * 12,
-                }}
-                transition={{ type: "spring", stiffness: 260, damping: 25 }}
-              >
-                <div className="absolute inset-0">
-                  {item.imageSrc ? (
-                    <Image
-                      src={item.imageSrc}
-                      alt={item.title}
-                      fill
-                      className={isMobile ? "object-contain bg-black" : "object-cover"}
-                      sizes="(max-width: 768px) 100vw, 900px"
-                    />
-                  ) : (
-                    <div className="h-full flex items-center justify-center text-white/60">
-                      No Image
-                    </div>
-                  )}
-                </div>
+          return (
+            <motion.div
+              key={item.id}
+              onClick={() => setActive(i)}
+              className="absolute bottom-0 rounded-2xl overflow-hidden shadow-xl border border-border bg-black cursor-pointer"
+              style={{
+                width: cardWidth,
+                height: cardHeight,
+                zIndex: 100 - abs,
+              }}
+              animate={{
+                x: off * spacing,
+                scale: isActive ? 1 : 0.92,
+                rotateY: off * -8,
+                y: abs * 12,
+              }}
+              transition={{
+                type: "spring",
+                stiffness: 260,
+                damping: 25,
+              }}
+            >
+              <div className="absolute inset-0">
+                {item.imageSrc ? (
+                  <Image
+                    src={item.imageSrc}
+                    alt={item.title}
+                    fill
+                    className={
+                      isMobile ? "object-contain bg-black" : "object-cover"
+                    }
+                    sizes="(max-width: 768px) 100vw, 900px"
+                    priority={i === active}
+                  />
+                ) : (
+                  <div className="h-full flex items-center justify-center text-white/60">
+                    No Image
+                  </div>
+                )}
+              </div>
 
-                <div className="absolute bottom-0 w-full bg-gradient-to-t from-black/80 to-transparent p-4 text-white">
-                  <div className="font-semibold">{item.title}</div>
-                  {item.description && (
-                    <div className="text-sm text-white/70 line-clamp-2">{item.description}</div>
-                  )}
-                </div>
-              </motion.div>
-            );
-          })}
-        </AnimatePresence>
+              <div className="absolute bottom-0 w-full bg-gradient-to-t from-black/80 to-transparent p-4 text-white">
+                <div className="font-semibold">{item.title}</div>
+                {item.description && (
+                  <div className="text-sm text-white/70 line-clamp-2">
+                    {item.description}
+                  </div>
+                )}
+              </div>
+            </motion.div>
+          );
+        })}
       </div>
     </div>
   );

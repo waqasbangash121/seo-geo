@@ -1,12 +1,24 @@
 import Link from "next/link";
 import Image from "next/image";
 import { Check } from "lucide-react";
-import { CardStack } from "@/components/CardStack";
+
 import { Container } from "@/components/ui/container";
 import { Section } from "@/components/ui/section";
 import { createPageMetadata } from "@/config/metadata";
 import TrackLink from "@/components/TrackLink";
 import PricingComponent from "@/components/PricingComponent";
+import dynamic from "next/dynamic";
+
+const CardStack = dynamic(
+  () => import("@/components/CardStack").then((m) => m.CardStack),
+  {
+    // Reserve the same height the stack renders at (cardHeight={420} below)
+    // so the page doesn't jump once the lazy chunk loads.
+    loading: () => (
+      <div className="h-[420px] w-full max-w-3xl animate-pulse rounded-2xl bg-surface" />
+    ),
+  }
+);
 
 export const metadata = createPageMetadata({
   title: "Hyper AI Search – AI-Powered Shopify Search & Product Discovery",
