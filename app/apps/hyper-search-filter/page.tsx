@@ -9,79 +9,77 @@ import TrackLink from "@/components/TrackLink";
 import PricingComponent from "@/components/PricingComponent";
 import dynamic from "next/dynamic";
 
-const CardStack = dynamic(
-  () => import("@/components/CardStack").then((m) => m.CardStack),
-  {
-    // Reserve the same height the stack renders at (cardHeight={420} below)
-    // so the page doesn't jump once the lazy chunk loads.
-    loading: () => (
-      <div className="h-[420px] w-full max-w-3xl animate-pulse rounded-2xl bg-surface" />
-    ),
-  }
-);
+const CardStack = dynamic(() => import("@/components/CardStack").then((m) => m.CardStack), {
+  // Reserve the same height the stack renders at (cardHeight={420} below)
+  // so the page doesn't jump once the lazy chunk loads.
+  loading: () => (
+    <div className="h-[420px] w-full max-w-3xl animate-pulse rounded-2xl bg-surface" />
+  ),
+});
 
 export const metadata = createPageMetadata({
-  title: "Hyper AI Search – AI-Powered Shopify Search & Product Discovery",
+  title: "Hyper AI Search - Semantic Search & Smart Filters for Shopify",
   description:
-    "Hyper AI Search helps Shopify stores improve product discovery using AI-powered semantic search, smart filters, autocomplete, and personalized shopping experiences.",
+    "Replace Shopify's default keyword search with semantic product discovery. Hyper AI Search indexes up to 200,000 products, returns typo-tolerant results, and filters by any metafield - no code required.",
   path: "/apps/hyper-ai-search",
 });
 
 /* DATA */
 const features = [
-  "AI-powered semantic search",
-  "Intent-based product discovery",
-  "Advanced collection filters",
-  "Instant search suggestions",
+  "Vector-based semantic search",
+  "Typo-tolerant product discovery",
+  "Metafield & variant filters",
+  "Real-time Shopify webhook sync",
 ];
 
 const seoBenefits = [
   {
-    icon: "🔍",
-    title: "AI Product Discovery",
-    desc: "Understand customer intent instead of exact keyword matching.",
+    icon: "🧠",
+    title: "Semantic Search",
+    desc: "Understand customer intent instead of matching exact keywords.",
+  },
+  {
+    icon: "🎯",
+    title: "NLP Intent Mapping",
+    desc: "Interpret what shoppers mean, even when they use different terminology.",
   },
   {
     icon: "⚡",
-    title: "Faster Shopping",
-    desc: "Instant results reduce friction and improve browsing speed.",
+    title: "Instant Autocomplete",
+    desc: "Show products, collections, and popular searches as customers type.",
   },
   {
     icon: "📈",
-    title: "Higher Conversions",
-    desc: "Better product discovery leads to more purchases.",
-  },
-  {
-    icon: "🧠",
-    title: "Intent-Based Search",
-    desc: "AI understands meaning behind queries for better results.",
+    title: "Smart Merchandising",
+    desc: "Boost products, pin results, and optimize product discovery for revenue.",
   },
 ];
 
 const benefits = [
   {
     id: 1,
-    title: "Find Products Faster",
-    description: "AI understands customer intent and delivers relevant products instantly.",
+    title: "Vector-Based Semantic Search",
+    description:
+      "Convert search queries and product data into semantic embeddings for highly relevant results.",
     imageSrc: "/search-benefit-1.png",
   },
   {
     id: 2,
-    title: "Reduce Shopping Friction",
-    description: "Smart filters simplify navigation and improve UX.",
+    title: "Advanced Collection Filters",
+    description: "Create filters from metafields, variants, tags, and custom attributes.",
     imageSrc: "/search-benefit-2.png",
   },
   {
     id: 3,
-    title: "Increase Conversions",
-    description: "Better discovery directly improves purchase rate.",
-    imageSrc: "/search-benefit-4.png",
+    title: "Instant Autocomplete",
+    description: "Display products, collections, and popular searches while customers type.",
+    imageSrc: "/search-benefit-3.png",
   },
   {
     id: 4,
-    title: "In-depth Analytics",
-    description: "Gain insights into customer behavior and search patterns.",
-    imageSrc: "/search-benefit-3.png",
+    title: "Smart Merchandising Controls",
+    description: "Pin products, create boost rules, and improve search relevance.",
+    imageSrc: "/search-benefit-4.png",
   },
 ];
 
@@ -135,6 +133,7 @@ const pricingTiers = [
       { text: "Custom CSS", included: true },
       { text: "Unlimited synonyms", included: true },
       { text: "Unlimited filters", included: true },
+      { text: "Zero results reporting", included: true },
       { text: "1-year analytics", included: true },
       { text: "Filter usage analytics", included: true },
       { text: "Export/import data", included: true },
@@ -171,28 +170,28 @@ const pricingTiers = [
 
 const faqs = [
   {
-    q: "What is AI product search?",
-    a: "AI search understands intent instead of relying only on keyword matching.",
+    q: "Does Hyper AI Search replace Shopify's default search?",
+    a: "Yes. Hyper AI Search replaces the storefront search experience while leaving Shopify admin search unchanged.",
   },
   {
-    q: "Does it replace Shopify search?",
-    a: "No. It enhances Shopify search with AI-powered discovery.",
+    q: "How does semantic search handle technical terminology?",
+    a: "The search engine understands intent and supports synonym mapping for industry-specific catalogs.",
   },
   {
-    q: "Can it improve conversions?",
-    a: "Yes. Better discovery improves purchase behavior.",
+    q: "Will the app slow down my storefront?",
+    a: "No. Search requests are processed by Hyper infrastructure and the widget loads asynchronously.",
   },
   {
-    q: "Is it mobile friendly?",
-    a: "Yes. It is fully optimized for mobile commerce.",
+    q: "What happens when customers search for products with no matches?",
+    a: "Professional and Enterprise plans support custom zero-results experiences and reporting.",
   },
   {
-    q: "Can it handle large catalogs?",
-    a: "Yes. It scales for large Shopify stores.",
+    q: "Is there a free trial available?",
+    a: "Yes. Every paid plan includes a free trial before billing begins.",
   },
   {
-    q: "Is coding required to use Hyper AI Search?",
-    a: "No. Hyper AI Search is designed as a plug-and-play Shopify app with an easy setup process.",
+    q: "Does Hyper AI Search work on mobile devices?",
+    a: "Yes. The search experience is fully responsive and optimized for mobile commerce.",
   },
 ];
 
@@ -218,12 +217,14 @@ export default function HyperSearchFilterPage() {
           </div>
 
           <h1 className="mt-6 text-3xl sm:text-4xl lg:text-5xl font-semibold tracking-tight">
-            AI Search & Smart Filters for Shopify Stores
+            Semantic Search and Smart Filters for Shopify Stores That Outgrow Basic Search
           </h1>
 
           <p className="mx-auto mt-6 max-w-3xl text-sm sm:text-base lg:text-lg text-muted-foreground leading-7">
-            Help customers discover products faster with AI-powered semantic search, smart filters,
-            autocomplete, and personalized recommendations.
+            Hyper AI Search replaces Shopify&apos;s native keyword matching with vector-based
+            semantic search. When shoppers search for products using natural language, the app
+            returns relevant results, intelligent suggestions, and advanced filters across catalogs
+            of up to 200,000 products.
           </p>
 
           <div className="mt-8 flex flex-col sm:flex-row items-center justify-center gap-4">
@@ -256,12 +257,15 @@ export default function HyperSearchFilterPage() {
 
               <div className="flex flex-col gap-3">
                 <h2 className="text-3xl sm:text-4xl lg:text-5xl tracking-tight font-semibold">
-                  AI Search Built for Shopify Growth
+                  The Problem That Keyword Search Cannot Fix
                 </h2>
 
                 <p className="text-muted-foreground text-base sm:text-lg leading-7 max-w-xl">
-                  Hyper AI Search improves product discovery using semantic understanding and
-                  intelligent ranking.
+                  Shopify&apos;s default search relies heavily on keyword matching. When customers
+                  search using different terminology than your catalog, they often receive poor
+                  results or no results at all. Hyper AI Search uses NLP-powered intent mapping to
+                  understand what shoppers mean, helping them discover products even when exact
+                  keywords don&apos;t match.
                 </p>
               </div>
 
@@ -373,13 +377,13 @@ export default function HyperSearchFilterPage() {
             </span>
 
             <h2 className="mt-4 text-3xl sm:text-4xl font-semibold tracking-tight">
-              How AI Search Converts Visitors Into Buyers
+              How the Search Index Works
             </h2>
 
             <p className="mt-5 text-muted-foreground leading-7">
-              Hyper AI Search transforms traditional keyword search into intelligent product
-              discovery. Customers can find products faster, explore relevant results, and purchase
-              with fewer steps in their shopping journey.
+              Hyper AI Search builds a semantic search index of your Shopify catalog and keeps it
+              synchronized in real time using Shopify webhooks. Product updates, inventory changes,
+              and new variants are reflected automatically.
             </p>
           </div>
 
@@ -387,24 +391,24 @@ export default function HyperSearchFilterPage() {
             {[
               {
                 step: "01",
-                icon: "🔍",
-                title: "Understand Customer Intent",
+                icon: "📦",
+                title: "Catalog Indexing",
                 description:
-                  "AI analyzes what customers actually mean when they search, going beyond exact keyword matching to deliver relevant results.",
+                  "Hyper AI Search crawls your Shopify catalog and builds a search index within minutes.",
               },
               {
                 step: "02",
-                icon: "⚡",
-                title: "Show Smart Results",
+                icon: "🧠",
+                title: "Semantic Understanding",
                 description:
-                  "Products are ranked intelligently based on relevance, popularity, and customer behavior to surface the best matches instantly.",
+                  "Queries and products are converted into vector embeddings so the engine can understand intent rather than exact wording.",
               },
               {
                 step: "03",
-                icon: "🛒",
-                title: "Drive Conversions",
+                icon: "⚡",
+                title: "Real-Time Sync",
                 description:
-                  "Faster product discovery reduces friction and helps customers reach checkout sooner with more confidence in their purchase decisions.",
+                  "Inventory changes, new products, and product updates sync automatically through Shopify webhooks.",
               },
             ].map((item) => (
               <div
@@ -443,15 +447,14 @@ export default function HyperSearchFilterPage() {
 
           <div className="mt-14 rounded-3xl border border-border bg-surface p-8 sm:p-10">
             <h3 className="text-2xl font-semibold tracking-tight">
-              Why AI Search Matters for Shopify Brands
+              Enterprise Search Capabilities for Shopify
             </h3>
 
             <p className="mt-5 text-muted-foreground leading-8">
-              Intelligent product search combines semantic understanding with smart filtering, helping
-              Shopify merchants increase customer engagement, improve product discovery, and reduce
-              friction during the buying process. By enabling shoppers to find products faster with
-              AI-powered results, businesses can create modern shopping experiences that encourage
-              higher conversion rates and stronger customer retention.
+              Hyper AI Search combines semantic search, advanced filtering, autocomplete,
+              merchandising controls, and analytics in a single Shopify app. The platform supports
+              catalogs up to 200,000 products while maintaining fast response times and accurate
+              product discovery.
             </p>
           </div>
         </Container>
@@ -463,6 +466,29 @@ export default function HyperSearchFilterPage() {
         subtitle="Shopify search and filter plans for growing ecommerce stores. Enhance product discovery with instant search, advanced collection filters, smart merchandising, and optimized shopping experiences."
         tiers={pricingTiers}
       />
+      <Section className="py-20">
+        <Container className="max-w-5xl">
+          <div className="rounded-3xl border border-border bg-surface p-8 sm:p-10">
+            <h2 className="text-3xl font-semibold tracking-tight">Setup and Compatibility</h2>
+
+            <div className="mt-6 space-y-5 text-muted-foreground leading-8">
+              <p>
+                Hyper AI Search works with Shopify Online Store 2.0 themes including Dawn, Refresh,
+                Sense, Spotlight, and most modern Shopify themes.
+              </p>
+
+              <p>Installation uses Shopify app embeds and requires no Liquid code modifications.</p>
+
+              <p>Compatible with PageFly, GemPages, Shogun, and other popular page builders.</p>
+
+              <p>
+                Product updates sync automatically using Shopify webhook APIs, ensuring search
+                results remain accurate as inventory changes.
+              </p>
+            </div>
+          </div>
+        </Container>
+      </Section>
 
       {/* FAQ */}
       <Section className="py-20 lg:py-24">
@@ -518,9 +544,7 @@ export default function HyperSearchFilterPage() {
           </div>
 
           <div className="mt-14 rounded-3xl border border-border bg-gradient-to-br from-primary/5 to-transparent p-8 text-center">
-            <h3 className="text-2xl font-semibold">
-              Why Shopify Merchants Choose Hyper AI Search
-            </h3>
+            <h3 className="text-2xl font-semibold">Why Shopify Merchants Choose Hyper AI Search</h3>
 
             <p className="mt-5 text-muted-foreground leading-8 max-w-3xl mx-auto">
               Hyper AI Search helps Shopify businesses transform traditional product search into
