@@ -62,24 +62,28 @@ const benefits = [
     description:
       "Convert search queries and product data into semantic embeddings for highly relevant results.",
     imageSrc: "/search-benefit-1.png",
+    alt: "Vector-based semantic search for Shopify product discovery",
   },
   {
     id: 2,
     title: "Advanced Collection Filters",
     description: "Create filters from metafields, variants, tags, and custom attributes.",
     imageSrc: "/search-benefit-2.png",
+    alt: "Advanced Shopify collection and metafield filters",
   },
   {
     id: 3,
     title: "Instant Autocomplete",
     description: "Display products, collections, and popular searches while customers type.",
     imageSrc: "/search-benefit-3.png",
+    alt: "Instant autocomplete search suggestions for Shopify stores",
   },
   {
     id: 4,
     title: "Smart Merchandising Controls",
     description: "Pin products, create boost rules, and improve search relevance.",
     imageSrc: "/search-benefit-4.png",
+    alt: "Smart merchandising controls and product ranking optimization",
   },
 ];
 
