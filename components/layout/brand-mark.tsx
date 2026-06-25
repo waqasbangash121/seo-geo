@@ -10,7 +10,7 @@ export function BrandMark({ className }: BrandMarkProps) {
   return (
     <Image
       src="/icon.svg"
-      alt=""
+      alt="hyper apps logo"
       aria-hidden="true"
       className={cn("rounded-[8px]", className)}
       width={40}
