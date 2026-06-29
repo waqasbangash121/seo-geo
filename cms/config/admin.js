@@ -6,6 +6,9 @@ module.exports = () => ({
   },
   apiToken: {
     salt: environment.API_TOKEN_SALT,
+    secrets: {
+      encryptionKey: environment.ENCRYPTION_KEY,
+    },
   },
   transfer: {
     token: {
