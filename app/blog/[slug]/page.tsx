@@ -3,6 +3,7 @@ import Link from "next/link";
 import { ArrowLeft, Clock3 } from "lucide-react";
 import { notFound } from "next/navigation";
 
+import styles from "@/components/blog/article-content.module.css";
 import { Container } from "@/components/ui/container";
 import { Section } from "@/components/ui/section";
 import { siteConfig } from "@/config/site";
@@ -156,7 +157,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
       <Section className="pb-20 sm:pb-24">
         <Container className="max-w-4xl">
           <article className="rounded-[10px] border border-border bg-surface p-6 sm:p-10 lg:p-12">
-            <div className="blog-prose">
+            <div className={styles.prose}>
               <Content />
             </div>
           </article>
