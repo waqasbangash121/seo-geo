@@ -7,6 +7,7 @@ export interface BlogPostInput {
   author: string;
   category: string;
   tags: string[];
+  focusKeyword?: string;
   seoTitle: string;
   seoDescription: string;
   coverImage: string;
