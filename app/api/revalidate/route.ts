@@ -15,9 +15,9 @@ function noIndexJson(body: Record<string, unknown>, status = 200) {
 
 export async function POST(request: NextRequest) {
   const secret = process.env.STRAPI_REVALIDATE_SECRET;
-  const authorization = request.headers.get("authorization");
+  const webhookSecret = request.headers.get("x-cms-webhook-secret");
 
-  if (!secret || authorization !== `Bearer ${secret}`) {
+  if (!secret || webhookSecret !== secret) {
     return noIndexJson({ revalidated: false, message: "Unauthorized" }, 401);
   }
 
