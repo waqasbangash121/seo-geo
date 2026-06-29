@@ -1,0 +1,51 @@
+{
+  "kind": "collectionType",
+  "collectionName": "pages",
+  "info": {
+    "singularName": "page",
+    "pluralName": "pages",
+    "displayName": "Page",
+    "description": "Supporting pages displayed under /pages on the public Hyper website."
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "title": {
+      "type": "string",
+      "required": true,
+      "maxLength": 120,
+      "description": "Clear page title shown as the main public heading."
+    },
+    "slug": {
+      "type": "uid",
+      "targetField": "title",
+      "required": true,
+      "description": "Unique URL segment. Public URL will be /pages/your-slug."
+    },
+    "intro": {
+      "type": "text",
+      "maxLength": 320,
+      "description": "Optional introduction shown below the page title and used as metadata fallback."
+    },
+    "content": {
+      "type": "blocks",
+      "required": true,
+      "description": "Main page content. Use headings in a logical order and write for readers first."
+    },
+    "heroImage": {
+      "type": "media",
+      "multiple": false,
+      "required": false,
+      "allowedTypes": ["images"],
+      "description": "Optional image shown below the page introduction."
+    },
+    "seo": {
+      "type": "component",
+      "component": "shared.seo",
+      "repeatable": false,
+      "required": false
+    }
+  }
+}
