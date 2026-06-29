@@ -1,0 +1,51 @@
+{
+  "collectionName": "components_shared_seos",
+  "info": {
+    "displayName": "SEO",
+    "icon": "search",
+    "description": "Search, canonical, social sharing, and structured-data settings for this entry."
+  },
+  "options": {},
+  "attributes": {
+    "metaTitle": {
+      "type": "string",
+      "maxLength": 60,
+      "description": "Title shown in search results. Aim for 50–60 characters."
+    },
+    "metaDescription": {
+      "type": "text",
+      "maxLength": 160,
+      "description": "Summary shown in search results. Aim for 150–160 characters."
+    },
+    "canonicalUrl": {
+      "type": "string",
+      "description": "Optional preferred absolute URL, for example https://www.niagarat.com/blog/example-post."
+    },
+    "openGraphTitle": {
+      "type": "string",
+      "maxLength": 95,
+      "description": "Optional title used when this page is shared on social media."
+    },
+    "openGraphDescription": {
+      "type": "text",
+      "maxLength": 200,
+      "description": "Optional social sharing description. Aim for 110–200 characters."
+    },
+    "openGraphImage": {
+      "type": "media",
+      "multiple": false,
+      "required": false,
+      "allowedTypes": ["images"],
+      "description": "Social sharing image. Recommended size: 1200 × 630 pixels."
+    },
+    "enableArticleSchema": {
+      "type": "boolean",
+      "default": false,
+      "description": "For blog posts only: automatically create Article schema from the entry."
+    },
+    "jsonLd": {
+      "type": "json",
+      "description": "Optional valid JSON-LD object. Do not paste script tags. Use only when custom schema is needed."
+    }
+  }
+}
