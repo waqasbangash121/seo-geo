@@ -1,0 +1,62 @@
+{
+  "kind": "collectionType",
+  "collectionName": "blog_posts",
+  "info": {
+    "singularName": "blog-post",
+    "pluralName": "blog-posts",
+    "displayName": "Blog Post",
+    "description": "Published articles displayed on the public Hyper Blog."
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "title": {
+      "type": "string",
+      "required": true,
+      "maxLength": 120,
+      "description": "Clear article title. Keep it useful for readers and search engines."
+    },
+    "slug": {
+      "type": "uid",
+      "targetField": "title",
+      "required": true,
+      "description": "Unique URL segment. Generated from the title; edit only when needed."
+    },
+    "excerpt": {
+      "type": "text",
+      "required": true,
+      "maxLength": 320,
+      "description": "Short article summary used in blog cards and as a metadata fallback."
+    },
+    "content": {
+      "type": "blocks",
+      "required": true,
+      "description": "Main article content. Use headings in a logical order and write for readers first."
+    },
+    "coverImage": {
+      "type": "media",
+      "multiple": false,
+      "required": false,
+      "allowedTypes": ["images"],
+      "description": "Optional article cover image displayed on the blog index and article page."
+    },
+    "authorName": {
+      "type": "string",
+      "maxLength": 80,
+      "description": "Optional byline shown on the public article."
+    },
+    "category": {
+      "type": "string",
+      "maxLength": 60,
+      "description": "Optional topic label, for example AI Commerce or Shopify Growth."
+    },
+    "seo": {
+      "type": "component",
+      "component": "shared.seo",
+      "repeatable": false,
+      "required": false
+    }
+  }
+}
