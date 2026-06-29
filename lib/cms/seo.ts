@@ -102,16 +102,12 @@ export function createBlogPostJsonLd(post: BlogPost): JsonObject | null {
 
   const canonical = getCanonicalUrl(`/blog/${post.slug}`, post.seo?.canonicalUrl);
   const image = getOpenGraphImage(post.seo, post.coverImage);
-
-  return {
+  const jsonLd: JsonObject = {
     "@context": "https://schema.org",
     "@type": "Article",
     headline: post.title,
     description: post.seo?.metaDescription?.trim() || post.excerpt || siteConfig.description,
     mainEntityOfPage: canonical,
-    datePublished: post.publishedAt ?? undefined,
-    dateModified: post.updatedAt ?? post.publishedAt ?? undefined,
-    image: image ? [image] : undefined,
     author: {
       "@type": "Organization",
       name: post.authorName?.trim() || siteConfig.name,
@@ -122,6 +118,20 @@ export function createBlogPostJsonLd(post: BlogPost): JsonObject | null {
       url: siteConfig.url,
     },
   };
+
+  if (post.publishedAt) {
+    jsonLd.datePublished = post.publishedAt;
+  }
+
+  if (post.updatedAt || post.publishedAt) {
+    jsonLd.dateModified = post.updatedAt ?? post.publishedAt ?? "";
+  }
+
+  if (image) {
+    jsonLd.image = [image];
+  }
+
+  return jsonLd;
 }
 
 export function createCmsPageJsonLd(page: CmsPage): JsonObject | null {
