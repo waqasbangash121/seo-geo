@@ -2,14 +2,26 @@ import { revalidatePath } from "next/cache";
 import { NextRequest, NextResponse } from "next/server";
 
 const CMS_MODELS = new Set(["blog-post", "page", "api::blog-post.blog-post", "api::page.page"]);
+const NO_INDEX_HEADERS = {
+  "Cache-Control": "no-store",
+  "X-Robots-Tag": "noindex, nofollow, noarchive",
+};
 
 function noIndexJson(body: Record<string, unknown>, status = 200) {
   return NextResponse.json(body, {
     status,
-    headers: {
-      "Cache-Control": "no-store",
-      "X-Robots-Tag": "noindex, nofollow, noarchive",
-    },
+    headers: NO_INDEX_HEADERS,
+  });
+}
+
+export function GET() {
+  return noIndexJson({ message: "This endpoint accepts Strapi webhook POST requests only." }, 405);
+}
+
+export function HEAD() {
+  return new NextResponse(null, {
+    status: 405,
+    headers: NO_INDEX_HEADERS,
   });
 }
 
