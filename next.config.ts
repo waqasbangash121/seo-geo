@@ -20,7 +20,7 @@ const nextConfig: NextConfig = {
     return [
       {
         source: "/api/admin/blogs/:slug",
-        destination: "/api/admin/blogs/update",
+        destination: "/api/admin/blogs/update?currentSlug=:slug",
       },
     ];
   },
