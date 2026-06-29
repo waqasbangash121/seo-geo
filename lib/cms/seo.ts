@@ -11,6 +11,7 @@ type CmsSeoContent = {
   path: string;
   seo?: SeoFields | null;
   fallbackImage?: StrapiMedia | null;
+  openGraphType?: "article" | "website";
 };
 
 function absoluteSiteUrl(pathOrUrl: string) {
@@ -44,7 +45,7 @@ export function createCmsMetadata(content: CmsSeoContent): Metadata {
       canonical,
     },
     openGraph: {
-      type: "article",
+      type: content.openGraphType ?? "website",
       url: canonical,
       title: openGraphTitle,
       description: openGraphDescription,
