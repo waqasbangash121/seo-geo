@@ -16,9 +16,8 @@ export async function POST(request: Request) {
   if (!sameOrigin(request)) return NextResponse.json({ error: "Invalid request origin." }, { status: 403 });
 
   try {
-    const payload = (await request.json()) as { article?: unknown; currentSlug?: string };
-    const article = parseBlogPostInput(payload.article);
-    const commit = await saveRemotePost(article, payload.currentSlug);
+    const article = parseBlogPostInput(await request.json());
+    const commit = await saveRemotePost(article);
     return NextResponse.json({ slug: article.slug, commitUrl: githubCommitUrl(commit.sha) });
   } catch (error) {
     const message = error instanceof Error ? error.message : "The article could not be saved.";
