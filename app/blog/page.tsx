@@ -1,8 +1,10 @@
 import Link from "next/link";
 
+import { BlogCard } from "@/components/cms/blog-card";
 import { Container } from "@/components/ui/container";
 import { Section } from "@/components/ui/section";
 import { createPageMetadata } from "@/config/metadata";
+import { listPublishedBlogPosts } from "@/lib/cms/queries";
 
 export const metadata = createPageMetadata({
   title: "Hyper Blog | AI Shopify & Ecommerce Insights",
@@ -10,6 +12,8 @@ export const metadata = createPageMetadata({
     "Explore the Hyper Blog for expert insights on AI for Shopify, ecommerce growth, product discovery, AI chatbots, customer experience, shoppable videos, and conversion optimization.",
   path: "/blog",
 });
+
+export const dynamic = "force-dynamic";
 
 const categories = [
   "AI Commerce",
@@ -43,7 +47,9 @@ const featuredTopics = [
   },
 ];
 
-export default function BlogPage() {
+export default async function BlogPage() {
+  const posts = await listPublishedBlogPosts();
+
   return (
     <>
       <Section className="pb-12 pt-20 sm:pt-28 lg:pt-32">
@@ -138,26 +144,45 @@ export default function BlogPage() {
         </Container>
       </Section>
 
-      <Section className="pb-12">
-        <Container className="max-w-5xl">
-          <div className="rounded-[10px] border border-dashed border-border bg-surface p-10 text-center">
-            <p className="text-sm font-medium uppercase tracking-[0.35em] text-muted-foreground">
-              Coming Soon
-            </p>
+      {posts.length > 0 ? (
+        <Section className="pb-12">
+          <Container>
+            <div className="text-center">
+              <p className="text-sm font-medium uppercase tracking-[0.35em] text-muted-foreground">
+                Latest from Hyper
+              </p>
+              <h2 className="mt-3 text-3xl font-semibold tracking-tight">Latest Articles and Shopify Guides</h2>
+            </div>
 
-            <h2 className="mt-4 text-3xl font-semibold tracking-tight">
-              Latest Articles and Shopify Guides
-            </h2>
+            <div className="mt-8 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+              {posts.map((post) => (
+                <BlogCard key={post.documentId} post={post} />
+              ))}
+            </div>
+          </Container>
+        </Section>
+      ) : (
+        <Section className="pb-12">
+          <Container className="max-w-5xl">
+            <div className="rounded-[10px] border border-dashed border-border bg-surface p-10 text-center">
+              <p className="text-sm font-medium uppercase tracking-[0.35em] text-muted-foreground">
+                Coming Soon
+              </p>
 
-            <p className="mx-auto mt-6 max-w-3xl text-lg leading-8 text-muted-foreground">
-              Were building a growing library of practical ecommerce resources covering AI commerce,
-              Shopify growth, customer experience, product discovery, and conversion optimization.
-              Check back soon for in-depth guides, tutorials, and product updates from the Hyper
-              team.
-            </p>
-          </div>
-        </Container>
-      </Section>
+              <h2 className="mt-4 text-3xl font-semibold tracking-tight">
+                Latest Articles and Shopify Guides
+              </h2>
+
+              <p className="mx-auto mt-6 max-w-3xl text-lg leading-8 text-muted-foreground">
+                Were building a growing library of practical ecommerce resources covering AI commerce,
+                Shopify growth, customer experience, product discovery, and conversion optimization.
+                Check back soon for in-depth guides, tutorials, and product updates from the Hyper
+                team.
+              </p>
+            </div>
+          </Container>
+        </Section>
+      )}
 
       <Section className="pb-20 sm:pb-24">
         <Container>
