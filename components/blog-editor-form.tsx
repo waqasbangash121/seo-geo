@@ -3,7 +3,13 @@
 import { useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
 
-import { BlogAuditPanel } from "@/components/blog-audit-panel";
+import {
+  BlogAuditFeedback,
+  BlogAuditPanel,
+  BlogInternalLinkSuggestions,
+  BlogSiteAuditResults,
+  type BlogAuditResult,
+} from "@/components/blog-audit-panel";
 import type { BlogPostInput } from "@/lib/blog-admin-types";
 
 type BlogEditorFormProps = {
@@ -48,6 +54,7 @@ export function BlogEditorForm({ initialPost, originalSlug }: BlogEditorFormProp
   const [saving, setSaving] = useState<"draft" | "publish" | null>(null);
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
+  const [auditResult, setAuditResult] = useState<BlogAuditResult | null>(null);
 
   const publicUrl = useMemo(() => `/blog/${post.slug || "your-article-slug"}`, [post.slug]);
   const auditArticle = useMemo<BlogPostInput>(
@@ -60,6 +67,17 @@ export function BlogEditorForm({ initialPost, originalSlug }: BlogEditorFormProp
     }),
     [post, tagsText],
   );
+  const auditChecks = useMemo(
+    () => new Map((auditResult?.article.checks ?? []).map((check) => [check.id, check])),
+    [auditResult],
+  );
+
+  function feedbackFor(...ids: string[]) {
+    return ids.flatMap((id) => {
+      const check = auditChecks.get(id);
+      return check ? [check] : [];
+    });
+  }
 
   function update<K extends keyof BlogPostInput>(key: K, value: BlogPostInput[K]) {
     setPost((current) => ({ ...current, [key]: value }));
@@ -143,6 +161,7 @@ export function BlogEditorForm({ initialPost, originalSlug }: BlogEditorFormProp
                 placeholder="How AI Search Improves Shopify Product Discovery"
               />
             </label>
+            <BlogAuditFeedback checks={feedbackFor("title")} />
 
             <div className="grid gap-5 sm:grid-cols-[minmax(0,1fr)_auto] sm:items-end">
               <label className="grid gap-2 text-sm font-medium">
@@ -206,6 +225,7 @@ export function BlogEditorForm({ initialPost, originalSlug }: BlogEditorFormProp
               />
               <span className="text-xs font-normal text-muted-foreground">Separate tags with commas. Maximum 10 tags.</span>
             </label>
+            <BlogAuditFeedback checks={feedbackFor("tags")} />
 
             <label className="grid gap-2 text-sm font-medium">
               Cover image path or URL
@@ -216,6 +236,7 @@ export function BlogEditorForm({ initialPost, originalSlug }: BlogEditorFormProp
                 placeholder="/images/blog/ai-search.jpg or https://..."
               />
             </label>
+            <BlogAuditFeedback checks={feedbackFor("cover-image")} />
 
             <label className="grid gap-2 text-sm font-medium">
               Article content
@@ -226,6 +247,8 @@ export function BlogEditorForm({ initialPost, originalSlug }: BlogEditorFormProp
                 spellCheck={false}
               />
             </label>
+            <BlogAuditFeedback checks={feedbackFor("word-count", "heading-structure", "internal-links")} />
+            <BlogInternalLinkSuggestions links={auditResult?.site.suggestedInternalLinks} />
           </div>
         </section>
 
@@ -247,6 +270,7 @@ export function BlogEditorForm({ initialPost, originalSlug }: BlogEditorFormProp
               />
               <span className="text-xs font-normal text-muted-foreground">{post.seoTitle.length}/70 characters</span>
             </label>
+            <BlogAuditFeedback checks={feedbackFor("seo-title")} />
 
             <label className="grid gap-2 text-sm font-medium">
               SEO description
@@ -259,6 +283,7 @@ export function BlogEditorForm({ initialPost, originalSlug }: BlogEditorFormProp
               />
               <span className="text-xs font-normal text-muted-foreground">{post.seoDescription.length}/180 characters</span>
             </label>
+            <BlogAuditFeedback checks={feedbackFor("seo-description")} />
 
             <div className="rounded-lg border border-border bg-background p-4">
               <p className="text-xs font-medium uppercase tracking-[0.16em] text-muted-foreground">Search preview</p>
@@ -268,6 +293,8 @@ export function BlogEditorForm({ initialPost, originalSlug }: BlogEditorFormProp
             </div>
           </div>
         </section>
+
+        <BlogSiteAuditResults result={auditResult} />
       </div>
 
       <aside className="h-fit space-y-4 lg:sticky lg:top-6">
@@ -296,7 +323,7 @@ export function BlogEditorForm({ initialPost, originalSlug }: BlogEditorFormProp
           </div>
         </div>
 
-        <BlogAuditPanel article={auditArticle} />
+        <BlogAuditPanel article={auditArticle} result={auditResult} onResult={setAuditResult} />
 
         {error ? <p className="rounded-lg border border-red-500/40 bg-red-500/10 p-4 text-sm text-red-700 dark:text-red-300">{error}</p> : null}
         {success ? <p className="rounded-lg border border-emerald-500/40 bg-emerald-500/10 p-4 text-sm text-emerald-800 dark:text-emerald-200">{success}</p> : null}
