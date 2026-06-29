@@ -1,4 +1,4 @@
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 
 import {
   createEditorIdentity,
@@ -24,7 +24,7 @@ function loginError(request: Request, reason: string) {
   return NextResponse.redirect(url);
 }
 
-export async function GET(request: Request) {
+export async function GET(request: NextRequest) {
   const requestUrl = new URL(request.url);
   const code = requestUrl.searchParams.get("code");
   const state = requestUrl.searchParams.get("state");
@@ -40,11 +40,18 @@ export async function GET(request: Request) {
     return loginError(request, "invalid-sign-in-request");
   }
 
-  const callbackUrl = process.env.ADMIN_GITHUB_CALLBACK_URL || new URL("/api/admin/auth/callback", request.url).toString();
+  const callbackUrl =
+    process.env.ADMIN_GITHUB_CALLBACK_URL ||
+    new URL("/api/admin/auth/callback", request.url).toString();
   const tokenResponse = await fetch("https://github.com/login/oauth/access_token", {
     method: "POST",
     headers: { Accept: "application/json", "Content-Type": "application/json" },
-    body: JSON.stringify({ client_id: clientId, client_secret: clientSecret, code, redirect_uri: callbackUrl }),
+    body: JSON.stringify({
+      client_id: clientId,
+      client_secret: clientSecret,
+      code,
+      redirect_uri: callbackUrl,
+    }),
     cache: "no-store",
   });
 
