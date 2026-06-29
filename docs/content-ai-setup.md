@@ -7,9 +7,11 @@ The Content Studio uses a server-only AI configuration. It is separate from GitH
 Add these locally in `.env.local` and in Vercel for the environments where you want generation enabled:
 
 ```env
-CONTENT_AI_API_KEY=your_provider_key
-CONTENT_AI_MODEL=your_model_name
+CONTENT_AI_API_KEY=your_openai_api_key
+CONTENT_AI_MODEL=gpt-5.4-mini
 ```
+
+`gpt-5.4-mini` is the recommended starting value for this writing workflow. You can switch `CONTENT_AI_MODEL` later without changing application code.
 
 Do not prefix either variable with `NEXT_PUBLIC_`. They must never be exposed to the browser, committed to GitHub, or pasted into content fields.
 
