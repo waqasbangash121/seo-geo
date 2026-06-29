@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
-import Script from "next/script";
 import { notFound } from "next/navigation";
+import Script from "next/script";
 
 import { BlocksRenderer } from "@/components/cms/blocks-renderer";
 import { Container } from "@/components/ui/container";
@@ -42,6 +42,7 @@ export async function generateMetadata({ params }: BlogPostPageProps): Promise<M
     path: `/blog/${post.slug}`,
     seo: post.seo,
     fallbackImage: post.coverImage,
+    openGraphType: "article",
   });
 }
 
