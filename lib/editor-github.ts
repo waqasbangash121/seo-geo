@@ -9,6 +9,19 @@ import {
   serializeMdxPost,
 } from "@/lib/blog-admin";
 import type { BlogPostInput, RemoteBlogPost } from "@/lib/blog-admin-types";
+import {
+  ManagedContentInputError,
+  contentDirectory,
+  contentRegistryPath,
+  createManagedContentRegistry,
+  parseManagedContent,
+  serializeManagedContent,
+} from "@/lib/content-admin";
+import type {
+  ManagedContentInput,
+  ManagedContentType,
+  RemoteManagedContent,
+} from "@/lib/content-admin-types";
 
 type GitHubAppConfig = {
   appId: string;
@@ -30,6 +43,7 @@ type GitHubFile = {
 type GitHubRef = { object: { sha: string } };
 type GitHubCommit = { tree: { sha: string } };
 type GitHubToken = { token: string; expires_at: string };
+type FileChange = { path: string; content?: string };
 
 let cachedToken: { value: string; expiresAt: number } | null = null;
 
@@ -77,7 +91,7 @@ async function installationToken(config: GitHubAppConfig): Promise<string> {
       headers: {
         Accept: "application/vnd.github+json",
         Authorization: `Bearer ${appJwt(config)}`,
-        "User-Agent": "Hyper-Blog-Admin",
+        "User-Agent": "Hyper-Content-Studio",
         "X-GitHub-Api-Version": "2022-11-28",
       },
       cache: "no-store",
@@ -102,7 +116,7 @@ async function githubRequest<T>(path: string, options: RequestInit = {}): Promis
       Accept: "application/vnd.github+json",
       Authorization: `Bearer ${token}`,
       "Content-Type": "application/json",
-      "User-Agent": "Hyper-Blog-Admin",
+      "User-Agent": "Hyper-Content-Studio",
       "X-GitHub-Api-Version": "2022-11-28",
       ...options.headers,
     },
@@ -131,6 +145,14 @@ function decodeFile(file: GitHubFile): string {
   return Buffer.from(file.content.replace(/\n/g, ""), "base64").toString("utf8");
 }
 
+export async function readRepositoryFile(path: string): Promise<string> {
+  const config = configuration();
+  const file = await githubRequest<GitHubFile>(
+    `${repositoryPath(`/contents/${path}`)}?ref=${encodeURIComponent(config.branch)}`,
+  );
+  return decodeFile(file);
+}
+
 export async function listRemotePosts(): Promise<RemoteBlogPost[]> {
   const config = configuration();
   const entries = await githubRequest<GitHubFile[]>(
@@ -149,14 +171,6 @@ export async function listRemotePosts(): Promise<RemoteBlogPost[]> {
   return posts.sort((left, right) => new Date(right.publishedAt).getTime() - new Date(left.publishedAt).getTime());
 }
 
-export async function readRepositoryFile(path: string): Promise<string> {
-  const config = configuration();
-  const file = await githubRequest<GitHubFile>(
-    `${repositoryPath(`/contents/${path}`)}?ref=${encodeURIComponent(config.branch)}`,
-  );
-  return decodeFile(file);
-}
-
 export async function getRemotePost(slug: string): Promise<RemoteBlogPost | null> {
   try {
     const sourcePath = `content/blog/${slug}.mdx`;
@@ -169,7 +183,40 @@ export async function getRemotePost(slug: string): Promise<RemoteBlogPost | null
   }
 }
 
-type FileChange = { path: string; content?: string };
+export async function listRemoteManagedContent(type: ManagedContentType): Promise<RemoteManagedContent[]> {
+  const config = configuration();
+  const directory = contentDirectory(type);
+
+  const entries = await githubRequest<GitHubFile[]>(
+    `${repositoryPath(`/contents/${directory}`)}?ref=${encodeURIComponent(config.branch)}`,
+  );
+  const files = entries.filter((entry) => entry.type === "file" && entry.name.endsWith(".mdx"));
+
+  const items = await Promise.all(
+    files.map(async (file) => {
+      const source = await readRepositoryFile(file.path);
+      const item = parseManagedContent(source, type);
+      return { ...item, sourcePath: file.path } satisfies RemoteManagedContent;
+    }),
+  );
+
+  return items.sort((left, right) => new Date(right.publishedAt).getTime() - new Date(left.publishedAt).getTime());
+}
+
+export async function getRemoteManagedContent(
+  type: ManagedContentType,
+  slug: string,
+): Promise<RemoteManagedContent | null> {
+  try {
+    const sourcePath = `${contentDirectory(type)}/${slug}.mdx`;
+    const source = await readRepositoryFile(sourcePath);
+    return { ...parseManagedContent(source, type), sourcePath };
+  } catch (error) {
+    if (error instanceof ManagedContentInputError) throw error;
+    if (error instanceof Error && error.message.includes("(404)")) return null;
+    throw error;
+  }
+}
 
 async function createCommit(message: string, changes: FileChange[]): Promise<string> {
   const config = configuration();
@@ -242,6 +289,42 @@ export async function saveRemotePost(input: BlogPostInput, originalSlug?: string
   const action = nextPost.draft ? "Save draft" : "Publish";
   const sha = await createCommit(`${action}: ${nextPost.title}`, changes);
   return { sha };
+}
+
+export async function saveRemoteManagedContent(
+  item: ManagedContentInput,
+  originalSlug?: string,
+): Promise<{ sha: string }> {
+  const existingItems = await listRemoteManagedContent(item.type);
+  const existingBySlug = new Map(existingItems.map((entry) => [entry.slug, entry]));
+
+  if (!originalSlug && existingBySlug.has(item.slug)) {
+    throw new ManagedContentInputError(`A ${item.type} with this slug already exists.`);
+  }
+
+  if (originalSlug && !existingBySlug.has(originalSlug)) {
+    throw new ManagedContentInputError("This item no longer exists in the repository.");
+  }
+
+  const today = new Date().toISOString().slice(0, 10);
+  const nextItem = { ...item, updatedAt: today };
+  const items = existingItems
+    .filter((entry) => entry.slug !== originalSlug)
+    .map(({ sourcePath: _sourcePath, ...entry }) => entry);
+  items.push(nextItem);
+
+  const directory = contentDirectory(item.type);
+  const changes: FileChange[] = [
+    { path: `${directory}/${nextItem.slug}.mdx`, content: serializeManagedContent(nextItem) },
+    { path: contentRegistryPath(item.type), content: createManagedContentRegistry(item.type, items) },
+  ];
+
+  if (originalSlug && originalSlug !== nextItem.slug) {
+    changes.push({ path: `${directory}/${originalSlug}.mdx` });
+  }
+
+  const action = nextItem.draft ? "Save draft" : "Publish";
+  return { sha: await createCommit(`${action}: ${nextItem.title}`, changes) };
 }
 
 export function githubCommitUrl(sha: string): string {
