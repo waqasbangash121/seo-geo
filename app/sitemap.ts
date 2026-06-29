@@ -1,6 +1,8 @@
 import type { MetadataRoute } from "next";
+
 import { primaryNavigation } from "@/config/navigation";
 import { siteConfig } from "@/config/site";
+import { getPublishedCmsSitemapEntries } from "@/lib/cms/queries";
 
 const appPages = [
   "/apps",
@@ -10,10 +12,10 @@ const appPages = [
 ];
 
 const legalPages = ["/privacy", "/terms", "/cookie-policy"];
+const standardPages = ["/", "/about", "/services", "/search", "/blog"];
 
-const standardPages = ["/", "/about", "/services", "/search"];
-
-export default function sitemap(): MetadataRoute.Sitemap {
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
+  const cmsEntries = await getPublishedCmsSitemapEntries();
   const routes = [
     ...new Set([
       ...primaryNavigation.map((item) => item.href),
@@ -22,10 +24,9 @@ export default function sitemap(): MetadataRoute.Sitemap {
       ...legalPages,
     ]),
   ];
-
   const now = new Date();
 
-  return routes.map((route) => {
+  const staticEntries = routes.map((route) => {
     const isHome = route === "/";
     const isApp = appPages.includes(route);
     const isLegal = legalPages.includes(route);
@@ -33,10 +34,21 @@ export default function sitemap(): MetadataRoute.Sitemap {
     return {
       url: new URL(route, siteConfig.url).toString(),
       lastModified: now,
-
       changeFrequency: isHome || isApp ? "weekly" : isLegal ? "yearly" : "monthly",
-
       priority: isHome ? 1.0 : isApp ? 0.95 : isLegal ? 0.3 : 0.8,
-    };
+    } satisfies MetadataRoute.Sitemap[number];
   });
+
+  const dynamicEntries = cmsEntries.map((entry) => {
+    const isBlogPost = entry.path.startsWith("/blog/");
+
+    return {
+      url: new URL(entry.path, siteConfig.url).toString(),
+      lastModified: entry.lastModified ? new Date(entry.lastModified) : now,
+      changeFrequency: isBlogPost ? "weekly" : "monthly",
+      priority: isBlogPost ? 0.75 : 0.7,
+    } satisfies MetadataRoute.Sitemap[number];
+  });
+
+  return [...staticEntries, ...dynamicEntries];
 }
