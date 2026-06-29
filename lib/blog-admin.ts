@@ -99,6 +99,7 @@ export function parseBlogPostInput(value: unknown): BlogPostInput {
     author: requiredString(input.author, "Author", 120),
     category: requiredString(input.category, "Category", 80),
     tags: normalizeTags(input.tags),
+    focusKeyword: optionalString(input.focusKeyword, "Focus keyword", 100),
     seoTitle: optionalString(input.seoTitle, "SEO title", 70),
     seoDescription: optionalString(input.seoDescription, "SEO description", 180),
     coverImage: normalizeImage(input.coverImage),
@@ -118,6 +119,7 @@ export function serializeMdxPost(post: BlogPostInput): string {
     author: post.author,
     category: post.category,
     tags: post.tags,
+    focusKeyword: post.focusKeyword || undefined,
     seoTitle: post.seoTitle || undefined,
     seoDescription: post.seoDescription || undefined,
     coverImage: post.coverImage || undefined,
@@ -182,5 +184,5 @@ export function createBlogRegistry(posts: BlogPostInput[]): string {
     })
     .join("\n");
 
-  return `import type { ComponentType } from "react";\n\n${imports}\n\nexport type BlogPostMetadata = {\n  title: string;\n  slug: string;\n  excerpt: string;\n  publishedAt: string;\n  updatedAt?: string;\n  author: string;\n  category: string;\n  tags: string[];\n  seoTitle?: string;\n  seoDescription?: string;\n  coverImage?: string;\n  readingTime: number;\n  draft?: boolean;\n};\n\nexport type BlogPostEntry = BlogPostMetadata & {\n  Content: ComponentType;\n};\n\n${metadata}\n\nexport const blogPostEntries: BlogPostEntry[] = [\n${entries}\n];\n`;
+  return `import type { ComponentType } from "react";\n\n${imports}\n\nexport type BlogPostMetadata = {\n  title: string;\n  slug: string;\n  excerpt: string;\n  publishedAt: string;\n  updatedAt?: string;\n  author: string;\n  category: string;\n  tags: string[];\n  focusKeyword?: string;\n  seoTitle?: string;\n  seoDescription?: string;\n  coverImage?: string;\n  readingTime: number;\n  draft?: boolean;\n};\n\nexport type BlogPostEntry = BlogPostMetadata & {\n  Content: ComponentType;\n};\n\n${metadata}\n\nexport const blogPostEntries: BlogPostEntry[] = [\n${entries}\n];\n`;
 }
