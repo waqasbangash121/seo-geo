@@ -1,0 +1,64 @@
+# Writing a Hyper blog post
+
+Every published blog post is a local `.mdx` file. This keeps content in Git, makes Vercel deployment automatic, and removes the need for a database or CMS server.
+
+## 1. Create the article file
+
+Duplicate the first article and rename it with a lowercase, hyphenated slug:
+
+```text
+content/blog/your-article-slug.mdx
+```
+
+At the top of the new file, update the metadata export:
+
+```mdx
+export const metadata = {
+  title: "Your article title",
+  slug: "your-article-slug",
+  excerpt: "A concise 1–2 sentence summary used on the blog index and in search metadata.",
+  publishedAt: "2026-06-29",
+  updatedAt: "2026-06-29",
+  author: "Hyper Team",
+  category: "AI Commerce",
+  tags: ["Shopify", "AI Commerce"],
+  seoTitle: "Your SEO title",
+  seoDescription: "Your 150–160 character search description.",
+  readingTime: 5,
+  draft: true,
+};
+
+## Your first heading
+
+Write the article here using normal Markdown and optional React components.
+```
+
+The `slug` must exactly match the filename. Keep `draft: true` until the article is ready to publish.
+
+## 2. Register the article
+
+Open `content/blog/posts.ts`, add an import, then add the article to `blogPostEntries`:
+
+```ts
+import YourArticle, { metadata as yourArticleMetadata } from "./your-article-slug.mdx";
+
+export const blogPostEntries: BlogPostEntry[] = [
+  {
+    ...(yourArticleMetadata as BlogPostMetadata),
+    Content: YourArticle,
+  },
+  // Keep the existing posts below this line.
+];
+```
+
+## 3. Publish
+
+Change `draft` to `false`, then commit and push:
+
+```bash
+git add content/blog
+git commit -m "Add your article title"
+git push
+```
+
+Vercel will deploy the article at `/blog/your-article-slug`, add it to the sitemap, and render its canonical URL, social metadata, and Article JSON-LD automatically.
