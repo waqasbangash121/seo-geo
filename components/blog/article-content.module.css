@@ -1,0 +1,137 @@
+.prose {
+  color: hsl(var(--muted-foreground));
+  font-size: 1.0625rem;
+  line-height: 2rem;
+}
+
+.prose > * + * {
+  margin-top: 1.5rem;
+}
+
+.prose h1,
+.prose h2,
+.prose h3,
+.prose h4 {
+  color: hsl(var(--foreground));
+  font-weight: 600;
+  letter-spacing: -0.025em;
+  scroll-margin-top: 7rem;
+}
+
+.prose h1 {
+  font-size: 2.25rem;
+  line-height: 1.2;
+  margin-top: 2.5rem;
+}
+
+.prose h2 {
+  font-size: 1.875rem;
+  line-height: 1.25;
+  margin-top: 3rem;
+}
+
+.prose h3 {
+  font-size: 1.5rem;
+  line-height: 1.35;
+  margin-top: 2.5rem;
+}
+
+.prose h4 {
+  font-size: 1.25rem;
+  line-height: 1.4;
+  margin-top: 2rem;
+}
+
+.prose a {
+  color: hsl(var(--primary));
+  font-weight: 500;
+  text-decoration: underline;
+  text-decoration-color: hsl(var(--primary) / 0.5);
+  text-underline-offset: 0.25rem;
+}
+
+.prose a:hover {
+  color: hsl(var(--foreground));
+}
+
+.prose ul,
+.prose ol {
+  display: grid;
+  gap: 0.75rem;
+  padding-left: 1.5rem;
+}
+
+.prose ul {
+  list-style: disc;
+}
+
+.prose ol {
+  list-style: decimal;
+}
+
+.prose li::marker {
+  color: hsl(var(--primary));
+}
+
+.prose blockquote {
+  border-left: 4px solid hsl(var(--primary));
+  background: hsl(var(--muted) / 0.5);
+  color: hsl(var(--foreground));
+  font-style: italic;
+  padding: 1rem 1.5rem;
+}
+
+.prose hr {
+  border-color: hsl(var(--border));
+  margin-block: 2.5rem;
+}
+
+.prose pre {
+  overflow-x: auto;
+  border: 1px solid hsl(var(--border));
+  border-radius: 0.75rem;
+  background: hsl(var(--background));
+  color: hsl(var(--foreground));
+  font-size: 0.875rem;
+  line-height: 1.5rem;
+  padding: 1.25rem;
+}
+
+.prose :not(pre) > code {
+  border-radius: 0.25rem;
+  background: hsl(var(--muted));
+  color: hsl(var(--foreground));
+  font-family: var(--font-hyper-mono), monospace;
+  font-size: 0.9em;
+  padding: 0.125rem 0.375rem;
+}
+
+.prose img {
+  border: 1px solid hsl(var(--border));
+  border-radius: 0.75rem;
+  height: auto;
+  margin-block: 2rem;
+}
+
+.prose table {
+  border: 1px solid hsl(var(--border));
+  border-collapse: collapse;
+  border-radius: 0.75rem;
+  font-size: 0.875rem;
+  margin-block: 2rem;
+  overflow: hidden;
+  text-align: left;
+  width: 100%;
+}
+
+.prose th {
+  background: hsl(var(--muted));
+  color: hsl(var(--foreground));
+  font-weight: 600;
+  padding: 0.75rem 1rem;
+}
+
+.prose td {
+  border-top: 1px solid hsl(var(--border));
+  padding: 0.75rem 1rem;
+}

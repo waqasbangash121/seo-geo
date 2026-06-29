@@ -1,8 +1,10 @@
 import Link from "next/link";
 
+import { BlogCard } from "@/components/blog/blog-card";
 import { Container } from "@/components/ui/container";
 import { Section } from "@/components/ui/section";
 import { createPageMetadata } from "@/config/metadata";
+import { getAllBlogPosts } from "@/lib/blog";
 
 export const metadata = createPageMetadata({
   title: "Hyper Blog | AI Shopify & Ecommerce Insights",
@@ -44,6 +46,8 @@ const featuredTopics = [
 ];
 
 export default function BlogPage() {
+  const posts = getAllBlogPosts();
+
   return (
     <>
       <Section className="pb-12 pt-20 sm:pt-28 lg:pt-32">
@@ -66,9 +70,9 @@ export default function BlogPage() {
       <Section className="pb-12">
         <Container className="max-w-5xl">
           <div className="rounded-[10px] border border-border bg-surface p-8">
-            <h2 className="text-3xl font-semibold tracking-tight">What Youll Learn</h2>
+            <h2 className="text-3xl font-semibold tracking-tight">What You’ll Learn</h2>
 
-            <p className="mt-4 text-muted-foreground leading-8">
+            <p className="mt-4 leading-8 text-muted-foreground">
               Our articles focus on practical ecommerce strategies, AI-powered commerce
               technologies, Shopify best practices, and emerging trends that help merchants build
               better shopping experiences.
@@ -90,7 +94,40 @@ export default function BlogPage() {
 
       <Section className="pb-12">
         <Container>
-          <h2 className="text-3xl font-semibold tracking-tight text-center">Featured Topics</h2>
+          <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
+            <div>
+              <p className="text-sm font-medium uppercase tracking-[0.35em] text-muted-foreground">
+                Latest articles
+              </p>
+              <h2 className="mt-3 text-3xl font-semibold tracking-tight">Practical guides for modern commerce</h2>
+            </div>
+            <p className="max-w-xl leading-7 text-muted-foreground">
+              Every article is published from this repository as an MDX file, keeping the blog fast,
+              version-controlled, and free to host on Vercel.
+            </p>
+          </div>
+
+          {posts.length > 0 ? (
+            <div className="mt-8 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+              {posts.map((post) => (
+                <BlogCard key={post.slug} post={post} />
+              ))}
+            </div>
+          ) : (
+            <div className="mt-8 rounded-[10px] border border-dashed border-border bg-surface p-10 text-center">
+              <h3 className="text-2xl font-semibold tracking-tight">Articles are on the way</h3>
+              <p className="mx-auto mt-4 max-w-2xl leading-7 text-muted-foreground">
+                Add a published MDX file to the content/blog directory to make the first article
+                appear here.
+              </p>
+            </div>
+          )}
+        </Container>
+      </Section>
+
+      <Section className="pb-12">
+        <Container>
+          <h2 className="text-center text-3xl font-semibold tracking-tight">Featured Topics</h2>
 
           <div className="mt-8 grid gap-6 md:grid-cols-2">
             {featuredTopics.map((topic) => (
@@ -114,7 +151,7 @@ export default function BlogPage() {
               Why Hyper Writes About AI Commerce
             </h2>
 
-            <div className="mt-6 space-y-5 text-muted-foreground leading-8">
+            <div className="mt-6 space-y-5 leading-8 text-muted-foreground">
               <p>
                 Ecommerce is evolving rapidly as artificial intelligence transforms how customers
                 discover products, ask questions, and make purchasing decisions. The Hyper Blog
@@ -129,32 +166,11 @@ export default function BlogPage() {
               </p>
 
               <p>
-                Whether youre launching a new store or scaling an established ecommerce brand, Hyper
-                provides insights that help merchants build better customer experiences and prepare
-                for the next generation of AI-driven shopping.
+                Whether you’re launching a new store or scaling an established ecommerce brand,
+                Hyper provides insights that help merchants build better customer experiences and
+                prepare for the next generation of AI-driven shopping.
               </p>
             </div>
-          </div>
-        </Container>
-      </Section>
-
-      <Section className="pb-12">
-        <Container className="max-w-5xl">
-          <div className="rounded-[10px] border border-dashed border-border bg-surface p-10 text-center">
-            <p className="text-sm font-medium uppercase tracking-[0.35em] text-muted-foreground">
-              Coming Soon
-            </p>
-
-            <h2 className="mt-4 text-3xl font-semibold tracking-tight">
-              Latest Articles and Shopify Guides
-            </h2>
-
-            <p className="mx-auto mt-6 max-w-3xl text-lg leading-8 text-muted-foreground">
-              Were building a growing library of practical ecommerce resources covering AI commerce,
-              Shopify growth, customer experience, product discovery, and conversion optimization.
-              Check back soon for in-depth guides, tutorials, and product updates from the Hyper
-              team.
-            </p>
           </div>
         </Container>
       </Section>
