@@ -56,9 +56,39 @@ type BlogKeywordIdeasProps = {
 };
 
 function statusClass(status: AuditStatus): string {
-  if (status === "pass") return "border-emerald-500/30 bg-emerald-500/10 text-emerald-800 dark:text-emerald-200";
-  if (status === "error") return "border-red-500/30 bg-red-500/10 text-red-800 dark:text-red-200";
-  return "border-amber-500/30 bg-amber-500/10 text-amber-900 dark:text-amber-100";
+  if (status === "pass") {
+    return "border-emerald-600/30 bg-emerald-50 text-emerald-950 shadow-sm dark:border-emerald-400/25 dark:bg-emerald-400/10 dark:text-emerald-100";
+  }
+
+  if (status === "error") {
+    return "border-rose-600/30 bg-rose-50 text-rose-950 shadow-sm dark:border-rose-400/25 dark:bg-rose-400/10 dark:text-rose-100";
+  }
+
+  return "border-amber-600/35 bg-amber-50 text-amber-950 shadow-sm dark:border-amber-400/30 dark:bg-amber-400/10 dark:text-amber-100";
+}
+
+function statusBadgeClass(status: AuditStatus): string {
+  if (status === "pass") {
+    return "bg-emerald-600/10 text-emerald-900 dark:bg-emerald-300/15 dark:text-emerald-100";
+  }
+
+  if (status === "error") {
+    return "bg-rose-600/10 text-rose-900 dark:bg-rose-300/15 dark:text-rose-100";
+  }
+
+  return "bg-amber-600/10 text-amber-900 dark:bg-amber-300/15 dark:text-amber-100";
+}
+
+function potentialClass(label: BlogAuditResult["onPagePotential"]["label"]): string {
+  if (label === "Strong") {
+    return "border-emerald-600/30 bg-emerald-50 text-emerald-950 dark:border-emerald-400/25 dark:bg-emerald-400/10 dark:text-emerald-100";
+  }
+
+  if (label === "Needs work") {
+    return "border-rose-600/30 bg-rose-50 text-rose-950 dark:border-rose-400/25 dark:bg-rose-400/10 dark:text-rose-100";
+  }
+
+  return "border-amber-600/35 bg-amber-50 text-amber-950 dark:border-amber-400/30 dark:bg-amber-400/10 dark:text-amber-100";
 }
 
 function statusLabel(status: AuditStatus): string {
@@ -73,12 +103,14 @@ export function BlogAuditFeedback({ checks }: BlogAuditFeedbackProps) {
   return (
     <div className="grid gap-2" aria-live="polite">
       {checks.map((check) => (
-        <div key={check.id} className={`rounded-lg border px-3 py-2.5 ${statusClass(check.status)}`}>
+        <div key={check.id} className={`rounded-lg border px-3 py-3 ${statusClass(check.status)}`}>
           <div className="flex items-center justify-between gap-3">
-            <p className="text-xs font-semibold">{check.label}</p>
-            <span className="text-xs font-semibold">{statusLabel(check.status)}</span>
+            <p className="text-xs font-bold tracking-[0.01em]">{check.label}</p>
+            <span className={`rounded-full px-2 py-0.5 text-[11px] font-bold ${statusBadgeClass(check.status)}`}>
+              {statusLabel(check.status)}
+            </span>
           </div>
-          <p className="mt-1 text-xs leading-5 opacity-90">{check.message}</p>
+          <p className="mt-1.5 text-xs leading-5 opacity-95">{check.message}</p>
         </div>
       ))}
     </div>
@@ -89,13 +121,13 @@ export function BlogKeywordIdeas({ title, description, ideas }: BlogKeywordIdeas
   if (!ideas.length) return null;
 
   return (
-    <div className="rounded-lg border border-border bg-muted/30 p-4">
-      <p className="text-sm font-semibold">{title}</p>
+    <div className="rounded-lg border border-border bg-surface p-4 shadow-sm">
+      <p className="text-sm font-bold text-foreground">{title}</p>
       <p className="mt-1 text-xs leading-5 text-muted-foreground">{description}</p>
       <div className="mt-3 grid gap-2">
         {ideas.map((idea) => (
-          <div key={idea.phrase} className="rounded-md border border-border bg-background px-3 py-2.5">
-            <p className="text-sm font-medium text-primary">{idea.phrase}</p>
+          <div key={idea.phrase} className="rounded-md border border-border bg-background px-3 py-3 shadow-sm">
+            <p className="text-sm font-semibold text-foreground">{idea.phrase}</p>
             <p className="mt-1 text-xs leading-5 text-muted-foreground">{idea.reason}</p>
           </div>
         ))}
@@ -132,25 +164,25 @@ export function BlogAuditPanel({ article, result, onResult }: BlogAuditPanelProp
   const improvementCount = result?.article.checks.filter((check) => check.status !== "pass").length ?? 0;
 
   return (
-    <section className="rounded-xl border border-border bg-surface p-5">
+    <section className="rounded-xl border border-border bg-surface p-5 shadow-sm">
       <div className="flex items-start justify-between gap-4">
         <div>
-          <h2 className="font-semibold">Content review</h2>
+          <h2 className="font-bold text-foreground">Content review</h2>
           <p className="mt-2 text-sm leading-6 text-muted-foreground">
             Review keyword targeting, metadata, content depth, and answer coverage for this draft.
           </p>
         </div>
         {result ? (
-          <span className="rounded-full border border-border px-2.5 py-1 text-xs font-semibold">
+          <span className={`rounded-full border px-2.5 py-1 text-xs font-bold ${potentialClass(result.onPagePotential.label)}`}>
             {result.onPagePotential.score}/100
           </span>
         ) : null}
       </div>
 
       {result ? (
-        <div className="mt-4 rounded-lg border border-border bg-background p-3">
-          <p className="text-sm font-semibold">{result.onPagePotential.label} on-page potential</p>
-          <p className="mt-1 text-xs leading-5 text-muted-foreground">{result.onPagePotential.summary}</p>
+        <div className={`mt-4 rounded-lg border p-3 ${potentialClass(result.onPagePotential.label)}`}>
+          <p className="text-sm font-bold">{result.onPagePotential.label} on-page potential</p>
+          <p className="mt-1 text-xs leading-5 opacity-95">{result.onPagePotential.summary}</p>
         </div>
       ) : null}
 
@@ -158,7 +190,7 @@ export function BlogAuditPanel({ article, result, onResult }: BlogAuditPanelProp
         type="button"
         onClick={runAudit}
         disabled={running}
-        className="mt-5 w-full rounded-lg border border-border px-4 py-2.5 text-sm font-medium transition-colors hover:bg-muted disabled:cursor-not-allowed disabled:opacity-60"
+        className="mt-5 w-full rounded-lg border border-border bg-background px-4 py-2.5 text-sm font-semibold text-foreground shadow-sm transition-colors hover:bg-muted disabled:cursor-not-allowed disabled:opacity-60"
       >
         {running ? "Reviewing content…" : result ? "Refresh content review" : "Run content review"}
       </button>
@@ -168,7 +200,11 @@ export function BlogAuditPanel({ article, result, onResult }: BlogAuditPanelProp
           {improvementCount ? `${improvementCount} improvement${improvementCount === 1 ? "" : "s"} are highlighted beside the relevant fields.` : "All current draft checks are ready."}
         </p>
       ) : null}
-      {error ? <p className="mt-4 rounded-lg border border-red-500/40 bg-red-500/10 p-3 text-sm text-red-700 dark:text-red-300">{error}</p> : null}
+      {error ? (
+        <p className="mt-4 rounded-lg border border-rose-600/30 bg-rose-50 p-3 text-sm font-medium text-rose-950 dark:border-rose-400/25 dark:bg-rose-400/10 dark:text-rose-100">
+          {error}
+        </p>
+      ) : null}
     </section>
   );
 }
