@@ -1,16 +1,3 @@
-module.exports = {
-  routes: [
-    {
-      method: "GET",
-      path: "/blog-posts",
-      handler: "blog-post.find",
-      config: { auth: false },
-    },
-    {
-      method: "GET",
-      path: "/blog-posts/:documentId",
-      handler: "blog-post.findOne",
-      config: { auth: false },
-    },
-  ],
-};
+const { createCoreRouter } = require("@strapi/strapi").factories;
+
+module.exports = createCoreRouter("api::blog-post.blog-post");
