@@ -1,6 +1,7 @@
 import type { ComponentType } from "react";
 
-import AiSearchArticle, * as aiSearchArticleModule from "./how-ai-search-improves-shopify-product-discovery.mdx";
+import PostHowAiSearchImprovesShopifyProductDiscovery, * as PostHowAiSearchImprovesShopifyProductDiscoveryModule from "./how-ai-search-improves-shopify-product-discovery.mdx";
+import PostTestingNewArticle, * as PostTestingNewArticleModule from "./testing-new-article.mdx";
 
 export type BlogPostMetadata = {
   title: string;
@@ -22,13 +23,10 @@ export type BlogPostEntry = BlogPostMetadata & {
   Content: ComponentType;
 };
 
-const aiSearchArticleMetadata = (
-  aiSearchArticleModule as unknown as { metadata: BlogPostMetadata }
-).metadata;
+const PostHowAiSearchImprovesShopifyProductDiscoveryMetadata = (PostHowAiSearchImprovesShopifyProductDiscoveryModule as unknown as { metadata: BlogPostMetadata }).metadata;
+const PostTestingNewArticleMetadata = (PostTestingNewArticleModule as unknown as { metadata: BlogPostMetadata }).metadata;
 
 export const blogPostEntries: BlogPostEntry[] = [
-  {
-    ...aiSearchArticleMetadata,
-    Content: AiSearchArticle,
-  },
+  { ...PostHowAiSearchImprovesShopifyProductDiscoveryMetadata, Content: PostHowAiSearchImprovesShopifyProductDiscovery },
+  { ...PostTestingNewArticleMetadata, Content: PostTestingNewArticle },
 ];
