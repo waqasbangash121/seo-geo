@@ -26,13 +26,15 @@ function renderInlineChildren(children: RichTextChild[] = [], keyPrefix: string)
     const nestedChildren = renderInlineChildren(child.children, key);
 
     if (child.type === "link" && typeof child.url === "string") {
+      const isExternal = child.url.startsWith("http");
+
       return (
         <a
           className="font-medium text-primary underline underline-offset-4"
           href={child.url}
           key={key}
-          rel={child.url.startsWith("http") ? "noreferrer" : undefined}
-          target={child.url.startsWith("http") ? "_blank" : undefined}
+          rel={isExternal ? "noreferrer" : undefined}
+          target={isExternal ? "_blank" : undefined}
         >
           {nestedChildren}
         </a>
@@ -41,6 +43,14 @@ function renderInlineChildren(children: RichTextChild[] = [], keyPrefix: string)
 
     return nestedChildren;
   });
+}
+
+function renderListItems(children: RichTextChild[] = [], keyPrefix: string) {
+  return children.map((child, index) => (
+    <li key={`${keyPrefix}-${index}`}>
+      {renderInlineChildren(child.children, `${keyPrefix}-${index}`)}
+    </li>
+  ));
 }
 
 export function BlocksRenderer({ blocks }: BlocksRendererProps) {
@@ -53,36 +63,46 @@ export function BlocksRenderer({ blocks }: BlocksRendererProps) {
         if (block.type === "heading") {
           const level = Math.min(Math.max(block.level ?? 2, 2), 6);
           const Heading = `h${level}` as "h2" | "h3" | "h4" | "h5" | "h6";
-          return <Heading className="pt-3 text-2xl font-semibold tracking-tight text-foreground" key={key}>{children}</Heading>;
+
+          return (
+            <Heading className="pt-3 text-2xl font-semibold tracking-tight text-foreground" key={key}>
+              {children}
+            </Heading>
+          );
         }
 
         if (block.type === "list") {
           const List = block.format === "ordered" ? "ol" : "ul";
+          const className =
+            block.format === "ordered" ? "list-decimal space-y-2 pl-6" : "list-disc space-y-2 pl-6";
+
           return (
-            <List className={block.format === "ordered" ? "list-decimal space-y-2 pl-6" : "list-disc space-y-2 pl-6"} key={key}>
-              {children}
+            <List className={className} key={key}>
+              {renderListItems(block.children, key)}
             </List>
           );
         }
 
-        if (block.type === "list-item") {
-          return <li key={key}>{children}</li>;
-        }
-
         if (block.type === "quote") {
-          return <blockquote className="border-l-2 border-primary pl-5 text-lg italic" key={key}>{children}</blockquote>;
+          return (
+            <blockquote className="border-l-2 border-primary pl-5 text-lg italic" key={key}>
+              {children}
+            </blockquote>
+          );
         }
 
         if (block.type === "code") {
-          return <pre className="overflow-x-auto rounded-[10px] border border-border bg-surface p-5 text-sm leading-7 text-foreground" key={key}><code>{children}</code></pre>;
+          return (
+            <pre className="overflow-x-auto rounded-[10px] border border-border bg-surface p-5 text-sm leading-7 text-foreground" key={key}>
+              <code>{children}</code>
+            </pre>
+          );
         }
 
         if (block.type === "image") {
           const imageUrl = toCmsMediaUrl(block.image?.url);
 
           return imageUrl ? (
-            // Strapi hosts editor-managed media on a runtime-configured domain.
-            // A plain image element avoids hard-coding an image host into Next config.
             // eslint-disable-next-line @next/next/no-img-element
             <img
               alt={block.image?.alternativeText || ""}
