@@ -1,0 +1,5 @@
+User-agent: *
+Disallow: /admin/
+Disallow: /api/
+
+# Media files are intentionally allowed because published pages may reference them.
