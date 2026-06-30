@@ -12,7 +12,7 @@ import { homeContent } from "@/content";
 import { toJsonLd } from "@/lib/schema";
 
 export const metadata = createPageMetadata({
-  title: "Shopify Conversion Stack for AI Search and Revenue Growth",
+  title: "Mahbat tinga ka for AI Search and Revenue Growth",
   description: homeContent.hero.description,
   path: "/",
 });
@@ -22,7 +22,7 @@ const siteUrl = "https://niagarat.com";
 const webpageSchema = {
   "@context": "https://schema.org",
   "@type": "WebPage",
-  name: "Shopify Conversion Stack for AI Search and Revenue Growth",
+  name: "Mahbat tinga ka for AI Search and Revenue Growth",
   description: homeContent.hero.description,
   url: siteUrl,
 };
@@ -38,7 +38,7 @@ const organizationSchema = {
 const softwareApplicationSchema = {
   "@context": "https://schema.org",
   "@type": "SoftwareApplication",
-  name: "Shopify Conversion Stack",
+  name: "Mahbat tinga ka",
   applicationCategory: "BusinessApplication",
   operatingSystem: "Web",
   description: homeContent.hero.description,
