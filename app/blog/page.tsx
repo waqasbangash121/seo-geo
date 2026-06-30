@@ -1,4 +1,12 @@
 import Link from "next/link";
+import {
+  ArrowRight,
+  BookOpenText,
+  FileText,
+  Layers3,
+  Scale,
+  Sparkles,
+} from "lucide-react";
 
 import { BlogCard } from "@/components/blog/blog-card";
 import { Container } from "@/components/ui/container";
@@ -22,26 +30,18 @@ const categories = [
   "Conversion Optimization",
 ];
 
-const featuredTopics = [
+const libraryLinks = [
   {
-    title: "AI for Shopify Merchants",
-    description:
-      "Learn how artificial intelligence is changing ecommerce through smarter search, automated support, and personalized shopping experiences.",
+    href: "/comparisons",
+    label: "Comparisons",
+    description: "Evaluate Shopify options with clear decision criteria and practical trade-offs.",
+    Icon: Scale,
   },
   {
-    title: "Product Discovery",
-    description:
-      "Discover strategies that help customers find products faster and improve online shopping journeys.",
-  },
-  {
-    title: "Customer Experience",
-    description:
-      "Explore practical ways to reduce friction, answer customer questions, and build loyalty.",
-  },
-  {
-    title: "Video Commerce",
-    description:
-      "Understand how interactive and shoppable videos can increase engagement and conversions.",
+    href: "/resources",
+    label: "Resources",
+    description: "Use actionable playbooks, guides, and templates built for ecommerce teams.",
+    Icon: FileText,
   },
 ];
 
@@ -50,39 +50,66 @@ export default function BlogPage() {
 
   return (
     <>
-      <Section className="pb-12 pt-20 sm:pt-28 lg:pt-32">
-        <Container className="max-w-5xl text-center">
-          <p className="text-sm font-medium uppercase tracking-[0.35em] text-muted-foreground">
-            Hyper Blog
-          </p>
+      <Section className="pb-10 pt-16 sm:pt-24 lg:pt-28">
+        <Container className="max-w-6xl">
+          <div className="relative overflow-hidden rounded-3xl border border-border bg-surface px-6 py-8 shadow-[0_28px_70px_-46px_hsl(var(--shadow)/0.72)] sm:px-10 sm:py-12">
+            <div className="pointer-events-none absolute -right-24 -top-28 size-72 rounded-full bg-primary/10 blur-3xl" />
+            <div className="pointer-events-none absolute -bottom-28 left-1/3 size-72 rounded-full bg-[hsl(var(--brand-end)/0.1)] blur-3xl" />
 
-          <h1 className="mt-4 type-display">AI Commerce, Shopify Growth, and Ecommerce Insights</h1>
+            <div className="relative grid gap-8 lg:grid-cols-[minmax(0,1fr)_16rem] lg:items-end">
+              <div>
+                <div className="inline-flex items-center gap-2 rounded-full border border-border bg-background/80 px-3 py-1.5 text-xs font-semibold uppercase tracking-[0.16em] text-muted-foreground">
+                  <Sparkles aria-hidden="true" className="size-3.5 text-primary" />
+                  Hyper insights
+                </div>
+                <p className="mt-6 text-sm font-semibold uppercase tracking-[0.22em] text-primary">
+                  The Hyper blog
+                </p>
+                <h1 className="mt-4 max-w-4xl type-display">
+                  Practical ideas for AI-powered ecommerce growth.
+                </h1>
+                <p className="mt-6 max-w-3xl text-base leading-7 text-muted-foreground sm:text-lg sm:leading-8">
+                  Explore clear, useful perspectives on product discovery, customer experience, Shopify growth,
+                  and the systems that help more shoppers find the right next step.
+                </p>
+              </div>
 
-          <p className="mx-auto mt-6 max-w-3xl type-body">
-            The Hyper Blog explores the future of ecommerce through artificial intelligence, product
-            discovery, customer support automation, and interactive shopping experiences. Learn
-            practical strategies that help Shopify merchants improve customer experiences and grow
-            their businesses.
-          </p>
+              <aside className="rounded-2xl border border-border bg-background/75 p-5 backdrop-blur sm:p-6">
+                <BookOpenText aria-hidden="true" className="size-5 text-primary" />
+                <p className="mt-5 text-4xl font-semibold tracking-tight">{posts.length}</p>
+                <p className="mt-1 text-sm font-semibold text-foreground">
+                  published {posts.length === 1 ? "article" : "articles"}
+                </p>
+                <p className="mt-3 text-sm leading-6 text-muted-foreground">
+                  Built for Shopify merchants and ecommerce teams planning their next improvement.
+                </p>
+              </aside>
+            </div>
+          </div>
         </Container>
       </Section>
 
       <Section className="pb-12">
-        <Container className="max-w-5xl">
-          <div className="rounded-[10px] border border-border bg-surface p-8">
-            <h2 className="text-3xl font-semibold tracking-tight">What You’ll Learn</h2>
+        <Container className="max-w-6xl">
+          <div className="rounded-2xl border border-border bg-surface p-5 shadow-sm sm:p-7">
+            <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+              <div>
+                <div className="inline-flex items-center gap-2 text-sm font-semibold text-foreground">
+                  <Layers3 aria-hidden="true" className="size-4 text-primary" />
+                  Browse by topic
+                </div>
+                <p className="mt-1 text-sm leading-6 text-muted-foreground">
+                  Start with the area of ecommerce experience you are improving right now.
+                </p>
+              </div>
+              <span className="text-sm font-medium text-muted-foreground">{categories.length} focus areas</span>
+            </div>
 
-            <p className="mt-4 leading-8 text-muted-foreground">
-              Our articles focus on practical ecommerce strategies, AI-powered commerce
-              technologies, Shopify best practices, and emerging trends that help merchants build
-              better shopping experiences.
-            </p>
-
-            <div className="mt-8 flex flex-wrap gap-3">
+            <div className="mt-5 flex flex-wrap gap-2.5">
               {categories.map((category) => (
                 <span
                   key={category}
-                  className="rounded-full border border-border bg-background px-4 py-2 text-sm text-muted-foreground"
+                  className="rounded-full border border-border bg-background px-3.5 py-2 text-sm font-medium text-foreground transition-colors hover:border-primary/40 hover:text-primary"
                 >
                   {category}
                 </span>
@@ -92,109 +119,75 @@ export default function BlogPage() {
         </Container>
       </Section>
 
-      <Section className="pb-12">
-        <Container>
-          <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
+      <Section className="pb-14 sm:pb-16">
+        <Container className="max-w-6xl">
+          <div className="flex flex-col gap-4 border-b border-border pb-6 sm:flex-row sm:items-end sm:justify-between">
             <div>
-              <p className="text-sm font-medium uppercase tracking-[0.35em] text-muted-foreground">
-                Latest articles
-              </p>
-              <h2 className="mt-3 text-3xl font-semibold tracking-tight">Practical guides for modern commerce</h2>
+              <p className="text-sm font-semibold uppercase tracking-[0.2em] text-primary">Latest reading</p>
+              <h2 className="mt-3 text-3xl font-semibold tracking-tight sm:text-4xl">
+                Ideas you can put to work.
+              </h2>
             </div>
-            <p className="max-w-xl leading-7 text-muted-foreground">
-              Every article is published from this repository as an MDX file, keeping the blog fast,
-              version-controlled, and free to host on Vercel.
+            <p className="max-w-xl text-sm leading-6 text-muted-foreground sm:text-right">
+              Every article is written to help teams make a clearer product, content, or conversion decision.
             </p>
           </div>
 
-          {posts.length > 0 ? (
-            <div className="mt-8 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+          {posts.length ? (
+            <div className="mt-8 grid gap-5 md:grid-cols-2 xl:grid-cols-3">
               {posts.map((post) => (
                 <BlogCard key={post.slug} post={post} />
               ))}
             </div>
           ) : (
-            <div className="mt-8 rounded-[10px] border border-dashed border-border bg-surface p-10 text-center">
-              <h3 className="text-2xl font-semibold tracking-tight">Articles are on the way</h3>
-              <p className="mx-auto mt-4 max-w-2xl leading-7 text-muted-foreground">
-                Add a published MDX file to the content/blog directory to make the first article
-                appear here.
+            <div className="mt-8 grid place-items-center rounded-2xl border border-dashed border-border bg-surface px-6 py-14 text-center">
+              <span className="inline-flex size-12 items-center justify-center rounded-xl border border-border bg-background text-primary">
+                <BookOpenText aria-hidden="true" className="size-6" />
+              </span>
+              <h3 className="mt-5 text-2xl font-semibold tracking-tight">Articles are on the way.</h3>
+              <p className="mt-3 max-w-xl text-sm leading-6 text-muted-foreground">
+                New perspectives on AI commerce, discovery, and conversion will appear here as they are published.
               </p>
             </div>
           )}
         </Container>
       </Section>
 
-      <Section className="pb-12">
-        <Container>
-          <h2 className="text-center text-3xl font-semibold tracking-tight">Featured Topics</h2>
-
-          <div className="mt-8 grid gap-6 md:grid-cols-2">
-            {featuredTopics.map((topic) => (
-              <article
-                key={topic.title}
-                className="rounded-[10px] border border-border bg-surface p-8"
-              >
-                <h3 className="text-2xl font-semibold tracking-tight">{topic.title}</h3>
-
-                <p className="mt-4 text-sm leading-7 text-muted-foreground">{topic.description}</p>
-              </article>
-            ))}
-          </div>
-        </Container>
-      </Section>
-
-      <Section className="pb-12">
-        <Container className="max-w-5xl">
-          <div className="rounded-[10px] border border-border bg-surface p-8 sm:p-10">
-            <h2 className="text-3xl font-semibold tracking-tight">
-              Why Hyper Writes About AI Commerce
-            </h2>
-
-            <div className="mt-6 space-y-5 leading-8 text-muted-foreground">
-              <p>
-                Ecommerce is evolving rapidly as artificial intelligence transforms how customers
-                discover products, ask questions, and make purchasing decisions. The Hyper Blog
-                helps merchants understand these changes and apply practical strategies to their
-                Shopify stores.
-              </p>
-
-              <p>
-                Our content covers AI-powered product search, customer support automation, FAQ
-                optimization, interactive shopping experiences, conversion optimization, and the
-                future of online retail.
-              </p>
-
-              <p>
-                Whether you’re launching a new store or scaling an established ecommerce brand,
-                Hyper provides insights that help merchants build better customer experiences and
-                prepare for the next generation of AI-driven shopping.
+      <Section className="pb-20 sm:pb-24">
+        <Container className="max-w-6xl">
+          <div className="rounded-3xl border border-border bg-surface p-6 shadow-sm sm:p-8">
+            <div className="flex flex-col gap-3 border-b border-border pb-6 sm:flex-row sm:items-end sm:justify-between">
+              <div>
+                <p className="text-sm font-semibold uppercase tracking-[0.2em] text-primary">Keep exploring</p>
+                <h2 className="mt-3 text-2xl font-semibold tracking-tight sm:text-3xl">
+                  More ways to plan your next move.
+                </h2>
+              </div>
+              <p className="max-w-lg text-sm leading-6 text-muted-foreground">
+                Move from ideas to evaluated options and practical implementation support.
               </p>
             </div>
-          </div>
-        </Container>
-      </Section>
 
-      <Section className="pb-20 sm:pb-24">
-        <Container>
-          <div className="rounded-[10px] border border-border bg-surface p-8 text-center sm:p-12">
-            <h2 className="text-3xl font-semibold tracking-tight sm:text-4xl">
-              Explore the Future of AI Commerce
-            </h2>
-
-            <p className="mx-auto mt-6 max-w-3xl text-lg leading-8 text-muted-foreground">
-              Stay up to date with practical Shopify strategies, artificial intelligence trends,
-              ecommerce innovations, and customer experience best practices designed to help
-              merchants build better online stores.
-            </p>
-
-            <div className="mt-8">
-              <Link
-                href="/apps"
-                className="inline-flex items-center justify-center rounded-full bg-[linear-gradient(135deg,hsl(var(--brand-start))_0%,hsl(var(--brand-end))_100%)] px-7 py-3 text-sm font-medium text-primary-foreground shadow-[0_18px_36px_-18px_hsl(var(--primary)/0.7)] transition-transform duration-200 hover:-translate-y-0.5"
-              >
-                Explore Hyper Apps
-              </Link>
+            <div className="mt-6 grid gap-4 md:grid-cols-2">
+              {libraryLinks.map(({ href, label, description, Icon }) => (
+                <Link
+                  key={href}
+                  href={href}
+                  className="group rounded-2xl border border-border bg-background p-5 transition-all hover:-translate-y-0.5 hover:border-primary/40 hover:shadow-[0_18px_42px_-30px_hsl(var(--shadow)/0.75)]"
+                >
+                  <span className="inline-flex size-10 items-center justify-center rounded-xl border border-border bg-surface text-primary">
+                    <Icon aria-hidden="true" className="size-5" />
+                  </span>
+                  <h3 className="mt-5 text-lg font-semibold tracking-tight transition-colors group-hover:text-primary">
+                    {label}
+                  </h3>
+                  <p className="mt-2 text-sm leading-6 text-muted-foreground">{description}</p>
+                  <span className="mt-5 inline-flex items-center gap-2 text-sm font-semibold text-foreground transition-colors group-hover:text-primary">
+                    Explore {label.toLowerCase()}
+                    <ArrowRight aria-hidden="true" className="size-4 transition-transform group-hover:translate-x-1" />
+                  </span>
+                </Link>
+              ))}
             </div>
           </div>
         </Container>
