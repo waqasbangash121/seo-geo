@@ -38,6 +38,11 @@ function today(): string {
   return new Date().toISOString().slice(0, 10);
 }
 
+function endOfTodayUtc(): Date {
+  const now = new Date();
+  return new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate(), 23, 59, 59, 999));
+}
+
 function formatDate(value: Date): string {
   return value.toISOString().slice(0, 10);
 }
@@ -49,6 +54,10 @@ function detailString(details: Record<string, unknown>, key: string): string {
 
 function isManagedType(type: PublicContentType): type is ManagedContentType {
   return type === "comparison" || type === "resource";
+}
+
+function isPubliclyAvailable(item: ContentItem): boolean {
+  return item.status === "published" && Boolean(item.publishedAt) && item.publishedAt! <= endOfTodayUtc();
 }
 
 function toBaseInput(item: ContentItem): Omit<BlogPostInput, "draft" | "content"> {
@@ -147,7 +156,7 @@ async function listStoredItems(
 
   if (publishedOnly) {
     conditions.push(eq(contentItems.status, "published"));
-    conditions.push(lte(contentItems.publishedAt, new Date()));
+    conditions.push(lte(contentItems.publishedAt, endOfTodayUtc()));
   } else {
     conditions.push(ne(contentItems.status, "archived"));
   }
@@ -165,12 +174,7 @@ export async function listPublishedBlogPosts(): Promise<BlogPostInput[]> {
 
 export async function getPublishedBlogPostBySlug(slug: string): Promise<BlogPostInput | null> {
   const item = await getStoredItem("blog", slug);
-
-  if (!item || item.status !== "published" || !item.publishedAt || item.publishedAt > new Date()) {
-    return null;
-  }
-
-  return toBlogPost(item);
+  return item && isPubliclyAvailable(item) ? toBlogPost(item) : null;
 }
 
 export async function listPublishedManagedContent(
@@ -184,12 +188,7 @@ export async function getPublishedManagedContentBySlug(
   slug: string,
 ): Promise<ManagedContentInput | null> {
   const item = await getStoredItem(type, slug);
-
-  if (!item || item.status !== "published" || !item.publishedAt || item.publishedAt > new Date()) {
-    return null;
-  }
-
-  return toManagedContent(item, type);
+  return item && isPubliclyAvailable(item) ? toManagedContent(item, type) : null;
 }
 
 export async function listStudioBlogPosts(): Promise<BlogPostInput[]> {
