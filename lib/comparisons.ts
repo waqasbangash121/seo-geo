@@ -1,11 +1,24 @@
-import { comparisonEntries } from "@/content/comparisons/posts";
+import "server-only";
 
-export function getAllComparisons() {
-  return comparisonEntries.filter((item) => !item.draft);
+import type { ManagedContentInput } from "@/lib/content-admin-types";
+import {
+  getPublishedManagedContentBySlug,
+  listPublishedManagedContent,
+} from "@/lib/content-store";
+
+export type Comparison = ManagedContentInput & {
+  type: "comparison";
+  competitorName: string;
+  decisionSummary: string;
+};
+
+export async function getAllComparisons(): Promise<Comparison[]> {
+  return (await listPublishedManagedContent("comparison")) as Comparison[];
 }
 
-export function getComparisonBySlug(slug: string) {
-  return getAllComparisons().find((item) => item.slug === slug);
+export async function getComparisonBySlug(slug: string): Promise<Comparison | null> {
+  const item = await getPublishedManagedContentBySlug("comparison", slug);
+  return item as Comparison | null;
 }
 
 export function formatComparisonDate(value: string): string {
