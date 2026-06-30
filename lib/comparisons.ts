@@ -4,7 +4,7 @@ import type { ManagedContentInput } from "@/lib/content-admin-types";
 import {
   getPublishedManagedContentBySlug,
   listPublishedManagedContent,
-} from "@/lib/content-store";
+} from "@/lib/public-content-store";
 
 export type Comparison = ManagedContentInput & {
   type: "comparison";
