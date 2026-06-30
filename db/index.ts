@@ -1,13 +1,22 @@
 import "server-only";
 
-import { neon } from "@neondatabase/serverless";
-import { drizzle, type NeonHttpDatabase } from "drizzle-orm/neon-http";
+import { drizzle } from "drizzle-orm/neon-http";
 
-import * as schema from "@/db/schema";
+import {
+  contentItems,
+  contentRevisions,
+  workspaces,
+  workspaceSecrets,
+  workspaceSettings,
+} from "@/db/schema";
 
-type Database = NeonHttpDatabase<typeof schema>;
-
-let database: Database | undefined;
+const databaseSchema = {
+  workspaces,
+  workspaceSettings,
+  workspaceSecrets,
+  contentItems,
+  contentRevisions,
+};
 
 function databaseUrl(): string {
   const value = process.env.DATABASE_URL?.trim();
@@ -18,13 +27,12 @@ function databaseUrl(): string {
   return value;
 }
 
-export function getDb(): Database {
-  if (!database) {
-    database = drizzle({
-      client: neon(databaseUrl()),
-      schema,
-    });
-  }
+function createDatabase() {
+  return drizzle(databaseUrl(), { schema: databaseSchema });
+}
 
-  return database;
+let database: ReturnType<typeof createDatabase> | undefined;
+
+export function getDb() {
+  return (database ??= createDatabase());
 }
