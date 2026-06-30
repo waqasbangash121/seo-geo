@@ -4,7 +4,7 @@ import type { BlogPostInput } from "@/lib/blog-admin-types";
 import {
   getPublishedBlogPostBySlug,
   listPublishedBlogPosts,
-} from "@/lib/content-store";
+} from "@/lib/public-content-store";
 
 export type BlogPost = BlogPostInput;
 
