@@ -1,8 +1,9 @@
 import { NextResponse } from "next/server";
 
 import { ManagedContentInputError, parseManagedContentInput } from "@/lib/content-admin";
+import { revalidateContentRoutes } from "@/lib/content-revalidation";
+import { ContentStoreError, saveManagedContent } from "@/lib/content-store";
 import { currentEditor } from "@/lib/editor-session";
-import { githubCommitUrl, saveRemoteManagedContent } from "@/lib/editor-github";
 
 export const runtime = "nodejs";
 
@@ -22,10 +23,13 @@ export async function PATCH(request: Request, { params }: ComparisonUpdateRouteP
   try {
     const { slug } = await params;
     const item = parseManagedContentInput(await request.json(), "comparison");
-    const commit = await saveRemoteManagedContent(item, slug);
-    return NextResponse.json({ slug: item.slug, commitUrl: githubCommitUrl(commit.sha) });
+    const saved = await saveManagedContent(item, editor.login, slug);
+
+    revalidateContentRoutes("comparison", saved.slug, slug);
+    return NextResponse.json({ slug: saved.slug });
   } catch (error) {
     const message = error instanceof Error ? error.message : "The comparison could not be saved.";
-    return NextResponse.json({ error: message }, { status: error instanceof ManagedContentInputError ? 400 : 500 });
+    const status = error instanceof ManagedContentInputError || error instanceof ContentStoreError ? 400 : 500;
+    return NextResponse.json({ error: message }, { status });
   }
 }
