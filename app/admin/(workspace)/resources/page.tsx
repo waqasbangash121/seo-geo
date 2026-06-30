@@ -6,6 +6,7 @@ import {
   AdminEmptyState,
   AdminMetric,
 } from "@/components/admin/admin-ui";
+import { DeleteContentButton } from "@/components/admin/delete-content-button";
 import { listRemoteManagedContent } from "@/lib/editor-github";
 
 export const dynamic = "force-dynamic";
@@ -78,6 +79,7 @@ export default async function ResourceDashboardPage() {
                 ...(resource.audience ? [`Audience: ${resource.audience}`] : []),
               ]}
               Icon={FileText}
+              secondaryAction={<DeleteContentButton compact type="resource" slug={resource.slug} title={resource.title} redirectTo="/admin/resources" />}
             />
           ))
         ) : (
