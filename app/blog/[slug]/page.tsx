@@ -2,26 +2,28 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { ArrowLeft, Clock3 } from "lucide-react";
 import { notFound } from "next/navigation";
+import ReactMarkdown from "react-markdown";
+import remarkGfm from "remark-gfm";
 
 import styles from "@/components/blog/article-content.module.css";
 import { Container } from "@/components/ui/container";
 import { Section } from "@/components/ui/section";
 import { siteConfig } from "@/config/site";
-import { formatBlogDate, getAllBlogPosts, getBlogPostBySlug } from "@/lib/blog";
+import { formatBlogDate, getBlogPostBySlug } from "@/lib/blog";
 
 type BlogPostPageProps = {
   params: Promise<{ slug: string }>;
 };
 
-export const dynamicParams = false;
+export const revalidate = 60;
 
 export async function generateStaticParams() {
-  return getAllBlogPosts().map((post) => ({ slug: post.slug }));
+  return [];
 }
 
 export async function generateMetadata({ params }: BlogPostPageProps): Promise<Metadata> {
   const { slug } = await params;
-  const post = getBlogPostBySlug(slug);
+  const post = await getBlogPostBySlug(slug);
 
   if (!post) {
     return {
@@ -73,13 +75,12 @@ export async function generateMetadata({ params }: BlogPostPageProps): Promise<M
 
 export default async function BlogPostPage({ params }: BlogPostPageProps) {
   const { slug } = await params;
-  const post = getBlogPostBySlug(slug);
+  const post = await getBlogPostBySlug(slug);
 
   if (!post) {
     notFound();
   }
 
-  const { Content } = post;
   const articleUrl = new URL(`/blog/${post.slug}`, siteConfig.url).toString();
   const articleSchema = {
     "@context": "https://schema.org",
@@ -158,7 +159,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
         <Container className="max-w-4xl">
           <article className="rounded-[10px] border border-border bg-surface p-6 sm:p-10 lg:p-12">
             <div className={styles.prose}>
-              <Content />
+              <ReactMarkdown remarkPlugins={[remarkGfm]}>{post.content}</ReactMarkdown>
             </div>
           </article>
         </Container>

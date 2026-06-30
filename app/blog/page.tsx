@@ -45,8 +45,8 @@ const libraryLinks = [
   },
 ];
 
-export default function BlogPage() {
-  const posts = getAllBlogPosts();
+export default async function BlogPage() {
+  const posts = await getAllBlogPosts();
 
   return (
     <>

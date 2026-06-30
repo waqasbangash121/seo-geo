@@ -48,8 +48,8 @@ const modules = [
 
 const workflow = [
   { label: "Draft", description: "Capture the angle, slug, and core content.", Icon: PencilLine },
-  { label: "Review", description: "Run content checks and improve the page before commit.", Icon: SearchCheck },
-  { label: "Publish", description: "Save to GitHub and let deployment handle the release.", Icon: CheckCircle2 },
+  { label: "Review", description: "Run content checks and improve the page before publishing.", Icon: SearchCheck },
+  { label: "Publish", description: "Save to Neon and refresh public routes immediately.", Icon: CheckCircle2 },
 ];
 
 export default function AdminHomePage() {
@@ -161,7 +161,3 @@ export default function AdminHomePage() {
     </div>
   );
 }
-
-
-
-

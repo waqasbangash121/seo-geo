@@ -1,13 +1,8 @@
 import { NextResponse } from "next/server";
 
-import { BlogInputError } from "@/lib/blog-admin";
-import { ManagedContentInputError } from "@/lib/content-admin";
+import { revalidateContentRoutes } from "@/lib/content-revalidation";
+import { ContentStoreError, deleteStoredContent } from "@/lib/content-store";
 import { currentEditor } from "@/lib/editor-session";
-import {
-  deleteRemoteManagedContent,
-  deleteRemotePost,
-  githubCommitUrl,
-} from "@/lib/editor-github";
 
 export const runtime = "nodejs";
 
@@ -37,18 +32,16 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: "Choose a valid content item to delete." }, { status: 400 });
     }
 
-    const deleted = body.type === "blog"
-      ? await deleteRemotePost(body.slug)
-      : await deleteRemoteManagedContent(body.type, body.slug);
+    const deleted = await deleteStoredContent(body.type, body.slug);
+    revalidateContentRoutes(deleted.type, deleted.slug);
 
     return NextResponse.json({
       deleted: true,
       title: deleted.title,
-      commitUrl: githubCommitUrl(deleted.sha),
     });
   } catch (error) {
     const message = error instanceof Error ? error.message : "The content item could not be deleted.";
-    const status = error instanceof BlogInputError || error instanceof ManagedContentInputError ? 400 : 500;
+    const status = error instanceof ContentStoreError ? 400 : 500;
     return NextResponse.json({ error: message }, { status });
   }
 }

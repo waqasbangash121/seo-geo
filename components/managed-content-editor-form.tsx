@@ -117,7 +117,11 @@ const secondaryButtonClass =
 const primaryButtonClass =
   "inline-flex h-11 items-center justify-center gap-2 rounded-md bg-primary px-4 text-sm font-semibold text-primary-foreground transition-all hover:-translate-y-0.5 disabled:cursor-not-allowed disabled:opacity-60";
 
-export function ManagedContentEditorForm({ type, initialItem, originalSlug }: ManagedContentEditorFormProps) {
+export function ManagedContentEditorForm({
+  type,
+  initialItem,
+  originalSlug,
+}: ManagedContentEditorFormProps) {
   const router = useRouter();
   const labels = labelsFor(type);
   const [item, setItem] = useState<ManagedContentInput>(initialItem ?? createEmptyItem(type));
@@ -194,8 +198,8 @@ export function ManagedContentEditorForm({ type, initialItem, originalSlug }: Ma
       setItem((current) => ({ ...current, ...payload }));
       setSuccess(
         mode === "publish"
-          ? `Published to GitHub. Vercel will deploy the new ${labels.singular} automatically.`
-          : `Draft saved to GitHub. It will remain hidden from the public ${labels.plural} page.`,
+          ? `Published to Neon. The public ${labels.singular} is available now.`
+          : `Draft saved to Neon. It remains hidden from the public ${labels.plural} page.`,
       );
 
       if (result.slug !== originalSlug) {
@@ -203,7 +207,11 @@ export function ManagedContentEditorForm({ type, initialItem, originalSlug }: Ma
       }
       router.refresh();
     } catch (saveError) {
-      setError(saveError instanceof Error ? saveError.message : `The ${labels.singular} could not be saved.`);
+      setError(
+        saveError instanceof Error
+          ? saveError.message
+          : `The ${labels.singular} could not be saved.`,
+      );
     } finally {
       setSaving(null);
     }
@@ -233,12 +241,16 @@ export function ManagedContentEditorForm({ type, initialItem, originalSlug }: Ma
             <h1 className="mt-2 text-3xl font-semibold tracking-tight">
               {originalSlug ? `Edit ${labels.singular}` : `Create ${labels.singular}`}
             </h1>
-            <p className="mt-2 max-w-3xl text-sm leading-6 text-muted-foreground">{moduleDescription}</p>
+            <p className="mt-2 max-w-3xl text-sm leading-6 text-muted-foreground">
+              {moduleDescription}
+            </p>
           </div>
 
           <div className="grid gap-3 sm:grid-cols-3 xl:min-w-[32rem]">
             <div className="rounded-md border border-border bg-background p-3">
-              <p className="text-xs font-semibold uppercase tracking-[0.14em] text-muted-foreground">State</p>
+              <p className="text-xs font-semibold uppercase tracking-[0.14em] text-muted-foreground">
+                State
+              </p>
               <div className="mt-2">
                 <AdminStatusBadge draft={item.draft} />
               </div>
@@ -269,10 +281,13 @@ export function ManagedContentEditorForm({ type, initialItem, originalSlug }: Ma
                 <FileText aria-hidden="true" className="size-5" />
               </span>
               <div>
-                <p className="text-sm font-semibold uppercase tracking-[0.16em] text-muted-foreground">Content brief</p>
+                <p className="text-sm font-semibold uppercase tracking-[0.16em] text-muted-foreground">
+                  Content brief
+                </p>
                 <h2 className="mt-1 text-xl font-semibold tracking-tight">Page details</h2>
                 <p className="mt-2 text-sm leading-6 text-muted-foreground">
-                  Define the title, angle, keyword, URL, and summary before drafting the body content.
+                  Define the title, angle, keyword, URL, and summary before drafting the body
+                  content.
                 </p>
               </div>
             </div>
@@ -285,7 +300,11 @@ export function ManagedContentEditorForm({ type, initialItem, originalSlug }: Ma
                   onChange={(event) => update("title", event.target.value)}
                   className={`${inputClass} text-base`}
                   maxLength={120}
-                  placeholder={type === "comparison" ? "Hyper AI Search vs [Alternative]" : "A practical guide to Shopify product discovery"}
+                  placeholder={
+                    type === "comparison"
+                      ? "Hyper AI Search vs [Alternative]"
+                      : "A practical guide to Shopify product discovery"
+                  }
                 />
               </label>
               <BlogAuditFeedback checks={feedbackFor("title-keyword")} />
@@ -322,11 +341,15 @@ export function ManagedContentEditorForm({ type, initialItem, originalSlug }: Ma
                     Resource type
                     <select
                       value={item.resourceType ?? "Guide"}
-                      onChange={(event) => update("resourceType", event.target.value as ResourceType)}
+                      onChange={(event) =>
+                        update("resourceType", event.target.value as ResourceType)
+                      }
                       className={inputClass}
                     >
                       {resourceTypes.map((resourceType) => (
-                        <option key={resourceType} value={resourceType}>{resourceType}</option>
+                        <option key={resourceType} value={resourceType}>
+                          {resourceType}
+                        </option>
                       ))}
                     </select>
                   </label>
@@ -350,10 +373,15 @@ export function ManagedContentEditorForm({ type, initialItem, originalSlug }: Ma
                   onChange={(event) => update("focusKeyword", event.target.value)}
                   className={inputClass}
                   maxLength={100}
-                  placeholder={type === "comparison" ? "Shopify search app alternatives" : "Shopify product discovery guide"}
+                  placeholder={
+                    type === "comparison"
+                      ? "Shopify search app alternatives"
+                      : "Shopify product discovery guide"
+                  }
                 />
                 <span className="text-xs font-normal leading-5 text-muted-foreground">
-                  Choose one phrase this page should target. It powers the content review and AI suggestions.
+                  Choose one phrase this page should target. It powers the content review and AI
+                  suggestions.
                 </span>
               </label>
               <BlogAuditFeedback checks={feedbackFor("focus-keyword")} />
@@ -370,10 +398,18 @@ export function ManagedContentEditorForm({ type, initialItem, originalSlug }: Ma
                     value={item.slug}
                     onChange={(event) => update("slug", slugFromTitle(event.target.value))}
                     className={inputClass}
-                    placeholder={type === "comparison" ? "hyper-ai-search-vs-alternative" : "shopify-product-discovery-guide"}
+                    placeholder={
+                      type === "comparison"
+                        ? "hyper-ai-search-vs-alternative"
+                        : "shopify-product-discovery-guide"
+                    }
                   />
                 </label>
-                <button type="button" onClick={() => update("slug", slugFromTitle(item.title))} className={secondaryButtonClass}>
+                <button
+                  type="button"
+                  onClick={() => update("slug", slugFromTitle(item.title))}
+                  className={secondaryButtonClass}
+                >
                   <Hash aria-hidden="true" className="size-4" />
                   Generate slug
                 </button>
@@ -394,7 +430,9 @@ export function ManagedContentEditorForm({ type, initialItem, originalSlug }: Ma
                   maxLength={350}
                   placeholder="A clear summary for cards, search previews, and reader expectations."
                 />
-                <span className="text-xs font-normal text-muted-foreground">{item.excerpt.length}/350 characters</span>
+                <span className="text-xs font-normal text-muted-foreground">
+                  {item.excerpt.length}/350 characters
+                </span>
               </label>
               <BlogAuditFeedback checks={feedbackFor("excerpt-keyword")} />
             </div>
@@ -406,27 +444,55 @@ export function ManagedContentEditorForm({ type, initialItem, originalSlug }: Ma
                 <CalendarDays aria-hidden="true" className="size-5" />
               </span>
               <div>
-                <p className="text-sm font-semibold uppercase tracking-[0.16em] text-muted-foreground">Publishing details</p>
-                <h2 className="mt-1 text-xl font-semibold tracking-tight">Ownership and taxonomy</h2>
+                <p className="text-sm font-semibold uppercase tracking-[0.16em] text-muted-foreground">
+                  Publishing details
+                </p>
+                <h2 className="mt-1 text-xl font-semibold tracking-tight">
+                  Ownership and taxonomy
+                </h2>
               </div>
             </div>
 
             <div className="mt-6 grid gap-5 sm:grid-cols-2">
               <label className={fieldLabelClass}>
-                <span className="inline-flex items-center gap-2"><UserRound aria-hidden="true" className="size-4" /> Author</span>
-                <input value={item.author} onChange={(event) => update("author", event.target.value)} className={inputClass} />
+                <span className="inline-flex items-center gap-2">
+                  <UserRound aria-hidden="true" className="size-4" /> Author
+                </span>
+                <input
+                  value={item.author}
+                  onChange={(event) => update("author", event.target.value)}
+                  className={inputClass}
+                />
               </label>
               <label className={fieldLabelClass}>
-                <span className="inline-flex items-center gap-2"><Tag aria-hidden="true" className="size-4" /> Category</span>
-                <input value={item.category} onChange={(event) => update("category", event.target.value)} className={inputClass} />
+                <span className="inline-flex items-center gap-2">
+                  <Tag aria-hidden="true" className="size-4" /> Category
+                </span>
+                <input
+                  value={item.category}
+                  onChange={(event) => update("category", event.target.value)}
+                  className={inputClass}
+                />
               </label>
               <label className={fieldLabelClass}>
                 Publish date
-                <input type="date" value={item.publishedAt} onChange={(event) => update("publishedAt", event.target.value)} className={inputClass} />
+                <input
+                  type="date"
+                  value={item.publishedAt}
+                  onChange={(event) => update("publishedAt", event.target.value)}
+                  className={inputClass}
+                />
               </label>
               <label className={fieldLabelClass}>
                 Reading time (minutes)
-                <input type="number" min="1" max="120" value={item.readingTime} onChange={(event) => update("readingTime", Number(event.target.value))} className={inputClass} />
+                <input
+                  type="number"
+                  min="1"
+                  max="120"
+                  value={item.readingTime}
+                  onChange={(event) => update("readingTime", Number(event.target.value))}
+                  className={inputClass}
+                />
               </label>
             </div>
 
@@ -439,12 +505,16 @@ export function ManagedContentEditorForm({ type, initialItem, originalSlug }: Ma
                   className={inputClass}
                   placeholder="Shopify, Ecommerce, Product Discovery"
                 />
-                <span className="text-xs font-normal text-muted-foreground">Separate tags with commas. Maximum 10 tags.</span>
+                <span className="text-xs font-normal text-muted-foreground">
+                  Separate tags with commas. Maximum 10 tags.
+                </span>
               </label>
               <BlogAuditFeedback checks={feedbackFor("tag-keywords")} />
 
               <label className={fieldLabelClass}>
-                <span className="inline-flex items-center gap-2"><ImageIcon aria-hidden="true" className="size-4" /> Cover image path or URL</span>
+                <span className="inline-flex items-center gap-2">
+                  <ImageIcon aria-hidden="true" className="size-4" /> Cover image path or URL
+                </span>
                 <input
                   value={item.coverImage}
                   onChange={(event) => update("coverImage", event.target.value)}
@@ -458,7 +528,9 @@ export function ManagedContentEditorForm({ type, initialItem, originalSlug }: Ma
           <section className={sectionClass}>
             <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
               <div>
-                <p className="text-sm font-semibold uppercase tracking-[0.16em] text-muted-foreground">Markdown draft</p>
+                <p className="text-sm font-semibold uppercase tracking-[0.16em] text-muted-foreground">
+                  Markdown draft
+                </p>
                 <h2 className="mt-1 text-xl font-semibold tracking-tight">{labels.contentLabel}</h2>
               </div>
               <span className="rounded-md border border-border bg-background px-3 py-1.5 text-xs font-semibold text-muted-foreground">
@@ -476,7 +548,15 @@ export function ManagedContentEditorForm({ type, initialItem, originalSlug }: Ma
               />
             </label>
             <div className="mt-4">
-              <BlogAuditFeedback checks={feedbackFor("content-depth", "content-keyword", "intro-keyword", "heading-coverage", "question-coverage")} />
+              <BlogAuditFeedback
+                checks={feedbackFor(
+                  "content-depth",
+                  "content-keyword",
+                  "intro-keyword",
+                  "heading-coverage",
+                  "question-coverage",
+                )}
+              />
             </div>
             <div className="mt-4">
               <BlogKeywordIdeas
@@ -493,10 +573,13 @@ export function ManagedContentEditorForm({ type, initialItem, originalSlug }: Ma
                 <Globe2 aria-hidden="true" className="size-5" />
               </span>
               <div>
-                <p className="text-sm font-semibold uppercase tracking-[0.16em] text-muted-foreground">Search and social</p>
+                <p className="text-sm font-semibold uppercase tracking-[0.16em] text-muted-foreground">
+                  Search and social
+                </p>
                 <h2 className="mt-1 text-xl font-semibold tracking-tight">SEO preview</h2>
                 <p className="mt-2 text-sm leading-6 text-muted-foreground">
-                  These fields control the document title, meta description, social preview, and structured data for this page.
+                  These fields control the document title, meta description, social preview, and
+                  structured data for this page.
                 </p>
               </div>
             </div>
@@ -511,7 +594,9 @@ export function ManagedContentEditorForm({ type, initialItem, originalSlug }: Ma
                   className={inputClass}
                   placeholder={item.title || "SEO title"}
                 />
-                <span className="text-xs font-normal text-muted-foreground">{item.seoTitle.length}/70 characters</span>
+                <span className="text-xs font-normal text-muted-foreground">
+                  {item.seoTitle.length}/70 characters
+                </span>
               </label>
               <BlogAuditFeedback checks={feedbackFor("seo-title-keyword")} />
 
@@ -524,15 +609,25 @@ export function ManagedContentEditorForm({ type, initialItem, originalSlug }: Ma
                   className={`${textareaClass} min-h-28`}
                   placeholder={item.excerpt || "SEO description"}
                 />
-                <span className="text-xs font-normal text-muted-foreground">{item.seoDescription.length}/180 characters</span>
+                <span className="text-xs font-normal text-muted-foreground">
+                  {item.seoDescription.length}/180 characters
+                </span>
               </label>
               <BlogAuditFeedback checks={feedbackFor("seo-description-keyword")} />
 
               <div className="rounded-md border border-border bg-background p-4">
-                <p className="text-xs font-semibold uppercase tracking-[0.16em] text-muted-foreground">Search preview</p>
-                <p className="mt-3 truncate text-lg font-semibold text-primary">{item.seoTitle || item.title || "Page title"}</p>
-                <p className="mt-1 text-sm text-emerald-700 dark:text-emerald-400">www.niagarat.com{publicUrl}</p>
-                <p className="mt-2 text-sm leading-6 text-muted-foreground">{item.seoDescription || item.excerpt || "Your description will appear here."}</p>
+                <p className="text-xs font-semibold uppercase tracking-[0.16em] text-muted-foreground">
+                  Search preview
+                </p>
+                <p className="mt-3 truncate text-lg font-semibold text-primary">
+                  {item.seoTitle || item.title || "Page title"}
+                </p>
+                <p className="mt-1 text-sm text-emerald-700 dark:text-emerald-400">
+                  www.niagarat.com{publicUrl}
+                </p>
+                <p className="mt-2 text-sm leading-6 text-muted-foreground">
+                  {item.seoDescription || item.excerpt || "Your description will appear here."}
+                </p>
               </div>
             </div>
           </section>
@@ -552,12 +647,30 @@ export function ManagedContentEditorForm({ type, initialItem, originalSlug }: Ma
               </div>
             </div>
             <div className="mt-5 grid gap-3">
-              <button type="button" onClick={() => save("draft")} disabled={saving !== null} className={secondaryButtonClass}>
-                {saving === "draft" ? <Loader2 aria-hidden="true" className="size-4 animate-spin" /> : <Save aria-hidden="true" className="size-4" />}
+              <button
+                type="button"
+                onClick={() => save("draft")}
+                disabled={saving !== null}
+                className={secondaryButtonClass}
+              >
+                {saving === "draft" ? (
+                  <Loader2 aria-hidden="true" className="size-4 animate-spin" />
+                ) : (
+                  <Save aria-hidden="true" className="size-4" />
+                )}
                 {saving === "draft" ? "Saving draft..." : "Save draft"}
               </button>
-              <button type="button" onClick={() => save("publish")} disabled={saving !== null} className={primaryButtonClass}>
-                {saving === "publish" ? <Loader2 aria-hidden="true" className="size-4 animate-spin" /> : <Send aria-hidden="true" className="size-4" />}
+              <button
+                type="button"
+                onClick={() => save("publish")}
+                disabled={saving !== null}
+                className={primaryButtonClass}
+              >
+                {saving === "publish" ? (
+                  <Loader2 aria-hidden="true" className="size-4 animate-spin" />
+                ) : (
+                  <Send aria-hidden="true" className="size-4" />
+                )}
                 {saving === "publish" ? "Publishing..." : `Publish ${labels.singular}`}
               </button>
             </div>
@@ -575,13 +688,18 @@ export function ManagedContentEditorForm({ type, initialItem, originalSlug }: Ma
 
           <BlogAuditPanel article={auditItem} result={auditResult} onResult={setAuditResult} />
 
-          {error ? <p className="rounded-md border border-rose-200 bg-rose-50 p-4 text-sm text-rose-950 dark:border-rose-400/30 dark:bg-rose-400/15 dark:text-rose-50">{error}</p> : null}
-          {success ? <p className="rounded-md border border-emerald-200 bg-emerald-50 p-4 text-sm text-emerald-950 dark:border-emerald-400/30 dark:bg-emerald-400/15 dark:text-emerald-50">{success}</p> : null}
+          {error ? (
+            <p className="rounded-md border border-rose-200 bg-rose-50 p-4 text-sm text-rose-950 dark:border-rose-400/30 dark:bg-rose-400/15 dark:text-rose-50">
+              {error}
+            </p>
+          ) : null}
+          {success ? (
+            <p className="rounded-md border border-emerald-200 bg-emerald-50 p-4 text-sm text-emerald-950 dark:border-emerald-400/30 dark:bg-emerald-400/15 dark:text-emerald-50">
+              {success}
+            </p>
+          ) : null}
         </aside>
       </div>
     </div>
   );
 }
-
-
-

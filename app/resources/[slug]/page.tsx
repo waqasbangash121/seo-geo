@@ -2,26 +2,28 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { ArrowLeft, Clock3, FileText } from "lucide-react";
 import { notFound } from "next/navigation";
+import ReactMarkdown from "react-markdown";
+import remarkGfm from "remark-gfm";
 
 import styles from "@/components/blog/article-content.module.css";
 import { Container } from "@/components/ui/container";
 import { Section } from "@/components/ui/section";
 import { siteConfig } from "@/config/site";
-import { formatResourceDate, getAllResources, getResourceBySlug } from "@/lib/resources";
+import { formatResourceDate, getResourceBySlug } from "@/lib/resources";
 
 type ResourcePageProps = {
   params: Promise<{ slug: string }>;
 };
 
-export const dynamicParams = false;
+export const revalidate = 60;
 
 export async function generateStaticParams() {
-  return getAllResources().map((item) => ({ slug: item.slug }));
+  return [];
 }
 
 export async function generateMetadata({ params }: ResourcePageProps): Promise<Metadata> {
   const { slug } = await params;
-  const resource = getResourceBySlug(slug);
+  const resource = await getResourceBySlug(slug);
   if (!resource) {
     return { robots: { index: false, follow: false }, title: "Resource not found" };
   }
@@ -57,10 +59,9 @@ export async function generateMetadata({ params }: ResourcePageProps): Promise<M
 
 export default async function ResourcePage({ params }: ResourcePageProps) {
   const { slug } = await params;
-  const resource = getResourceBySlug(slug);
+  const resource = await getResourceBySlug(slug);
   if (!resource) notFound();
 
-  const { Content } = resource;
   const pageUrl = new URL(`/resources/${resource.slug}`, siteConfig.url).toString();
   const schema = {
     "@context": "https://schema.org",
@@ -120,7 +121,7 @@ export default async function ResourcePage({ params }: ResourcePageProps) {
       <Section className="pb-20 sm:pb-24">
         <Container className="max-w-4xl">
           <article className="rounded-[10px] border border-border bg-surface p-6 sm:p-10 lg:p-12">
-            <div className={styles.prose}><Content /></div>
+            <div className={styles.prose}><ReactMarkdown remarkPlugins={[remarkGfm]}>{resource.content}</ReactMarkdown></div>
           </article>
         </Container>
       </Section>

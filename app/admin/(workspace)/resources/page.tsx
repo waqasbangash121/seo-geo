@@ -7,7 +7,7 @@ import {
   AdminMetric,
 } from "@/components/admin/admin-ui";
 import { DeleteContentButton } from "@/components/admin/delete-content-button";
-import { listRemoteManagedContent } from "@/lib/editor-github";
+import { listStudioManagedContent } from "@/lib/content-store";
 
 export const dynamic = "force-dynamic";
 
@@ -20,7 +20,7 @@ function formatDate(value: string) {
 }
 
 export default async function ResourceDashboardPage() {
-  const resources = await listRemoteManagedContent("resource");
+  const resources = await listStudioManagedContent("resource");
   const draftCount = resources.filter((resource) => resource.draft).length;
   const publishedCount = resources.length - draftCount;
 

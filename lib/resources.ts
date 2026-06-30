@@ -1,11 +1,24 @@
-import { resourceEntries } from "@/content/resources/posts";
+import "server-only";
 
-export function getAllResources() {
-  return resourceEntries.filter((item) => !item.draft);
+import type { ManagedContentInput } from "@/lib/content-admin-types";
+import {
+  getPublishedManagedContentBySlug,
+  listPublishedManagedContent,
+} from "@/lib/public-content-store";
+
+type ResourceItem = ManagedContentInput & {
+  type: "resource";
+  resourceType: string;
+  audience: string;
+};
+
+export async function getAllResources(): Promise<ResourceItem[]> {
+  return (await listPublishedManagedContent("resource")) as ResourceItem[];
 }
 
-export function getResourceBySlug(slug: string) {
-  return getAllResources().find((item) => item.slug === slug);
+export async function getResourceBySlug(slug: string): Promise<ResourceItem | null> {
+  const item = await getPublishedManagedContentBySlug("resource", slug);
+  return item as ResourceItem | null;
 }
 
 export function formatResourceDate(value: string): string {

@@ -13,7 +13,8 @@
     "format:write": "prettier . --write",
     "db:generate": "drizzle-kit generate",
     "db:migrate": "drizzle-kit migrate",
-    "db:studio": "drizzle-kit studio"
+    "db:studio": "drizzle-kit studio",
+    "db:import-content": "tsx scripts/import-mdx-content.ts"
   },
   "dependencies": {
     "@mdx-js/loader": "^3.1.0",
@@ -31,6 +32,8 @@
     "next": "^15.5.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
+    "react-markdown": "^10.1.0",
+    "remark-gfm": "^4.0.1",
     "tailwind-merge": "^2.5.5"
   },
   "devDependencies": {
@@ -49,6 +52,7 @@
     "prettier": "^3.3.3",
     "prettier-plugin-tailwindcss": "^0.6.11",
     "tailwindcss": "^4.0.0",
+    "tsx": "^4.22.4",
     "typescript": "^5.6.0"
   }
 }

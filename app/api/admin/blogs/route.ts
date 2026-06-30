@@ -1,8 +1,9 @@
 import { NextResponse } from "next/server";
 
 import { BlogInputError, parseBlogPostInput } from "@/lib/blog-admin";
+import { revalidateContentRoutes } from "@/lib/content-revalidation";
+import { ContentStoreError, saveBlogPost } from "@/lib/content-store";
 import { currentEditor } from "@/lib/editor-session";
-import { githubCommitUrl, saveRemotePost } from "@/lib/editor-github";
 
 export const runtime = "nodejs";
 
@@ -17,10 +18,13 @@ export async function POST(request: Request) {
 
   try {
     const article = parseBlogPostInput(await request.json());
-    const commit = await saveRemotePost(article);
-    return NextResponse.json({ slug: article.slug, commitUrl: githubCommitUrl(commit.sha) });
+    const saved = await saveBlogPost(article, editor.login);
+
+    revalidateContentRoutes("blog", saved.slug);
+    return NextResponse.json({ slug: saved.slug });
   } catch (error) {
     const message = error instanceof Error ? error.message : "The article could not be saved.";
-    return NextResponse.json({ error: message }, { status: error instanceof BlogInputError ? 400 : 500 });
+    const status = error instanceof BlogInputError || error instanceof ContentStoreError ? 400 : 500;
+    return NextResponse.json({ error: message }, { status });
   }
 }

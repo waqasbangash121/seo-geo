@@ -1,12 +1,13 @@
 import { NextResponse } from "next/server";
 
 import { BlogInputError, parseBlogPostInput } from "@/lib/blog-admin";
+import { revalidateContentRoutes } from "@/lib/content-revalidation";
+import { ContentStoreError, saveBlogPost } from "@/lib/content-store";
 import { currentEditor } from "@/lib/editor-session";
-import { githubCommitUrl, saveRemotePost } from "@/lib/editor-github";
 
 export const runtime = "nodejs";
 
-async function save(request: Request, currentSlug?: string) {
+async function save(request: Request, previousSlug?: string) {
   const editor = await currentEditor();
   if (!editor) return NextResponse.json({ error: "Sign in is required." }, { status: 401 });
   if (request.headers.get("origin") !== new URL(request.url).origin) {
@@ -15,11 +16,14 @@ async function save(request: Request, currentSlug?: string) {
 
   try {
     const article = parseBlogPostInput(await request.json());
-    const commit = await saveRemotePost(article, currentSlug);
-    return NextResponse.json({ slug: article.slug, commitUrl: githubCommitUrl(commit.sha) });
+    const saved = await saveBlogPost(article, editor.login, previousSlug);
+
+    revalidateContentRoutes("blog", saved.slug, previousSlug);
+    return NextResponse.json({ slug: saved.slug });
   } catch (error) {
     const message = error instanceof Error ? error.message : "The article could not be saved.";
-    return NextResponse.json({ error: message }, { status: error instanceof BlogInputError ? 400 : 500 });
+    const status = error instanceof BlogInputError || error instanceof ContentStoreError ? 400 : 500;
+    return NextResponse.json({ error: message }, { status });
   }
 }
 

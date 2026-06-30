@@ -109,13 +109,13 @@ export function DeleteContentButton({
               Delete this {label}?
             </h2>
             <p className="mt-2 text-sm leading-6 text-muted-foreground">
-              <span className="font-semibold text-foreground">{title}</span> will be removed from the repository and its public page will disappear after the next Vercel deployment.
+              <span className="font-semibold text-foreground">{title}</span> will be removed from Neon and its public page will be revalidated immediately.
             </p>
             <p className="mt-3 rounded-md border border-border bg-background px-3 py-2 text-xs text-muted-foreground">
               Slug: <span className="font-mono text-foreground">{slug}</span>
             </p>
             <p className="mt-3 text-xs leading-5 text-muted-foreground">
-              The content remains recoverable by reverting the GitHub commit, but this action removes it from the active site source.
+              This action removes the active content record. Restore it only from a database backup.
             </p>
 
             <label className="mt-5 grid gap-2 text-sm font-semibold">

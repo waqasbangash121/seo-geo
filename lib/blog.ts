@@ -1,19 +1,19 @@
 import "server-only";
 
-import { blogPostEntries, type BlogPostEntry } from "@/content/blog/posts";
+import type { BlogPostInput } from "@/lib/blog-admin-types";
+import {
+  getPublishedBlogPostBySlug,
+  listPublishedBlogPosts,
+} from "@/lib/public-content-store";
 
-export type BlogPost = Omit<BlogPostEntry, "Content">;
+export type BlogPost = BlogPostInput;
 
-export function getAllBlogPosts(): BlogPost[] {
-  return blogPostEntries
-    .filter((post) => !post.draft)
-    .sort((a, b) => new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime())
-    .map(({ Content: _content, ...post }) => post);
+export async function getAllBlogPosts(): Promise<BlogPost[]> {
+  return listPublishedBlogPosts();
 }
 
-export function getBlogPostBySlug(slug: string): BlogPostEntry | null {
-  const post = blogPostEntries.find((entry) => entry.slug === slug && !entry.draft);
-  return post ?? null;
+export async function getBlogPostBySlug(slug: string): Promise<BlogPost | null> {
+  return getPublishedBlogPostBySlug(slug);
 }
 
 export function formatBlogDate(dateString: string): string {

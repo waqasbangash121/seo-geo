@@ -2,26 +2,28 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { ArrowLeft, Clock3, Scale } from "lucide-react";
 import { notFound } from "next/navigation";
+import ReactMarkdown from "react-markdown";
+import remarkGfm from "remark-gfm";
 
 import styles from "@/components/blog/article-content.module.css";
 import { Container } from "@/components/ui/container";
 import { Section } from "@/components/ui/section";
 import { siteConfig } from "@/config/site";
-import { formatComparisonDate, getAllComparisons, getComparisonBySlug } from "@/lib/comparisons";
+import { formatComparisonDate, getComparisonBySlug } from "@/lib/comparisons";
 
 type ComparisonPageProps = {
   params: Promise<{ slug: string }>;
 };
 
-export const dynamicParams = false;
+export const revalidate = 60;
 
 export async function generateStaticParams() {
-  return getAllComparisons().map((item) => ({ slug: item.slug }));
+  return [];
 }
 
 export async function generateMetadata({ params }: ComparisonPageProps): Promise<Metadata> {
   const { slug } = await params;
-  const comparison = getComparisonBySlug(slug);
+  const comparison = await getComparisonBySlug(slug);
   if (!comparison) {
     return { robots: { index: false, follow: false }, title: "Comparison not found" };
   }
@@ -57,10 +59,9 @@ export async function generateMetadata({ params }: ComparisonPageProps): Promise
 
 export default async function ComparisonPage({ params }: ComparisonPageProps) {
   const { slug } = await params;
-  const comparison = getComparisonBySlug(slug);
+  const comparison = await getComparisonBySlug(slug);
   if (!comparison) notFound();
 
-  const { Content } = comparison;
   const pageUrl = new URL(`/comparisons/${comparison.slug}`, siteConfig.url).toString();
   const schema = {
     "@context": "https://schema.org",
@@ -123,7 +124,7 @@ export default async function ComparisonPage({ params }: ComparisonPageProps) {
       <Section className="pb-20 sm:pb-24">
         <Container className="max-w-4xl">
           <article className="rounded-[10px] border border-border bg-surface p-6 sm:p-10 lg:p-12">
-            <div className={styles.prose}><Content /></div>
+            <div className={styles.prose}><ReactMarkdown remarkPlugins={[remarkGfm]}>{comparison.content}</ReactMarkdown></div>
           </article>
         </Container>
       </Section>

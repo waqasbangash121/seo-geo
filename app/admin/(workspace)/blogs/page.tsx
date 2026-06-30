@@ -7,7 +7,7 @@ import {
   AdminMetric,
 } from "@/components/admin/admin-ui";
 import { DeleteContentButton } from "@/components/admin/delete-content-button";
-import { listRemotePosts } from "@/lib/editor-github";
+import { listStudioBlogPosts } from "@/lib/content-store";
 
 export const dynamic = "force-dynamic";
 
@@ -20,7 +20,7 @@ function formatDate(value: string) {
 }
 
 export default async function BlogDashboardPage() {
-  const posts = await listRemotePosts();
+  const posts = await listStudioBlogPosts();
   const draftCount = posts.filter((post) => post.draft).length;
   const publishedCount = posts.length - draftCount;
 

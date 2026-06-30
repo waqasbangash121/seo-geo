@@ -56,8 +56,8 @@ const relatedLinks = [
   },
 ];
 
-export default function ResourcesPage() {
-  const resources = getAllResources();
+export default async function ResourcesPage() {
+  const resources = await getAllResources();
 
   return (
     <>
