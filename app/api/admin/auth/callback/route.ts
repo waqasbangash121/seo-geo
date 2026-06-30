@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-
+import { githubAuthEnabled } from "@/lib/editor-session";
 import {
   createEditorIdentity,
   editorCookieOptions,
@@ -25,6 +25,9 @@ function loginError(request: Request, reason: string) {
 }
 
 export async function GET(request: NextRequest) {
+  if (!githubAuthEnabled()) {
+    return loginError(request, "github-sign-in-disabled");
+  }
   const requestUrl = new URL(request.url);
   const code = requestUrl.searchParams.get("code");
   const state = requestUrl.searchParams.get("state");
@@ -80,7 +83,11 @@ export async function GET(request: NextRequest) {
   }
 
   const response = NextResponse.redirect(new URL("/admin/blogs", request.url));
-  response.cookies.set(editorSessionName, createEditorIdentity(profile.login), editorCookieOptions());
+  response.cookies.set(
+    editorSessionName,
+    createEditorIdentity(profile.login),
+    editorCookieOptions(),
+  );
   response.cookies.set(editorStateName, "", editorCookieOptions(0));
   return response;
 }
