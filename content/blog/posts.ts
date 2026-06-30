@@ -1,7 +1,6 @@
 import type { ComponentType } from "react";
 
 import PostHowAiSearchImprovesShopifyProductDiscovery, * as PostHowAiSearchImprovesShopifyProductDiscoveryModule from "./how-ai-search-improves-shopify-product-discovery.mdx";
-import PostTestingNewArticle, * as PostTestingNewArticleModule from "./testing-new-article.mdx";
 import PostHowToIncreaseConversionsAndTurnMoreVisitorsIntoCustomers, * as PostHowToIncreaseConversionsAndTurnMoreVisitorsIntoCustomersModule from "./how-to-increase-conversions-and-turn-more-visitors-into-customers.mdx";
 
 export type BlogPostMetadata = {
@@ -13,6 +12,7 @@ export type BlogPostMetadata = {
   author: string;
   category: string;
   tags: string[];
+  focusKeyword?: string;
   seoTitle?: string;
   seoDescription?: string;
   coverImage?: string;
@@ -25,11 +25,9 @@ export type BlogPostEntry = BlogPostMetadata & {
 };
 
 const PostHowAiSearchImprovesShopifyProductDiscoveryMetadata = (PostHowAiSearchImprovesShopifyProductDiscoveryModule as unknown as { metadata: BlogPostMetadata }).metadata;
-const PostTestingNewArticleMetadata = (PostTestingNewArticleModule as unknown as { metadata: BlogPostMetadata }).metadata;
 const PostHowToIncreaseConversionsAndTurnMoreVisitorsIntoCustomersMetadata = (PostHowToIncreaseConversionsAndTurnMoreVisitorsIntoCustomersModule as unknown as { metadata: BlogPostMetadata }).metadata;
 
 export const blogPostEntries: BlogPostEntry[] = [
   { ...PostHowAiSearchImprovesShopifyProductDiscoveryMetadata, Content: PostHowAiSearchImprovesShopifyProductDiscovery },
-  { ...PostTestingNewArticleMetadata, Content: PostTestingNewArticle },
   { ...PostHowToIncreaseConversionsAndTurnMoreVisitorsIntoCustomersMetadata, Content: PostHowToIncreaseConversionsAndTurnMoreVisitorsIntoCustomers },
 ];
