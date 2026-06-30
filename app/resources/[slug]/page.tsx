@@ -9,7 +9,7 @@ import styles from "@/components/blog/article-content.module.css";
 import { Container } from "@/components/ui/container";
 import { Section } from "@/components/ui/section";
 import { siteConfig } from "@/config/site";
-import { formatResourceDate, getAllResources, getResourceBySlug } from "@/lib/resources";
+import { formatResourceDate, getResourceBySlug } from "@/lib/resources";
 
 type ResourcePageProps = {
   params: Promise<{ slug: string }>;
@@ -18,8 +18,7 @@ type ResourcePageProps = {
 export const revalidate = 60;
 
 export async function generateStaticParams() {
-  const resources = await getAllResources();
-  return resources.map((item) => ({ slug: item.slug }));
+  return [];
 }
 
 export async function generateMetadata({ params }: ResourcePageProps): Promise<Metadata> {
