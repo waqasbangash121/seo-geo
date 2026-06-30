@@ -9,7 +9,7 @@ import styles from "@/components/blog/article-content.module.css";
 import { Container } from "@/components/ui/container";
 import { Section } from "@/components/ui/section";
 import { siteConfig } from "@/config/site";
-import { formatComparisonDate, getAllComparisons, getComparisonBySlug } from "@/lib/comparisons";
+import { formatComparisonDate, getComparisonBySlug } from "@/lib/comparisons";
 
 type ComparisonPageProps = {
   params: Promise<{ slug: string }>;
@@ -18,8 +18,7 @@ type ComparisonPageProps = {
 export const revalidate = 60;
 
 export async function generateStaticParams() {
-  const comparisons = await getAllComparisons();
-  return comparisons.map((item) => ({ slug: item.slug }));
+  return [];
 }
 
 export async function generateMetadata({ params }: ComparisonPageProps): Promise<Metadata> {
