@@ -1,6 +1,8 @@
 import type { ComponentType } from "react";
 
-export type ComparisonMetadata = {
+import ContentHyperAiSearchVsSearchanise, * as ContentHyperAiSearchVsSearchaniseModule from "./hyper-ai-search-vs-searchanise.mdx";
+
+export type ManagedContentMetadata = {
   type: "comparison";
   title: string;
   slug: string;
@@ -16,12 +18,18 @@ export type ComparisonMetadata = {
   coverImage?: string;
   readingTime: number;
   draft?: boolean;
-  competitorName: string;
-  decisionSummary: string;
+  competitorName?: string;
+  decisionSummary?: string;
+  resourceType?: "Guide" | "Playbook" | "Checklist" | "Template" | "Case Study" | "Documentation";
+  audience?: string;
 };
 
-export type ComparisonEntry = ComparisonMetadata & {
+export type ManagedContentEntry = ManagedContentMetadata & {
   Content: ComponentType;
 };
 
-export const comparisonEntries: ComparisonEntry[] = [];
+const ContentHyperAiSearchVsSearchaniseMetadata = (ContentHyperAiSearchVsSearchaniseModule as unknown as { metadata: ManagedContentMetadata }).metadata;
+
+export const comparisonEntries: ManagedContentEntry[] = [
+  { ...ContentHyperAiSearchVsSearchaniseMetadata, Content: ContentHyperAiSearchVsSearchanise },
+];
