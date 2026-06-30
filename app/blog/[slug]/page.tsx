@@ -9,7 +9,7 @@ import styles from "@/components/blog/article-content.module.css";
 import { Container } from "@/components/ui/container";
 import { Section } from "@/components/ui/section";
 import { siteConfig } from "@/config/site";
-import { formatBlogDate, getAllBlogPosts, getBlogPostBySlug } from "@/lib/blog";
+import { formatBlogDate, getBlogPostBySlug } from "@/lib/blog";
 
 type BlogPostPageProps = {
   params: Promise<{ slug: string }>;
@@ -18,8 +18,7 @@ type BlogPostPageProps = {
 export const revalidate = 60;
 
 export async function generateStaticParams() {
-  const posts = await getAllBlogPosts();
-  return posts.map((post) => ({ slug: post.slug }));
+  return [];
 }
 
 export async function generateMetadata({ params }: BlogPostPageProps): Promise<Metadata> {
