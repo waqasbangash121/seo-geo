@@ -1,48 +1,95 @@
 import Link from "next/link";
+import { Plus, Scale, SearchCheck } from "lucide-react";
 
+import {
+  AdminContentRow,
+  AdminEmptyState,
+  AdminMetric,
+} from "@/components/admin/admin-ui";
 import { listRemoteManagedContent } from "@/lib/editor-github";
 
 export const dynamic = "force-dynamic";
 
+function formatDate(value: string) {
+  return new Intl.DateTimeFormat("en", {
+    month: "short",
+    day: "numeric",
+    year: "numeric",
+  }).format(new Date(value));
+}
+
 export default async function ComparisonDashboardPage() {
   const comparisons = await listRemoteManagedContent("comparison");
+  const draftCount = comparisons.filter((comparison) => comparison.draft).length;
+  const publishedCount = comparisons.length - draftCount;
 
   return (
-    <div>
-      <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
-        <div>
-          <p className="text-sm font-semibold uppercase tracking-[0.2em] text-primary">Decision content</p>
-          <h1 className="mt-2 text-3xl font-semibold tracking-tight">Comparisons</h1>
-          <p className="mt-2 max-w-2xl text-sm leading-6 text-muted-foreground">
-            Create neutral versus and alternative pages that help Shopify merchants choose the best fit for their needs.
-          </p>
+    <div className="space-y-6">
+      <section className="rounded-lg border border-border bg-surface p-5 shadow-sm sm:p-6">
+        <div className="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
+          <div>
+            <p className="text-sm font-semibold uppercase tracking-[0.16em] text-muted-foreground">Decision content</p>
+            <h1 className="mt-2 text-3xl font-semibold tracking-tight">Comparisons</h1>
+            <p className="mt-2 max-w-2xl text-sm leading-6 text-muted-foreground">
+              Create neutral versus and alternative pages that help Shopify merchants compare options clearly.
+            </p>
+          </div>
+          <Link
+            href="/admin/comparisons/new"
+            className="inline-flex h-10 w-fit items-center justify-center gap-2 rounded-md bg-primary px-4 text-sm font-semibold text-primary-foreground transition-all hover:-translate-y-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+          >
+            <Plus aria-hidden="true" className="size-4" />
+            Create comparison
+          </Link>
         </div>
-        <Link href="/admin/comparisons/new" className="w-fit rounded-full bg-primary px-5 py-2.5 text-sm font-semibold text-primary-foreground transition-transform hover:-translate-y-0.5">
-          Create comparison
-        </Link>
-      </div>
+      </section>
 
-      <div className="mt-8 overflow-hidden rounded-xl border border-border bg-surface">
+      <section aria-label="Comparison stats" className="grid gap-3 sm:grid-cols-3">
+        <AdminMetric label="Total comparisons" value={comparisons.length} tone="violet" />
+        <AdminMetric label="Published" value={publishedCount} tone="green" />
+        <AdminMetric label="Drafts" value={draftCount} tone="blue" />
+      </section>
+
+      <section className="overflow-hidden rounded-lg border border-border bg-surface shadow-sm">
+        <div className="flex items-center justify-between gap-3 border-b border-border px-4 py-4 sm:px-5">
+          <div>
+            <h2 className="font-semibold tracking-tight">Comparison queue</h2>
+            <p className="mt-1 text-sm text-muted-foreground">Keep claims fair, current, and buyer-focused.</p>
+          </div>
+          <span className="hidden items-center gap-2 rounded-md border border-border bg-background px-3 py-2 text-sm text-muted-foreground sm:inline-flex">
+            <SearchCheck aria-hidden="true" className="size-4" />
+            Verify claims
+          </span>
+        </div>
+
         {comparisons.length ? (
           comparisons.map((comparison) => (
-            <div key={comparison.slug} className="flex items-center justify-between gap-4 border-b border-border px-5 py-5 last:border-b-0">
-              <div className="min-w-0">
-                <p className="truncate font-semibold">{comparison.title}</p>
-                <p className="mt-1 truncate text-sm text-muted-foreground">/comparisons/{comparison.slug}</p>
-              </div>
-              <div className="flex items-center gap-4">
-                <span className="hidden rounded-full border border-border px-2.5 py-1 text-xs text-muted-foreground sm:block">{comparison.draft ? "Draft" : "Published"}</span>
-                <Link href={`/admin/comparisons/${comparison.slug}`} className="text-sm font-semibold text-primary">Edit</Link>
-              </div>
-            </div>
+            <AdminContentRow
+              key={comparison.slug}
+              href={`/admin/comparisons/${comparison.slug}`}
+              title={comparison.title}
+              path={`/comparisons/${comparison.slug}`}
+              description={comparison.decisionSummary || comparison.excerpt}
+              draft={comparison.draft}
+              meta={[
+                comparison.competitorName ? `Target: ${comparison.competitorName}` : comparison.category,
+                `${comparison.readingTime} min read`,
+                formatDate(comparison.publishedAt),
+                ...(comparison.focusKeyword ? [`Keyword: ${comparison.focusKeyword}`] : []),
+              ]}
+              Icon={Scale}
+            />
           ))
         ) : (
-          <div className="p-8 text-center">
-            <p className="font-semibold">No comparisons yet</p>
-            <p className="mt-2 text-sm text-muted-foreground">Start with a verified, buyer-focused comparison rather than an unsupported alternative page.</p>
-          </div>
+          <AdminEmptyState
+            title="No comparisons yet"
+            description="Start with a verified, buyer-focused comparison rather than an unsupported alternative page."
+            href="/admin/comparisons/new"
+            action="Create comparison"
+            Icon={Scale}
+          />
         )}
-      </div>
+      </section>
     </div>
   );
 }

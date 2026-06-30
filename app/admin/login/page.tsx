@@ -1,4 +1,14 @@
 import Link from "next/link";
+import {
+  AlertCircle,
+  ArrowRight,
+  CheckCircle2,
+  GitBranch,
+  Home,
+  LockKeyhole,
+  ShieldCheck,
+  UserRound,
+} from "lucide-react";
 
 import {
   githubAuthEnabled,
@@ -7,7 +17,7 @@ import {
 } from "@/lib/editor-session";
 
 type LoginPageProps = {
-  searchParams: Promise<{ error?: string }>;
+  searchParams: Promise<{ error?: string; signedOut?: string }>;
 };
 
 const errorMessages: Record<string, string> = {
@@ -30,94 +40,153 @@ export const metadata = {
 };
 
 export default async function AdminLoginPage({ searchParams }: LoginPageProps) {
-  const { error } = await searchParams;
+  const { error, signedOut } = await searchParams;
 
   const localEnabled = localAuthEnabled();
   const githubEnabled = githubAuthEnabled();
   const localConfigured = localCredentialsConfigured();
 
   return (
-    <main className="grid min-h-screen place-items-center bg-background px-4 py-10 text-foreground">
-      <section className="w-full max-w-md rounded-2xl border border-border bg-surface p-7 shadow-[0_20px_45px_-28px_hsl(var(--shadow)/0.65)] sm:p-9">
-        <p className="text-sm font-medium uppercase tracking-[0.24em] text-primary">
-          Private workspace
-        </p>
-
-        <h1 className="mt-4 text-3xl font-semibold tracking-tight">Hyper Content Studio</h1>
-
-        <p className="mt-4 leading-7 text-muted-foreground">
-          Sign in to create drafts, generate content ideas, publish pages, and manage SEO metadata.
-        </p>
-
-        {error ? (
-          <p className="mt-5 rounded-lg border border-rose-300 bg-rose-50 p-4 text-sm text-rose-950 dark:border-rose-400/25 dark:bg-rose-400/10 dark:text-rose-100">
-            {errorMessages[error] ?? "Sign-in was not completed."}
-          </p>
-        ) : null}
-
-        {localEnabled ? (
-          localConfigured ? (
-            <form action="/api/admin/auth/local" method="post" className="mt-7 grid gap-4">
-              <label className="grid gap-2 text-sm font-medium">
-                Username
-                <input
-                  name="username"
-                  type="text"
-                  autoComplete="username"
-                  required
-                  className="rounded-lg border border-border bg-background px-4 py-3 outline-none ring-ring transition focus:ring-2"
-                />
-              </label>
-
-              <label className="grid gap-2 text-sm font-medium">
-                Password
-                <input
-                  name="password"
-                  type="password"
-                  autoComplete="current-password"
-                  required
-                  className="rounded-lg border border-border bg-background px-4 py-3 outline-none ring-ring transition focus:ring-2"
-                />
-              </label>
-
-              <button
-                type="submit"
-                className="rounded-lg bg-primary px-5 py-3 text-sm font-semibold text-primary-foreground transition-transform hover:-translate-y-0.5"
-              >
-                Sign in
-              </button>
-            </form>
-          ) : (
-            <p className="mt-7 rounded-lg border border-amber-300 bg-amber-50 p-4 text-sm text-amber-950 dark:border-amber-400/25 dark:bg-amber-400/10 dark:text-amber-100">
-              Local login is enabled but its server environment variables have not been configured.
-            </p>
-          )
-        ) : null}
-
-        {localEnabled && githubEnabled ? (
-          <div className="my-7 flex items-center gap-3 text-xs text-muted-foreground">
-            <span className="h-px flex-1 bg-border" />
-            Or continue with
-            <span className="h-px flex-1 bg-border" />
+    <main className="min-h-screen bg-background px-4 py-8 text-foreground sm:px-6 lg:px-8">
+      <div className="mx-auto grid min-h-[calc(100vh-4rem)] w-full max-w-6xl items-center gap-6 lg:grid-cols-[minmax(0,1fr)_28rem]">
+        <section className="hidden rounded-lg border border-border bg-surface p-7 shadow-sm lg:block">
+          <div className="inline-flex size-12 items-center justify-center rounded-lg bg-primary text-primary-foreground">
+            <ShieldCheck aria-hidden="true" className="size-6" />
           </div>
-        ) : null}
+          <p className="mt-6 text-sm font-semibold uppercase tracking-[0.18em] text-muted-foreground">
+            Private workspace
+          </p>
+          <h1 className="mt-3 max-w-xl text-4xl font-semibold tracking-tight">Hyper Content Studio</h1>
+          <p className="mt-4 max-w-2xl text-base leading-7 text-muted-foreground">
+            Sign in to manage articles, comparisons, resources, SEO metadata, reviews, and GitHub-backed publishing.
+          </p>
 
-        {githubEnabled ? (
-          <a
-            href="/api/admin/auth/login"
-            className="mt-7 inline-flex w-full items-center justify-center rounded-lg border border-border bg-background px-5 py-3 text-sm font-semibold text-foreground transition-colors hover:bg-muted"
+          <div className="mt-8 grid gap-3">
+            {[
+              "Create and edit content drafts",
+              "Run keyword and metadata review",
+              "Publish through the existing repository workflow",
+            ].map((item) => (
+              <div key={item} className="flex items-center gap-3 rounded-md border border-border bg-background px-4 py-3 text-sm font-semibold">
+                <span className="inline-flex size-7 items-center justify-center rounded-md bg-emerald-50 text-emerald-900 dark:bg-emerald-400/15 dark:text-emerald-50">
+                  <ShieldCheck aria-hidden="true" className="size-4" />
+                </span>
+                {item}
+              </div>
+            ))}
+          </div>
+        </section>
+
+        <section className="rounded-lg border border-border bg-surface p-5 shadow-sm sm:p-7">
+          <div className="flex items-start gap-3">
+            <span className="inline-flex size-11 shrink-0 items-center justify-center rounded-lg border border-border bg-background text-primary">
+              <LockKeyhole aria-hidden="true" className="size-5" />
+            </span>
+            <div>
+              <p className="text-sm font-semibold uppercase tracking-[0.18em] text-muted-foreground">
+                Admin access
+              </p>
+              <h2 className="mt-2 text-2xl font-semibold tracking-tight">Sign in to continue</h2>
+              <p className="mt-2 text-sm leading-6 text-muted-foreground">
+                Use your configured local credentials or GitHub access to open the content workspace.
+              </p>
+            </div>
+          </div>
+
+          {error ? (
+            <p className="mt-5 flex gap-3 rounded-md border border-rose-200 bg-rose-50 p-4 text-sm text-rose-950 dark:border-rose-400/30 dark:bg-rose-400/15 dark:text-rose-50">
+              <AlertCircle aria-hidden="true" className="mt-0.5 size-4 shrink-0" />
+              {errorMessages[error] ?? "Sign-in was not completed."}
+            </p>
+          ) : null}
+
+          {!error && signedOut ? (
+            <p className="mt-5 flex gap-3 rounded-md border border-emerald-200 bg-emerald-50 p-4 text-sm text-emerald-950 dark:border-emerald-400/30 dark:bg-emerald-400/15 dark:text-emerald-50">
+              <CheckCircle2 aria-hidden="true" className="mt-0.5 size-4 shrink-0" />
+              You have been signed out.
+            </p>
+          ) : null}
+
+          {localEnabled ? (
+            localConfigured ? (
+              <form action="/api/admin/auth/local" method="post" className="mt-7 grid gap-4">
+                <label className="grid gap-2 text-sm font-semibold">
+                  Username
+                  <span className="relative">
+                    <UserRound aria-hidden="true" className="pointer-events-none absolute left-3 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" />
+                    <input
+                      name="username"
+                      type="text"
+                      autoComplete="username"
+                      required
+                      className="h-11 w-full rounded-md border border-border bg-background pl-10 pr-3 text-sm outline-none ring-ring transition focus:ring-2"
+                    />
+                  </span>
+                </label>
+
+                <label className="grid gap-2 text-sm font-semibold">
+                  Password
+                  <span className="relative">
+                    <LockKeyhole aria-hidden="true" className="pointer-events-none absolute left-3 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" />
+                    <input
+                      name="password"
+                      type="password"
+                      autoComplete="current-password"
+                      required
+                      className="h-11 w-full rounded-md border border-border bg-background pl-10 pr-3 text-sm outline-none ring-ring transition focus:ring-2"
+                    />
+                  </span>
+                </label>
+
+                <button
+                  type="submit"
+                  className="inline-flex h-11 items-center justify-center gap-2 rounded-md bg-primary px-5 text-sm font-semibold text-primary-foreground transition-all hover:-translate-y-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                >
+                  Sign in
+                  <ArrowRight aria-hidden="true" className="size-4" />
+                </button>
+              </form>
+            ) : (
+              <p className="mt-7 rounded-md border border-amber-200 bg-amber-50 p-4 text-sm text-amber-950 dark:border-amber-400/30 dark:bg-amber-400/15 dark:text-amber-50">
+                Local login is enabled but its server environment variables have not been configured.
+              </p>
+            )
+          ) : null}
+
+          {localEnabled && githubEnabled ? (
+            <div className="my-7 flex items-center gap-3 text-xs font-semibold uppercase tracking-[0.14em] text-muted-foreground">
+              <span className="h-px flex-1 bg-border" />
+              Or
+              <span className="h-px flex-1 bg-border" />
+            </div>
+          ) : null}
+
+          {githubEnabled ? (
+            <a
+              href="/api/admin/auth/login"
+              className="mt-7 inline-flex h-11 w-full items-center justify-center gap-2 rounded-md border border-border bg-background px-5 text-sm font-semibold text-foreground transition-colors hover:bg-muted"
+            >
+              <GitBranch aria-hidden="true" className="size-4" />
+              Continue with GitHub
+            </a>
+          ) : null}
+
+          <Link
+            href="/"
+            className="mt-6 inline-flex w-full items-center justify-center gap-2 text-sm font-semibold text-muted-foreground transition-colors hover:text-primary"
           >
-            Continue with GitHub
-          </a>
-        ) : null}
-
-        <Link
-          href="/"
-          className="mt-6 block text-center text-sm font-medium text-muted-foreground transition-colors hover:text-primary"
-        >
-          Return to website
-        </Link>
-      </section>
+            <Home aria-hidden="true" className="size-4" />
+            Return to website
+          </Link>
+        </section>
+      </div>
     </main>
   );
 }
+
+
+
+
+
+
+

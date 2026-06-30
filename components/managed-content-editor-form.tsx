@@ -1,8 +1,24 @@
 "use client";
 
 import { useMemo, useState } from "react";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
+import {
+  ArrowLeft,
+  CalendarDays,
+  Clock3,
+  FileText,
+  Globe2,
+  Hash,
+  ImageIcon,
+  Loader2,
+  Save,
+  Send,
+  Tag,
+  UserRound,
+} from "lucide-react";
 
+import { AdminStatusBadge } from "@/components/admin/admin-ui";
 import {
   BlogAuditFeedback,
   BlogAuditPanel,
@@ -90,6 +106,17 @@ function labelsFor(type: ManagedContentType) {
       };
 }
 
+const fieldLabelClass = "grid gap-2 text-sm font-semibold";
+const inputClass =
+  "h-11 rounded-md border border-border bg-background px-3 text-sm text-foreground outline-none ring-ring transition placeholder:text-muted-foreground focus:ring-2";
+const textareaClass =
+  "rounded-md border border-border bg-background px-3 py-2.5 text-sm text-foreground outline-none ring-ring transition placeholder:text-muted-foreground focus:ring-2";
+const sectionClass = "rounded-lg border border-border bg-surface p-5 shadow-sm sm:p-6";
+const secondaryButtonClass =
+  "inline-flex h-11 items-center justify-center gap-2 rounded-md border border-border bg-background px-4 text-sm font-semibold text-foreground transition-colors hover:bg-muted disabled:cursor-not-allowed disabled:opacity-60";
+const primaryButtonClass =
+  "inline-flex h-11 items-center justify-center gap-2 rounded-md bg-primary px-4 text-sm font-semibold text-primary-foreground transition-all hover:-translate-y-0.5 disabled:cursor-not-allowed disabled:opacity-60";
+
 export function ManagedContentEditorForm({ type, initialItem, originalSlug }: ManagedContentEditorFormProps) {
   const router = useRouter();
   const labels = labelsFor(type);
@@ -100,7 +127,10 @@ export function ManagedContentEditorForm({ type, initialItem, originalSlug }: Ma
   const [success, setSuccess] = useState("");
   const [auditResult, setAuditResult] = useState<BlogAuditResult | null>(null);
 
-  const publicUrl = useMemo(() => `${labels.publicRoot}/${item.slug || `your-${labels.singular}-slug`}`, [item.slug, labels.publicRoot, labels.singular]);
+  const publicUrl = useMemo(
+    () => `${labels.publicRoot}/${item.slug || `your-${labels.singular}-slug`}`,
+    [item.slug, labels.publicRoot, labels.singular],
+  );
   const auditItem = useMemo(
     () => ({
       ...item,
@@ -179,283 +209,379 @@ export function ManagedContentEditorForm({ type, initialItem, originalSlug }: Ma
     }
   }
 
+  const moduleLabel = type === "comparison" ? "Comparison editor" : "Resource editor";
+  const moduleDescription =
+    type === "comparison"
+      ? "Build a neutral decision page with verified claims, buyer context, and clear fit guidance."
+      : "Create a practical resource with a defined audience, useful outcome, and clear next step.";
+
   return (
-    <div className="grid gap-8 lg:grid-cols-[minmax(0,1fr)_20rem]">
-      <div className="space-y-8">
-        <section className="rounded-xl border border-border bg-surface p-6 sm:p-8">
-          <div className="flex items-center justify-between gap-4">
-            <div>
-              <h1 className="text-2xl font-semibold tracking-tight">
-                {originalSlug ? `Edit ${labels.singular}` : `Create ${labels.singular}`}
-              </h1>
-              <p className="mt-2 text-sm leading-6 text-muted-foreground">
-                Use Markdown, review every factual claim, and keep the draft useful for the buyer intent this page serves.
-              </p>
-            </div>
-            <span className="rounded-full border border-border px-3 py-1 text-xs font-medium text-muted-foreground">
-              {item.draft ? "Draft" : "Published"}
-            </span>
+    <div className="space-y-6">
+      <section className="rounded-lg border border-border bg-surface p-5 shadow-sm sm:p-6">
+        <div className="flex flex-col gap-5 xl:flex-row xl:items-end xl:justify-between">
+          <div className="min-w-0">
+            <Link
+              href={`/admin/${labels.plural}`}
+              className="inline-flex items-center gap-2 text-sm font-semibold text-muted-foreground transition-colors hover:text-primary"
+            >
+              <ArrowLeft aria-hidden="true" className="size-4" />
+              {type === "comparison" ? "Comparisons" : "Resources"}
+            </Link>
+            <p className="mt-4 text-sm font-semibold uppercase tracking-[0.16em] text-muted-foreground">
+              {moduleLabel}
+            </p>
+            <h1 className="mt-2 text-3xl font-semibold tracking-tight">
+              {originalSlug ? `Edit ${labels.singular}` : `Create ${labels.singular}`}
+            </h1>
+            <p className="mt-2 max-w-3xl text-sm leading-6 text-muted-foreground">{moduleDescription}</p>
           </div>
 
-          <div className="mt-8 grid gap-5">
-            <label className="grid gap-2 text-sm font-medium">
-              Page title
-              <input
-                value={item.title}
-                onChange={(event) => update("title", event.target.value)}
-                className="rounded-lg border border-border bg-background px-3 py-2.5 text-base outline-none ring-ring transition focus:ring-2"
-                maxLength={120}
-                placeholder={type === "comparison" ? "Hyper AI Search vs [Alternative]" : "A practical guide to Shopify product discovery"}
-              />
-            </label>
-            <BlogAuditFeedback checks={feedbackFor("title-keyword")} />
-
-            {type === "comparison" ? (
-              <>
-                <label className="grid gap-2 text-sm font-medium">
-                  Comparison target
-                  <input
-                    value={item.competitorName ?? ""}
-                    onChange={(event) => update("competitorName", event.target.value)}
-                    className="rounded-lg border border-border bg-background px-3 py-2.5 outline-none ring-ring transition focus:ring-2"
-                    maxLength={120}
-                    placeholder="The product or alternative being compared"
-                  />
-                  <span className="text-xs font-normal text-muted-foreground">Use the exact public product name. Keep all claims neutral and verifiable.</span>
-                </label>
-                <label className="grid gap-2 text-sm font-medium">
-                  Decision summary
-                  <textarea
-                    value={item.decisionSummary ?? ""}
-                    onChange={(event) => update("decisionSummary", event.target.value)}
-                    className="min-h-24 rounded-lg border border-border bg-background px-3 py-2.5 outline-none ring-ring transition focus:ring-2"
-                    maxLength={300}
-                    placeholder="Summarize the buyer scenario and when each option may be the right fit."
-                  />
-                </label>
-              </>
-            ) : (
-              <div className="grid gap-5 sm:grid-cols-2">
-                <label className="grid gap-2 text-sm font-medium">
-                  Resource type
-                  <select
-                    value={item.resourceType ?? "Guide"}
-                    onChange={(event) => update("resourceType", event.target.value as ResourceType)}
-                    className="rounded-lg border border-border bg-background px-3 py-2.5 outline-none ring-ring transition focus:ring-2"
-                  >
-                    {resourceTypes.map((resourceType) => (
-                      <option key={resourceType} value={resourceType}>{resourceType}</option>
-                    ))}
-                  </select>
-                </label>
-                <label className="grid gap-2 text-sm font-medium">
-                  Target audience
-                  <input
-                    value={item.audience ?? ""}
-                    onChange={(event) => update("audience", event.target.value)}
-                    className="rounded-lg border border-border bg-background px-3 py-2.5 outline-none ring-ring transition focus:ring-2"
-                    maxLength={160}
-                    placeholder="Shopify merchants and ecommerce teams"
-                  />
-                </label>
+          <div className="grid gap-3 sm:grid-cols-3 xl:min-w-[32rem]">
+            <div className="rounded-md border border-border bg-background p-3">
+              <p className="text-xs font-semibold uppercase tracking-[0.14em] text-muted-foreground">State</p>
+              <div className="mt-2">
+                <AdminStatusBadge draft={item.draft} />
               </div>
-            )}
+            </div>
+            <div className="rounded-md border border-border bg-background p-3">
+              <p className="flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.14em] text-muted-foreground">
+                <Clock3 aria-hidden="true" className="size-3.5" />
+                Reading
+              </p>
+              <p className="mt-2 text-sm font-semibold">{item.readingTime || 0} min</p>
+            </div>
+            <div className="rounded-md border border-border bg-background p-3">
+              <p className="flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.14em] text-muted-foreground">
+                <Globe2 aria-hidden="true" className="size-3.5" />
+                URL
+              </p>
+              <p className="mt-2 truncate text-sm font-semibold">{publicUrl}</p>
+            </div>
+          </div>
+        </div>
+      </section>
 
-            <label className="grid gap-2 text-sm font-medium">
-              Focus keyword
-              <input
-                value={item.focusKeyword ?? ""}
-                onChange={(event) => update("focusKeyword", event.target.value)}
-                className="rounded-lg border border-border bg-background px-3 py-2.5 outline-none ring-ring transition focus:ring-2"
-                maxLength={100}
-                placeholder={type === "comparison" ? "Shopify search app alternatives" : "Shopify product discovery guide"}
-              />
-              <span className="text-xs font-normal text-muted-foreground">Choose one phrase this page should target. It powers the content review and AI suggestions.</span>
-            </label>
-            <BlogAuditFeedback checks={feedbackFor("focus-keyword")} />
-            <BlogKeywordIdeas
-              title="Related keyword angles"
-              description="Use only ideas that strengthen the actual buyer question. They are prompts, not mandatory phrases."
-              ideas={auditResult?.keywordIdeas.secondary ?? []}
-            />
+      <div className="grid gap-6 xl:grid-cols-[minmax(0,1fr)_22rem]">
+        <div className="space-y-6">
+          <section className={sectionClass}>
+            <div className="flex items-start gap-3">
+              <span className="inline-flex size-10 shrink-0 items-center justify-center rounded-lg border border-border bg-background text-primary">
+                <FileText aria-hidden="true" className="size-5" />
+              </span>
+              <div>
+                <p className="text-sm font-semibold uppercase tracking-[0.16em] text-muted-foreground">Content brief</p>
+                <h2 className="mt-1 text-xl font-semibold tracking-tight">Page details</h2>
+                <p className="mt-2 text-sm leading-6 text-muted-foreground">
+                  Define the title, angle, keyword, URL, and summary before drafting the body content.
+                </p>
+              </div>
+            </div>
 
-            <div className="grid gap-5 sm:grid-cols-[minmax(0,1fr)_auto] sm:items-end">
-              <label className="grid gap-2 text-sm font-medium">
-                URL slug
+            <div className="mt-6 grid gap-5">
+              <label className={fieldLabelClass}>
+                Page title
                 <input
-                  value={item.slug}
-                  onChange={(event) => update("slug", slugFromTitle(event.target.value))}
-                  className="rounded-lg border border-border bg-background px-3 py-2.5 outline-none ring-ring transition focus:ring-2"
-                  placeholder={type === "comparison" ? "hyper-ai-search-vs-alternative" : "shopify-product-discovery-guide"}
+                  value={item.title}
+                  onChange={(event) => update("title", event.target.value)}
+                  className={`${inputClass} text-base`}
+                  maxLength={120}
+                  placeholder={type === "comparison" ? "Hyper AI Search vs [Alternative]" : "A practical guide to Shopify product discovery"}
                 />
               </label>
-              <button
-                type="button"
-                onClick={() => update("slug", slugFromTitle(item.title))}
-                className="rounded-lg border border-border px-4 py-2.5 text-sm font-medium transition-colors hover:bg-muted"
-              >
-                Generate slug
-              </button>
-            </div>
-            <BlogAuditFeedback checks={feedbackFor("slug-keyword")} />
-            <p className="-mt-2 text-xs text-muted-foreground">Public URL: {publicUrl}</p>
+              <BlogAuditFeedback checks={feedbackFor("title-keyword")} />
 
-            <label className="grid gap-2 text-sm font-medium">
-              Excerpt
-              <textarea
-                value={item.excerpt}
-                onChange={(event) => update("excerpt", event.target.value)}
-                className="min-h-24 rounded-lg border border-border bg-background px-3 py-2.5 outline-none ring-ring transition focus:ring-2"
-                maxLength={350}
-                placeholder="A clear summary for cards, search previews, and reader expectations."
+              {type === "comparison" ? (
+                <div className="grid gap-5 sm:grid-cols-2">
+                  <label className={fieldLabelClass}>
+                    Comparison target
+                    <input
+                      value={item.competitorName ?? ""}
+                      onChange={(event) => update("competitorName", event.target.value)}
+                      className={inputClass}
+                      maxLength={120}
+                      placeholder="The product or alternative being compared"
+                    />
+                    <span className="text-xs font-normal leading-5 text-muted-foreground">
+                      Use the exact public product name. Keep claims neutral and verifiable.
+                    </span>
+                  </label>
+                  <label className={fieldLabelClass}>
+                    Decision summary
+                    <textarea
+                      value={item.decisionSummary ?? ""}
+                      onChange={(event) => update("decisionSummary", event.target.value)}
+                      className={`${textareaClass} min-h-28`}
+                      maxLength={300}
+                      placeholder="Summarize the buyer scenario and when each option may be the right fit."
+                    />
+                  </label>
+                </div>
+              ) : (
+                <div className="grid gap-5 sm:grid-cols-2">
+                  <label className={fieldLabelClass}>
+                    Resource type
+                    <select
+                      value={item.resourceType ?? "Guide"}
+                      onChange={(event) => update("resourceType", event.target.value as ResourceType)}
+                      className={inputClass}
+                    >
+                      {resourceTypes.map((resourceType) => (
+                        <option key={resourceType} value={resourceType}>{resourceType}</option>
+                      ))}
+                    </select>
+                  </label>
+                  <label className={fieldLabelClass}>
+                    Target audience
+                    <input
+                      value={item.audience ?? ""}
+                      onChange={(event) => update("audience", event.target.value)}
+                      className={inputClass}
+                      maxLength={160}
+                      placeholder="Shopify merchants and ecommerce teams"
+                    />
+                  </label>
+                </div>
+              )}
+
+              <label className={fieldLabelClass}>
+                Focus keyword
+                <input
+                  value={item.focusKeyword ?? ""}
+                  onChange={(event) => update("focusKeyword", event.target.value)}
+                  className={inputClass}
+                  maxLength={100}
+                  placeholder={type === "comparison" ? "Shopify search app alternatives" : "Shopify product discovery guide"}
+                />
+                <span className="text-xs font-normal leading-5 text-muted-foreground">
+                  Choose one phrase this page should target. It powers the content review and AI suggestions.
+                </span>
+              </label>
+              <BlogAuditFeedback checks={feedbackFor("focus-keyword")} />
+              <BlogKeywordIdeas
+                title="Related keyword angles"
+                description="Use only ideas that strengthen the actual buyer question. They are prompts, not mandatory phrases."
+                ideas={auditResult?.keywordIdeas.secondary ?? []}
               />
-              <span className="text-xs font-normal text-muted-foreground">{item.excerpt.length}/350 characters</span>
-            </label>
-            <BlogAuditFeedback checks={feedbackFor("excerpt-keyword")} />
 
-            <div className="grid gap-5 sm:grid-cols-2">
-              <label className="grid gap-2 text-sm font-medium">
-                Author
-                <input value={item.author} onChange={(event) => update("author", event.target.value)} className="rounded-lg border border-border bg-background px-3 py-2.5 outline-none ring-ring transition focus:ring-2" />
+              <div className="grid gap-3 sm:grid-cols-[minmax(0,1fr)_auto] sm:items-end">
+                <label className={fieldLabelClass}>
+                  URL slug
+                  <input
+                    value={item.slug}
+                    onChange={(event) => update("slug", slugFromTitle(event.target.value))}
+                    className={inputClass}
+                    placeholder={type === "comparison" ? "hyper-ai-search-vs-alternative" : "shopify-product-discovery-guide"}
+                  />
+                </label>
+                <button type="button" onClick={() => update("slug", slugFromTitle(item.title))} className={secondaryButtonClass}>
+                  <Hash aria-hidden="true" className="size-4" />
+                  Generate slug
+                </button>
+              </div>
+              <BlogAuditFeedback checks={feedbackFor("slug-keyword")} />
+
+              <div className="flex min-w-0 items-center gap-2 rounded-md border border-border bg-background px-3 py-2.5 text-sm text-muted-foreground">
+                <Globe2 aria-hidden="true" className="size-4 shrink-0" />
+                <span className="truncate">Public URL: {publicUrl}</span>
+              </div>
+
+              <label className={fieldLabelClass}>
+                Excerpt
+                <textarea
+                  value={item.excerpt}
+                  onChange={(event) => update("excerpt", event.target.value)}
+                  className={`${textareaClass} min-h-28`}
+                  maxLength={350}
+                  placeholder="A clear summary for cards, search previews, and reader expectations."
+                />
+                <span className="text-xs font-normal text-muted-foreground">{item.excerpt.length}/350 characters</span>
               </label>
-              <label className="grid gap-2 text-sm font-medium">
-                Category
-                <input value={item.category} onChange={(event) => update("category", event.target.value)} className="rounded-lg border border-border bg-background px-3 py-2.5 outline-none ring-ring transition focus:ring-2" />
+              <BlogAuditFeedback checks={feedbackFor("excerpt-keyword")} />
+            </div>
+          </section>
+
+          <section className={sectionClass}>
+            <div className="flex items-start gap-3">
+              <span className="inline-flex size-10 shrink-0 items-center justify-center rounded-lg border border-border bg-background text-primary">
+                <CalendarDays aria-hidden="true" className="size-5" />
+              </span>
+              <div>
+                <p className="text-sm font-semibold uppercase tracking-[0.16em] text-muted-foreground">Publishing details</p>
+                <h2 className="mt-1 text-xl font-semibold tracking-tight">Ownership and taxonomy</h2>
+              </div>
+            </div>
+
+            <div className="mt-6 grid gap-5 sm:grid-cols-2">
+              <label className={fieldLabelClass}>
+                <span className="inline-flex items-center gap-2"><UserRound aria-hidden="true" className="size-4" /> Author</span>
+                <input value={item.author} onChange={(event) => update("author", event.target.value)} className={inputClass} />
               </label>
-              <label className="grid gap-2 text-sm font-medium">
+              <label className={fieldLabelClass}>
+                <span className="inline-flex items-center gap-2"><Tag aria-hidden="true" className="size-4" /> Category</span>
+                <input value={item.category} onChange={(event) => update("category", event.target.value)} className={inputClass} />
+              </label>
+              <label className={fieldLabelClass}>
                 Publish date
-                <input type="date" value={item.publishedAt} onChange={(event) => update("publishedAt", event.target.value)} className="rounded-lg border border-border bg-background px-3 py-2.5 outline-none ring-ring transition focus:ring-2" />
+                <input type="date" value={item.publishedAt} onChange={(event) => update("publishedAt", event.target.value)} className={inputClass} />
               </label>
-              <label className="grid gap-2 text-sm font-medium">
+              <label className={fieldLabelClass}>
                 Reading time (minutes)
-                <input type="number" min="1" max="120" value={item.readingTime} onChange={(event) => update("readingTime", Number(event.target.value))} className="rounded-lg border border-border bg-background px-3 py-2.5 outline-none ring-ring transition focus:ring-2" />
+                <input type="number" min="1" max="120" value={item.readingTime} onChange={(event) => update("readingTime", Number(event.target.value))} className={inputClass} />
               </label>
             </div>
 
-            <label className="grid gap-2 text-sm font-medium">
-              Tags
-              <input
-                value={tagsText}
-                onChange={(event) => setTagsText(event.target.value)}
-                className="rounded-lg border border-border bg-background px-3 py-2.5 outline-none ring-ring transition focus:ring-2"
-                placeholder="Shopify, Ecommerce, Product Discovery"
-              />
-              <span className="text-xs font-normal text-muted-foreground">Separate tags with commas. Maximum 10 tags.</span>
-            </label>
-            <BlogAuditFeedback checks={feedbackFor("tag-keywords")} />
+            <div className="mt-5 grid gap-5">
+              <label className={fieldLabelClass}>
+                Tags
+                <input
+                  value={tagsText}
+                  onChange={(event) => setTagsText(event.target.value)}
+                  className={inputClass}
+                  placeholder="Shopify, Ecommerce, Product Discovery"
+                />
+                <span className="text-xs font-normal text-muted-foreground">Separate tags with commas. Maximum 10 tags.</span>
+              </label>
+              <BlogAuditFeedback checks={feedbackFor("tag-keywords")} />
 
-            <label className="grid gap-2 text-sm font-medium">
-              Cover image path or URL
-              <input
-                value={item.coverImage}
-                onChange={(event) => update("coverImage", event.target.value)}
-                className="rounded-lg border border-border bg-background px-3 py-2.5 outline-none ring-ring transition focus:ring-2"
-                placeholder="/images/resources/guide.jpg or https://..."
-              />
-            </label>
+              <label className={fieldLabelClass}>
+                <span className="inline-flex items-center gap-2"><ImageIcon aria-hidden="true" className="size-4" /> Cover image path or URL</span>
+                <input
+                  value={item.coverImage}
+                  onChange={(event) => update("coverImage", event.target.value)}
+                  className={inputClass}
+                  placeholder="/images/resources/guide.jpg or https://..."
+                />
+              </label>
+            </div>
+          </section>
 
-            <label className="grid gap-2 text-sm font-medium">
+          <section className={sectionClass}>
+            <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+              <div>
+                <p className="text-sm font-semibold uppercase tracking-[0.16em] text-muted-foreground">Markdown draft</p>
+                <h2 className="mt-1 text-xl font-semibold tracking-tight">{labels.contentLabel}</h2>
+              </div>
+              <span className="rounded-md border border-border bg-background px-3 py-1.5 text-xs font-semibold text-muted-foreground">
+                Direct answers help search
+              </span>
+            </div>
+
+            <label className={`${fieldLabelClass} mt-6`}>
               {labels.contentLabel}
               <textarea
                 value={item.content}
                 onChange={(event) => update("content", event.target.value)}
-                className="min-h-[32rem] rounded-lg border border-border bg-background px-3 py-3 font-mono text-sm leading-7 outline-none ring-ring transition focus:ring-2"
+                className={`${textareaClass} min-h-[34rem] font-mono leading-7`}
                 spellCheck={false}
               />
             </label>
-            <BlogAuditFeedback checks={feedbackFor("content-depth", "content-keyword", "intro-keyword", "heading-coverage", "question-coverage")} />
-            <BlogKeywordIdeas
-              title="Questions to answer in this page"
-              description="Use the relevant prompts as H2 sections, then answer each directly in the first paragraph below the heading."
-              ideas={auditResult?.keywordIdeas.questions ?? []}
-            />
-          </div>
-        </section>
-
-        <section className="rounded-xl border border-border bg-surface p-6 sm:p-8">
-          <h2 className="text-xl font-semibold tracking-tight">SEO and social preview</h2>
-          <p className="mt-2 text-sm leading-6 text-muted-foreground">
-            These fields control the document title, meta description, social preview, and structured data for this page.
-          </p>
-
-          <div className="mt-6 grid gap-5">
-            <label className="grid gap-2 text-sm font-medium">
-              SEO title
-              <input
-                value={item.seoTitle}
-                onChange={(event) => update("seoTitle", event.target.value)}
-                maxLength={70}
-                className="rounded-lg border border-border bg-background px-3 py-2.5 outline-none ring-ring transition focus:ring-2"
-                placeholder={item.title || "SEO title"}
-              />
-              <span className="text-xs font-normal text-muted-foreground">{item.seoTitle.length}/70 characters</span>
-            </label>
-            <BlogAuditFeedback checks={feedbackFor("seo-title-keyword")} />
-
-            <label className="grid gap-2 text-sm font-medium">
-              SEO description
-              <textarea
-                value={item.seoDescription}
-                onChange={(event) => update("seoDescription", event.target.value)}
-                maxLength={180}
-                className="min-h-28 rounded-lg border border-border bg-background px-3 py-2.5 outline-none ring-ring transition focus:ring-2"
-                placeholder={item.excerpt || "SEO description"}
-              />
-              <span className="text-xs font-normal text-muted-foreground">{item.seoDescription.length}/180 characters</span>
-            </label>
-            <BlogAuditFeedback checks={feedbackFor("seo-description-keyword")} />
-
-            <div className="rounded-lg border border-border bg-background p-4">
-              <p className="text-xs font-medium uppercase tracking-[0.16em] text-muted-foreground">Search preview</p>
-              <p className="mt-3 truncate text-lg font-medium text-primary">{item.seoTitle || item.title || "Page title"}</p>
-              <p className="mt-1 text-sm text-emerald-700 dark:text-emerald-400">www.niagarat.com{publicUrl}</p>
-              <p className="mt-2 text-sm leading-6 text-muted-foreground">{item.seoDescription || item.excerpt || "Your description will appear here."}</p>
+            <div className="mt-4">
+              <BlogAuditFeedback checks={feedbackFor("content-depth", "content-keyword", "intro-keyword", "heading-coverage", "question-coverage")} />
             </div>
-          </div>
-        </section>
-      </div>
+            <div className="mt-4">
+              <BlogKeywordIdeas
+                title="Questions to answer in this page"
+                description="Use the relevant prompts as H2 sections, then answer each directly in the first paragraph below the heading."
+                ideas={auditResult?.keywordIdeas.questions ?? []}
+              />
+            </div>
+          </section>
 
-      <aside className="h-fit space-y-4 lg:sticky lg:top-6">
-        <div className="rounded-xl border border-border bg-surface p-5">
-          <h2 className="font-semibold">Publishing</h2>
-          <p className="mt-2 text-sm leading-6 text-muted-foreground">
-            Saving creates a GitHub commit. Vercel deploys the changed content automatically.
-          </p>
-          <div className="mt-5 grid gap-3">
-            <button
-              type="button"
-              onClick={() => save("draft")}
-              disabled={saving !== null}
-              className="rounded-lg border border-border px-4 py-2.5 text-sm font-medium transition-colors hover:bg-muted disabled:cursor-not-allowed disabled:opacity-60"
-            >
-              {saving === "draft" ? "Saving draft…" : "Save draft"}
-            </button>
-            <button
-              type="button"
-              onClick={() => save("publish")}
-              disabled={saving !== null}
-              className="rounded-lg bg-primary px-4 py-2.5 text-sm font-medium text-primary-foreground transition-transform hover:-translate-y-0.5 disabled:cursor-not-allowed disabled:opacity-60"
-            >
-              {saving === "publish" ? "Publishing…" : `Publish ${labels.singular}`}
-            </button>
-          </div>
+          <section className={sectionClass}>
+            <div className="flex items-start gap-3">
+              <span className="inline-flex size-10 shrink-0 items-center justify-center rounded-lg border border-border bg-background text-primary">
+                <Globe2 aria-hidden="true" className="size-5" />
+              </span>
+              <div>
+                <p className="text-sm font-semibold uppercase tracking-[0.16em] text-muted-foreground">Search and social</p>
+                <h2 className="mt-1 text-xl font-semibold tracking-tight">SEO preview</h2>
+                <p className="mt-2 text-sm leading-6 text-muted-foreground">
+                  These fields control the document title, meta description, social preview, and structured data for this page.
+                </p>
+              </div>
+            </div>
+
+            <div className="mt-6 grid gap-5">
+              <label className={fieldLabelClass}>
+                SEO title
+                <input
+                  value={item.seoTitle}
+                  onChange={(event) => update("seoTitle", event.target.value)}
+                  maxLength={70}
+                  className={inputClass}
+                  placeholder={item.title || "SEO title"}
+                />
+                <span className="text-xs font-normal text-muted-foreground">{item.seoTitle.length}/70 characters</span>
+              </label>
+              <BlogAuditFeedback checks={feedbackFor("seo-title-keyword")} />
+
+              <label className={fieldLabelClass}>
+                SEO description
+                <textarea
+                  value={item.seoDescription}
+                  onChange={(event) => update("seoDescription", event.target.value)}
+                  maxLength={180}
+                  className={`${textareaClass} min-h-28`}
+                  placeholder={item.excerpt || "SEO description"}
+                />
+                <span className="text-xs font-normal text-muted-foreground">{item.seoDescription.length}/180 characters</span>
+              </label>
+              <BlogAuditFeedback checks={feedbackFor("seo-description-keyword")} />
+
+              <div className="rounded-md border border-border bg-background p-4">
+                <p className="text-xs font-semibold uppercase tracking-[0.16em] text-muted-foreground">Search preview</p>
+                <p className="mt-3 truncate text-lg font-semibold text-primary">{item.seoTitle || item.title || "Page title"}</p>
+                <p className="mt-1 text-sm text-emerald-700 dark:text-emerald-400">www.niagarat.com{publicUrl}</p>
+                <p className="mt-2 text-sm leading-6 text-muted-foreground">{item.seoDescription || item.excerpt || "Your description will appear here."}</p>
+              </div>
+            </div>
+          </section>
         </div>
 
-        <ContentAiAssistant
-          module={type}
-          title={item.title}
-          focusKeyword={item.focusKeyword}
-          audience={item.audience}
-          competitorName={item.competitorName}
-          existingContent={item.content}
-          onAppendToContent={appendGeneratedContent}
-        />
+        <aside className="h-fit space-y-4 xl:sticky xl:top-24">
+          <div className="rounded-lg border border-border bg-surface p-5 shadow-sm">
+            <div className="flex items-start gap-3">
+              <span className="inline-flex size-10 shrink-0 items-center justify-center rounded-lg border border-border bg-background text-primary">
+                <Send aria-hidden="true" className="size-5" />
+              </span>
+              <div>
+                <h2 className="font-semibold">Publishing</h2>
+                <p className="mt-2 text-sm leading-6 text-muted-foreground">
+                  Saving creates a GitHub commit. Vercel deploys changed content automatically.
+                </p>
+              </div>
+            </div>
+            <div className="mt-5 grid gap-3">
+              <button type="button" onClick={() => save("draft")} disabled={saving !== null} className={secondaryButtonClass}>
+                {saving === "draft" ? <Loader2 aria-hidden="true" className="size-4 animate-spin" /> : <Save aria-hidden="true" className="size-4" />}
+                {saving === "draft" ? "Saving draft..." : "Save draft"}
+              </button>
+              <button type="button" onClick={() => save("publish")} disabled={saving !== null} className={primaryButtonClass}>
+                {saving === "publish" ? <Loader2 aria-hidden="true" className="size-4 animate-spin" /> : <Send aria-hidden="true" className="size-4" />}
+                {saving === "publish" ? "Publishing..." : `Publish ${labels.singular}`}
+              </button>
+            </div>
+          </div>
 
-        <BlogAuditPanel article={auditItem} result={auditResult} onResult={setAuditResult} />
+          <ContentAiAssistant
+            module={type}
+            title={item.title}
+            focusKeyword={item.focusKeyword}
+            audience={item.audience}
+            competitorName={item.competitorName}
+            existingContent={item.content}
+            onAppendToContent={appendGeneratedContent}
+          />
 
-        {error ? <p className="rounded-lg border border-red-500/40 bg-red-500/10 p-4 text-sm text-red-700 dark:text-red-300">{error}</p> : null}
-        {success ? <p className="rounded-lg border border-emerald-500/40 bg-emerald-500/10 p-4 text-sm text-emerald-800 dark:text-emerald-200">{success}</p> : null}
-      </aside>
+          <BlogAuditPanel article={auditItem} result={auditResult} onResult={setAuditResult} />
+
+          {error ? <p className="rounded-md border border-rose-200 bg-rose-50 p-4 text-sm text-rose-950 dark:border-rose-400/30 dark:bg-rose-400/15 dark:text-rose-50">{error}</p> : null}
+          {success ? <p className="rounded-md border border-emerald-200 bg-emerald-50 p-4 text-sm text-emerald-950 dark:border-emerald-400/30 dark:bg-emerald-400/15 dark:text-emerald-50">{success}</p> : null}
+        </aside>
+      </div>
     </div>
   );
 }
+
+
+

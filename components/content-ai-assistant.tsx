@@ -1,6 +1,17 @@
 "use client";
 
 import { useState } from "react";
+import type { LucideIcon } from "lucide-react";
+import {
+  Check,
+  Clipboard,
+  FileText,
+  HelpCircle,
+  Loader2,
+  PanelTop,
+  PlusCircle,
+  Sparkles,
+} from "lucide-react";
 
 type ContentModule = "blog" | "comparison" | "resource";
 type GenerationTask = "outline" | "metadata" | "faq" | "section";
@@ -15,11 +26,11 @@ type ContentAiAssistantProps = {
   onAppendToContent?: (text: string) => void;
 };
 
-const actions: Array<{ task: GenerationTask; label: string; description: string }> = [
-  { task: "outline", label: "Generate outline", description: "Create a structured H2 outline." },
-  { task: "metadata", label: "Improve metadata", description: "Draft an SEO title, description, excerpt, and tags." },
-  { task: "faq", label: "Suggest FAQs", description: "Create direct-answer FAQ ideas." },
-  { task: "section", label: "Draft a section", description: "Write one grounded Markdown section." },
+const actions: Array<{ task: GenerationTask; label: string; description: string; Icon: LucideIcon }> = [
+  { task: "outline", label: "Outline", description: "Create a structured H2 flow.", Icon: PanelTop },
+  { task: "metadata", label: "Metadata", description: "Draft title, description, excerpt, and tags.", Icon: FileText },
+  { task: "faq", label: "FAQs", description: "Suggest direct-answer questions.", Icon: HelpCircle },
+  { task: "section", label: "Section", description: "Write one grounded Markdown section.", Icon: PlusCircle },
 ];
 
 export function ContentAiAssistant({
@@ -72,54 +83,67 @@ export function ContentAiAssistant({
   }
 
   return (
-    <section className="rounded-xl border border-border bg-surface p-5 shadow-sm">
-      <div>
-        <p className="text-xs font-semibold uppercase tracking-[0.16em] text-primary">AI writing assistant</p>
-        <h2 className="mt-2 font-semibold">Generate an editable starting point</h2>
-        <p className="mt-2 text-sm leading-6 text-muted-foreground">
-          Suggestions are never published automatically. Review every claim, edit the draft, then choose when to save or publish.
-        </p>
+    <section className="rounded-lg border border-border bg-surface p-5 shadow-sm">
+      <div className="flex items-start gap-3">
+        <span className="inline-flex size-10 shrink-0 items-center justify-center rounded-lg border border-border bg-background text-primary">
+          <Sparkles aria-hidden="true" className="size-5" />
+        </span>
+        <div>
+          <p className="text-xs font-semibold uppercase tracking-[0.16em] text-muted-foreground">AI assistant</p>
+          <h2 className="mt-1 font-semibold">Generate a starting point</h2>
+          <p className="mt-2 text-sm leading-6 text-muted-foreground">
+            Suggestions stay editable. Review claims, adjust the voice, then save or publish when ready.
+          </p>
+        </div>
       </div>
 
-      <div className="mt-5 grid gap-2 sm:grid-cols-2">
-        {actions.map((action) => (
-          <button
-            key={action.task}
-            type="button"
-            disabled={runningTask !== null}
-            onClick={() => generate(action.task)}
-            className="rounded-lg border border-border bg-background px-3 py-3 text-left transition-colors hover:bg-muted disabled:cursor-not-allowed disabled:opacity-60"
-          >
-            <span className="block text-sm font-semibold text-foreground">
-              {runningTask === action.task ? "Generating…" : action.label}
-            </span>
-            <span className="mt-1 block text-xs leading-5 text-muted-foreground">{action.description}</span>
-          </button>
-        ))}
+      <div className="mt-5 grid gap-2 sm:grid-cols-2 xl:grid-cols-1 2xl:grid-cols-2">
+        {actions.map((action) => {
+          const isRunning = runningTask === action.task;
+          const Icon = action.Icon;
+
+          return (
+            <button
+              key={action.task}
+              type="button"
+              disabled={runningTask !== null}
+              onClick={() => generate(action.task)}
+              className="group rounded-md border border-border bg-background px-3 py-3 text-left transition-all hover:-translate-y-0.5 hover:border-primary/40 hover:bg-muted/50 disabled:cursor-not-allowed disabled:opacity-60"
+            >
+              <span className="flex items-center gap-2 text-sm font-semibold text-foreground">
+                {isRunning ? <Loader2 aria-hidden="true" className="size-4 animate-spin" /> : <Icon aria-hidden="true" className="size-4 text-primary" />}
+                {isRunning ? "Generating..." : action.label}
+              </span>
+              <span className="mt-1 block text-xs leading-5 text-muted-foreground">{action.description}</span>
+            </button>
+          );
+        })}
       </div>
 
-      {error ? <p className="mt-4 rounded-lg border border-rose-300 bg-rose-50 p-3 text-sm text-rose-950">{error}</p> : null}
+      {error ? <p className="mt-4 rounded-md border border-rose-200 bg-rose-50 p-3 text-sm text-rose-950 dark:border-rose-400/30 dark:bg-rose-400/15 dark:text-rose-50">{error}</p> : null}
 
       {result ? (
-        <div className="mt-5 rounded-lg border border-border bg-background p-4">
+        <div className="mt-5 rounded-md border border-border bg-background p-4">
           <div className="flex flex-wrap items-center justify-between gap-3">
             <p className="text-sm font-semibold">Generated draft</p>
             <div className="flex gap-2">
-              <button type="button" onClick={copyResult} className="rounded-md border border-border px-3 py-1.5 text-xs font-semibold hover:bg-muted">
+              <button type="button" onClick={copyResult} className="inline-flex h-8 items-center gap-2 rounded-md border border-border px-3 text-xs font-semibold hover:bg-muted">
+                {copied ? <Check aria-hidden="true" className="size-3.5" /> : <Clipboard aria-hidden="true" className="size-3.5" />}
                 {copied ? "Copied" : "Copy"}
               </button>
               {onAppendToContent ? (
                 <button
                   type="button"
                   onClick={() => onAppendToContent(result)}
-                  className="rounded-md bg-primary px-3 py-1.5 text-xs font-semibold text-primary-foreground"
+                  className="inline-flex h-8 items-center gap-2 rounded-md bg-primary px-3 text-xs font-semibold text-primary-foreground"
                 >
-                  Append to draft
+                  <PlusCircle aria-hidden="true" className="size-3.5" />
+                  Append
                 </button>
               ) : null}
             </div>
           </div>
-          <pre className="mt-3 max-h-96 overflow-auto whitespace-pre-wrap rounded-md bg-muted/50 p-3 text-xs leading-6 text-foreground">
+          <pre className="mt-3 max-h-96 overflow-auto whitespace-pre-wrap rounded-md bg-muted/60 p-3 text-xs leading-6 text-foreground">
             {result}
           </pre>
         </div>
@@ -127,3 +151,4 @@ export function ContentAiAssistant({
     </section>
   );
 }
+

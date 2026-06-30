@@ -1,6 +1,8 @@
 "use client";
 
 import { useState } from "react";
+import type { LucideIcon } from "lucide-react";
+import { AlertCircle, CheckCircle2, Loader2, SearchCheck, TriangleAlert } from "lucide-react";
 
 import type { BlogPostInput } from "@/lib/blog-admin-types";
 
@@ -55,37 +57,33 @@ type BlogKeywordIdeasProps = {
   ideas: KeywordIdea[];
 };
 
-type ReviewPalette = {
-  backgroundColor: string;
-  borderColor: string;
-  color: string;
-  badgeBackground: string;
+type ReviewClasses = {
+  panel: string;
+  badge: string;
 };
 
-function reviewPalette(status: AuditStatus): ReviewPalette {
+function reviewClasses(status: AuditStatus): ReviewClasses {
   if (status === "pass") {
     return {
-      backgroundColor: "#ecfdf5",
-      borderColor: "#6ee7b7",
-      color: "#065f46",
-      badgeBackground: "#d1fae5",
+      panel:
+        "border-emerald-200 bg-emerald-50 text-emerald-950 dark:border-emerald-400/30 dark:bg-emerald-400/15 dark:text-emerald-50",
+      badge:
+        "bg-emerald-100 text-emerald-900 dark:bg-emerald-300/20 dark:text-emerald-50",
     };
   }
 
   if (status === "error") {
     return {
-      backgroundColor: "#fff1f2",
-      borderColor: "#fda4af",
-      color: "#881337",
-      badgeBackground: "#ffe4e6",
+      panel:
+        "border-rose-200 bg-rose-50 text-rose-950 dark:border-rose-400/30 dark:bg-rose-400/15 dark:text-rose-50",
+      badge: "bg-rose-100 text-rose-900 dark:bg-rose-300/20 dark:text-rose-50",
     };
   }
 
   return {
-    backgroundColor: "#fffbeb",
-    borderColor: "#fcd34d",
-    color: "#78350f",
-    badgeBackground: "#fef3c7",
+    panel:
+      "border-amber-200 bg-amber-50 text-amber-950 dark:border-amber-400/30 dark:bg-amber-400/15 dark:text-amber-50",
+    badge: "bg-amber-100 text-amber-900 dark:bg-amber-300/20 dark:text-amber-50",
   };
 }
 
@@ -101,38 +99,33 @@ function statusLabel(status: AuditStatus): string {
   return "Improve";
 }
 
+function iconForStatus(status: AuditStatus): LucideIcon {
+  if (status === "pass") return CheckCircle2;
+  if (status === "error") return AlertCircle;
+  return TriangleAlert;
+}
+
 export function BlogAuditFeedback({ checks }: BlogAuditFeedbackProps) {
   if (!checks.length) return null;
 
   return (
     <div className="grid gap-2" aria-live="polite">
       {checks.map((check) => {
-        const palette = reviewPalette(check.status);
+        const classes = reviewClasses(check.status);
+        const StatusIcon = iconForStatus(check.status);
 
         return (
-          <div
-            key={check.id}
-            className="rounded-lg border px-3 py-3 shadow-sm"
-            style={{
-              backgroundColor: palette.backgroundColor,
-              borderColor: palette.borderColor,
-              color: palette.color,
-            }}
-          >
+          <div key={check.id} className={`rounded-md border px-3 py-3 shadow-sm ${classes.panel}`}>
             <div className="flex items-center justify-between gap-3">
-              <p className="text-xs font-bold tracking-[0.01em]" style={{ color: "inherit" }}>
+              <p className="inline-flex items-center gap-2 text-xs font-bold tracking-[0.01em] text-current">
+                <StatusIcon aria-hidden="true" className="size-3.5" />
                 {check.label}
               </p>
-              <span
-                className="rounded-full px-2 py-0.5 text-[11px] font-bold"
-                style={{ backgroundColor: palette.badgeBackground, color: palette.color }}
-              >
+              <span className={`rounded-md px-2 py-0.5 text-[11px] font-bold ${classes.badge}`}>
                 {statusLabel(check.status)}
               </span>
             </div>
-            <p className="mt-1.5 text-xs leading-5" style={{ color: "inherit", opacity: 0.95 }}>
-              {check.message}
-            </p>
+            <p className="mt-1.5 text-xs leading-5 text-current opacity-90">{check.message}</p>
           </div>
         );
       })}
@@ -144,12 +137,12 @@ export function BlogKeywordIdeas({ title, description, ideas }: BlogKeywordIdeas
   if (!ideas.length) return null;
 
   return (
-    <div className="rounded-lg border border-border bg-surface p-4 shadow-sm">
+    <div className="rounded-md border border-border bg-surface p-4 shadow-sm">
       <p className="text-sm font-bold text-foreground">{title}</p>
       <p className="mt-1 text-xs leading-5 text-muted-foreground">{description}</p>
       <div className="mt-3 grid gap-2">
         {ideas.map((idea) => (
-          <div key={idea.phrase} className="rounded-md border border-border bg-background px-3 py-3 shadow-sm">
+          <div key={idea.phrase} className="rounded-md border border-border bg-muted/60 px-3 py-3">
             <p className="text-sm font-semibold text-foreground">{idea.phrase}</p>
             <p className="mt-1 text-xs leading-5 text-muted-foreground">{idea.reason}</p>
           </div>
@@ -163,7 +156,7 @@ export function BlogAuditPanel({ article, result, onResult }: BlogAuditPanelProp
   const [running, setRunning] = useState(false);
   const [error, setError] = useState("");
   const potential = result ? potentialStatus(result.onPagePotential.label) : null;
-  const potentialPalette = potential ? reviewPalette(potential) : null;
+  const potentialClasses = potential ? reviewClasses(potential) : null;
 
   async function runAudit() {
     setRunning(true);
@@ -189,43 +182,33 @@ export function BlogAuditPanel({ article, result, onResult }: BlogAuditPanelProp
   const improvementCount = result?.article.checks.filter((check) => check.status !== "pass").length ?? 0;
 
   return (
-    <section className="rounded-xl border border-border bg-surface p-5 shadow-sm">
-      <div className="flex items-start justify-between gap-4">
-        <div>
-          <h2 className="font-bold text-foreground">Content review</h2>
+    <section className="rounded-lg border border-border bg-surface p-5 shadow-sm">
+      <div className="flex items-start gap-3">
+        <span className="inline-flex size-10 shrink-0 items-center justify-center rounded-lg border border-border bg-muted/60 text-primary">
+          <SearchCheck aria-hidden="true" className="size-5" />
+        </span>
+        <div className="min-w-0 flex-1">
+          <div className="flex items-start justify-between gap-3">
+            <div>
+              <p className="text-xs font-semibold uppercase tracking-[0.16em] text-muted-foreground">Quality check</p>
+              <h2 className="mt-1 font-semibold text-foreground">Content review</h2>
+            </div>
+            {result && potentialClasses ? (
+              <span className={`rounded-md border px-2.5 py-1 text-xs font-bold ${potentialClasses.panel}`}>
+                {result.onPagePotential.score}/100
+              </span>
+            ) : null}
+          </div>
           <p className="mt-2 text-sm leading-6 text-muted-foreground">
             Review keyword targeting, metadata, content depth, and answer coverage for this draft.
           </p>
         </div>
-        {result && potentialPalette ? (
-          <span
-            className="rounded-full border px-2.5 py-1 text-xs font-bold"
-            style={{
-              backgroundColor: potentialPalette.backgroundColor,
-              borderColor: potentialPalette.borderColor,
-              color: potentialPalette.color,
-            }}
-          >
-            {result.onPagePotential.score}/100
-          </span>
-        ) : null}
       </div>
 
-      {result && potentialPalette ? (
-        <div
-          className="mt-4 rounded-lg border p-3"
-          style={{
-            backgroundColor: potentialPalette.backgroundColor,
-            borderColor: potentialPalette.borderColor,
-            color: potentialPalette.color,
-          }}
-        >
-          <p className="text-sm font-bold" style={{ color: "inherit" }}>
-            {result.onPagePotential.label} on-page potential
-          </p>
-          <p className="mt-1 text-xs leading-5" style={{ color: "inherit", opacity: 0.95 }}>
-            {result.onPagePotential.summary}
-          </p>
+      {result && potentialClasses ? (
+        <div className={`mt-4 rounded-md border p-3 ${potentialClasses.panel}`}>
+          <p className="text-sm font-bold text-current">{result.onPagePotential.label} on-page potential</p>
+          <p className="mt-1 text-xs leading-5 text-current opacity-90">{result.onPagePotential.summary}</p>
         </div>
       ) : null}
 
@@ -233,9 +216,10 @@ export function BlogAuditPanel({ article, result, onResult }: BlogAuditPanelProp
         type="button"
         onClick={runAudit}
         disabled={running}
-        className="mt-5 w-full rounded-lg border border-border bg-background px-4 py-2.5 text-sm font-semibold text-foreground shadow-sm transition-colors hover:bg-muted disabled:cursor-not-allowed disabled:opacity-60"
+        className="mt-5 inline-flex h-11 w-full items-center justify-center gap-2 rounded-md border border-border bg-muted/60 px-4 text-sm font-semibold text-foreground shadow-sm transition-colors hover:bg-muted disabled:cursor-not-allowed disabled:opacity-60"
       >
-        {running ? "Reviewing content…" : result ? "Refresh content review" : "Run content review"}
+        {running ? <Loader2 aria-hidden="true" className="size-4 animate-spin" /> : <SearchCheck aria-hidden="true" className="size-4" />}
+        {running ? "Reviewing content..." : result ? "Refresh content review" : "Run content review"}
       </button>
 
       {result ? (
@@ -244,7 +228,7 @@ export function BlogAuditPanel({ article, result, onResult }: BlogAuditPanelProp
         </p>
       ) : null}
       {error ? (
-        <p className="mt-4 rounded-lg border px-3 py-3 text-sm font-medium" style={{ backgroundColor: "#fff1f2", borderColor: "#fda4af", color: "#881337" }}>
+        <p className="mt-4 rounded-md border border-rose-200 bg-rose-50 px-3 py-3 text-sm font-medium text-rose-950 dark:border-rose-400/30 dark:bg-rose-400/15 dark:text-rose-50">
           {error}
         </p>
       ) : null}
