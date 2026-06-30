@@ -16,7 +16,15 @@ const appPages = [
 const legalPages = ["/privacy", "/terms", "/cookie-policy"];
 const standardPages = ["/", "/about", "/services", "/search", "/blog", "/comparisons", "/resources"];
 
-export default function sitemap(): MetadataRoute.Sitemap {
+export const revalidate = 60;
+
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
+  const [posts, comparisons, resources] = await Promise.all([
+    getAllBlogPosts(),
+    getAllComparisons(),
+    getAllResources(),
+  ]);
+
   const routes = [
     ...new Set([
       ...primaryNavigation.map((item) => item.href),
@@ -36,27 +44,27 @@ export default function sitemap(): MetadataRoute.Sitemap {
       url: new URL(route, siteConfig.url).toString(),
       lastModified: now,
       changeFrequency: isHome || isApp ? "weekly" : isLegal ? "yearly" : "monthly",
-      priority: isHome ? 1.0 : isApp ? 0.95 : isLegal ? 0.3 : 0.8,
+      priority: isHome ? 1 : isApp ? 0.95 : isLegal ? 0.3 : 0.8,
     };
   });
 
-  const blogEntries: MetadataRoute.Sitemap = getAllBlogPosts().map((post) => ({
+  const blogEntries: MetadataRoute.Sitemap = posts.map((post) => ({
     url: new URL(`/blog/${post.slug}`, siteConfig.url).toString(),
-    lastModified: new Date(`${post.updatedAt ?? post.publishedAt}T12:00:00.000Z`),
+    lastModified: new Date(`${post.updatedAt || post.publishedAt}T12:00:00.000Z`),
     changeFrequency: "monthly",
     priority: 0.7,
   }));
 
-  const comparisonEntries: MetadataRoute.Sitemap = getAllComparisons().map((comparison) => ({
+  const comparisonEntries: MetadataRoute.Sitemap = comparisons.map((comparison) => ({
     url: new URL(`/comparisons/${comparison.slug}`, siteConfig.url).toString(),
-    lastModified: new Date(`${comparison.updatedAt ?? comparison.publishedAt}T12:00:00.000Z`),
+    lastModified: new Date(`${comparison.updatedAt || comparison.publishedAt}T12:00:00.000Z`),
     changeFrequency: "monthly",
     priority: 0.75,
   }));
 
-  const resourceEntries: MetadataRoute.Sitemap = getAllResources().map((resource) => ({
+  const resourceEntries: MetadataRoute.Sitemap = resources.map((resource) => ({
     url: new URL(`/resources/${resource.slug}`, siteConfig.url).toString(),
-    lastModified: new Date(`${resource.updatedAt ?? resource.publishedAt}T12:00:00.000Z`),
+    lastModified: new Date(`${resource.updatedAt || resource.publishedAt}T12:00:00.000Z`),
     changeFrequency: "monthly",
     priority: 0.7,
   }));
