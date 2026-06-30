@@ -216,16 +216,17 @@ export async function getStudioManagedContentBySlug(
 }
 
 function valuesForContent(input: StoredContentInput, type: PublicContentType) {
+  const managedInput = input as ManagedContentInput;
   const details =
     type === "comparison"
       ? {
-          competitorName: (input as Extract<ManagedContentInput, { type: "comparison" }>).competitorName,
-          decisionSummary: (input as Extract<ManagedContentInput, { type: "comparison" }>).decisionSummary,
+          competitorName: managedInput.competitorName ?? "",
+          decisionSummary: managedInput.decisionSummary ?? "",
         }
       : type === "resource"
         ? {
-            resourceType: (input as Extract<ManagedContentInput, { type: "resource" }>).resourceType,
-            audience: (input as Extract<ManagedContentInput, { type: "resource" }>).audience,
+            resourceType: managedInput.resourceType ?? "Guide",
+            audience: managedInput.audience ?? "",
           }
         : {};
 
@@ -280,7 +281,7 @@ async function saveContent(
     await db.insert(contentItems).values({
       id,
       ...values,
-      createdAt: values.publishedAt,
+      createdAt: new Date(),
     });
   }
 
