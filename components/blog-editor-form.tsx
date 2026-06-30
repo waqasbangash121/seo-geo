@@ -61,7 +61,8 @@ const emptyPost: BlogPostInput = {
   coverImage: "",
   readingTime: 5,
   draft: true,
-  content: "## Start writing your article\n\nWrite your article in Markdown. Use `##` for main sections, normal paragraphs, lists, and links.",
+  content:
+    "## Start writing your article\n\nWrite your article in Markdown. Use `##` for main sections, normal paragraphs, lists, and links.",
 };
 
 const fieldLabelClass = "grid gap-2 text-sm font-semibold";
@@ -142,7 +143,11 @@ export function BlogEditorForm({ initialPost, originalSlug }: BlogEditorFormProp
           body: JSON.stringify(payload),
         },
       );
-      const result = (await response.json()) as { error?: string; slug?: string; commitUrl?: string };
+      const result = (await response.json()) as {
+        error?: string;
+        slug?: string;
+        commitUrl?: string;
+      };
 
       if (!response.ok || !result.slug) {
         throw new Error(result.error || "The article could not be saved.");
@@ -151,8 +156,8 @@ export function BlogEditorForm({ initialPost, originalSlug }: BlogEditorFormProp
       setPost((current) => ({ ...current, ...payload }));
       setSuccess(
         mode === "publish"
-          ? "Published to GitHub. Vercel will deploy the new article automatically."
-          : "Draft saved to GitHub. It will remain hidden from the public blog.",
+          ? "Published to Neon. The public article is available now."
+          : "Draft saved to Neon. It remains hidden from the public blog.",
       );
 
       if (result.slug !== originalSlug) {
@@ -186,13 +191,16 @@ export function BlogEditorForm({ initialPost, originalSlug }: BlogEditorFormProp
               {originalSlug ? "Edit article" : "Create article"}
             </h1>
             <p className="mt-2 max-w-3xl text-sm leading-6 text-muted-foreground">
-              Shape the brief, draft in Markdown, review on-page quality, and publish through the existing GitHub workflow.
+              Shape the brief, draft in Markdown, review on-page quality, and publish directly to
+              Neon.
             </p>
           </div>
 
           <div className="grid gap-3 sm:grid-cols-3 xl:min-w-[32rem]">
             <div className="rounded-md border border-border bg-background p-3">
-              <p className="text-xs font-semibold uppercase tracking-[0.14em] text-muted-foreground">State</p>
+              <p className="text-xs font-semibold uppercase tracking-[0.14em] text-muted-foreground">
+                State
+              </p>
               <div className="mt-2">
                 <AdminStatusBadge draft={post.draft} />
               </div>
@@ -223,10 +231,13 @@ export function BlogEditorForm({ initialPost, originalSlug }: BlogEditorFormProp
                 <FileText aria-hidden="true" className="size-5" />
               </span>
               <div>
-                <p className="text-sm font-semibold uppercase tracking-[0.16em] text-muted-foreground">Core brief</p>
+                <p className="text-sm font-semibold uppercase tracking-[0.16em] text-muted-foreground">
+                  Core brief
+                </p>
                 <h2 className="mt-1 text-xl font-semibold tracking-tight">Article details</h2>
                 <p className="mt-2 text-sm leading-6 text-muted-foreground">
-                  Start with the title, keyword, URL, and summary. These fields drive the review feedback and public preview.
+                  Start with the title, keyword, URL, and summary. These fields drive the review
+                  feedback and public preview.
                 </p>
               </div>
             </div>
@@ -254,7 +265,8 @@ export function BlogEditorForm({ initialPost, originalSlug }: BlogEditorFormProp
                   placeholder="Shopify conversion rate optimization"
                 />
                 <span className="text-xs font-normal leading-5 text-muted-foreground">
-                  Choose one specific phrase this article should target. It powers the content review.
+                  Choose one specific phrase this article should target. It powers the content
+                  review.
                 </span>
               </label>
               <BlogAuditFeedback checks={feedbackFor("focus-keyword")} />
@@ -274,7 +286,11 @@ export function BlogEditorForm({ initialPost, originalSlug }: BlogEditorFormProp
                     placeholder="how-ai-search-improves-shopify-product-discovery"
                   />
                 </label>
-                <button type="button" onClick={() => update("slug", slugFromTitle(post.title))} className={secondaryButtonClass}>
+                <button
+                  type="button"
+                  onClick={() => update("slug", slugFromTitle(post.title))}
+                  className={secondaryButtonClass}
+                >
                   <Hash aria-hidden="true" className="size-4" />
                   Generate slug
                 </button>
@@ -295,7 +311,9 @@ export function BlogEditorForm({ initialPost, originalSlug }: BlogEditorFormProp
                   maxLength={350}
                   placeholder="A concise summary shown on blog cards and used as the default description."
                 />
-                <span className="text-xs font-normal text-muted-foreground">{post.excerpt.length}/350 characters</span>
+                <span className="text-xs font-normal text-muted-foreground">
+                  {post.excerpt.length}/350 characters
+                </span>
               </label>
               <BlogAuditFeedback checks={feedbackFor("excerpt-keyword")} />
             </div>
@@ -307,27 +325,55 @@ export function BlogEditorForm({ initialPost, originalSlug }: BlogEditorFormProp
                 <CalendarDays aria-hidden="true" className="size-5" />
               </span>
               <div>
-                <p className="text-sm font-semibold uppercase tracking-[0.16em] text-muted-foreground">Publishing details</p>
-                <h2 className="mt-1 text-xl font-semibold tracking-tight">Ownership and taxonomy</h2>
+                <p className="text-sm font-semibold uppercase tracking-[0.16em] text-muted-foreground">
+                  Publishing details
+                </p>
+                <h2 className="mt-1 text-xl font-semibold tracking-tight">
+                  Ownership and taxonomy
+                </h2>
               </div>
             </div>
 
             <div className="mt-6 grid gap-5 sm:grid-cols-2">
               <label className={fieldLabelClass}>
-                <span className="inline-flex items-center gap-2"><UserRound aria-hidden="true" className="size-4" /> Author</span>
-                <input value={post.author} onChange={(event) => update("author", event.target.value)} className={inputClass} />
+                <span className="inline-flex items-center gap-2">
+                  <UserRound aria-hidden="true" className="size-4" /> Author
+                </span>
+                <input
+                  value={post.author}
+                  onChange={(event) => update("author", event.target.value)}
+                  className={inputClass}
+                />
               </label>
               <label className={fieldLabelClass}>
-                <span className="inline-flex items-center gap-2"><Tag aria-hidden="true" className="size-4" /> Category</span>
-                <input value={post.category} onChange={(event) => update("category", event.target.value)} className={inputClass} />
+                <span className="inline-flex items-center gap-2">
+                  <Tag aria-hidden="true" className="size-4" /> Category
+                </span>
+                <input
+                  value={post.category}
+                  onChange={(event) => update("category", event.target.value)}
+                  className={inputClass}
+                />
               </label>
               <label className={fieldLabelClass}>
                 Publish date
-                <input type="date" value={post.publishedAt} onChange={(event) => update("publishedAt", event.target.value)} className={inputClass} />
+                <input
+                  type="date"
+                  value={post.publishedAt}
+                  onChange={(event) => update("publishedAt", event.target.value)}
+                  className={inputClass}
+                />
               </label>
               <label className={fieldLabelClass}>
                 Reading time (minutes)
-                <input type="number" min="1" max="120" value={post.readingTime} onChange={(event) => update("readingTime", Number(event.target.value))} className={inputClass} />
+                <input
+                  type="number"
+                  min="1"
+                  max="120"
+                  value={post.readingTime}
+                  onChange={(event) => update("readingTime", Number(event.target.value))}
+                  className={inputClass}
+                />
               </label>
             </div>
 
@@ -340,12 +386,16 @@ export function BlogEditorForm({ initialPost, originalSlug }: BlogEditorFormProp
                   className={inputClass}
                   placeholder="Shopify, AI Search, Product Discovery"
                 />
-                <span className="text-xs font-normal text-muted-foreground">Separate tags with commas. Maximum 10 tags.</span>
+                <span className="text-xs font-normal text-muted-foreground">
+                  Separate tags with commas. Maximum 10 tags.
+                </span>
               </label>
               <BlogAuditFeedback checks={feedbackFor("tag-keywords")} />
 
               <label className={fieldLabelClass}>
-                <span className="inline-flex items-center gap-2"><ImageIcon aria-hidden="true" className="size-4" /> Cover image path or URL</span>
+                <span className="inline-flex items-center gap-2">
+                  <ImageIcon aria-hidden="true" className="size-4" /> Cover image path or URL
+                </span>
                 <input
                   value={post.coverImage}
                   onChange={(event) => update("coverImage", event.target.value)}
@@ -359,7 +409,9 @@ export function BlogEditorForm({ initialPost, originalSlug }: BlogEditorFormProp
           <section className={sectionClass}>
             <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
               <div>
-                <p className="text-sm font-semibold uppercase tracking-[0.16em] text-muted-foreground">Markdown draft</p>
+                <p className="text-sm font-semibold uppercase tracking-[0.16em] text-muted-foreground">
+                  Markdown draft
+                </p>
                 <h2 className="mt-1 text-xl font-semibold tracking-tight">Article content</h2>
               </div>
               <span className="rounded-md border border-border bg-background px-3 py-1.5 text-xs font-semibold text-muted-foreground">
@@ -377,7 +429,15 @@ export function BlogEditorForm({ initialPost, originalSlug }: BlogEditorFormProp
               />
             </label>
             <div className="mt-4">
-              <BlogAuditFeedback checks={feedbackFor("content-depth", "content-keyword", "intro-keyword", "heading-coverage", "question-coverage")} />
+              <BlogAuditFeedback
+                checks={feedbackFor(
+                  "content-depth",
+                  "content-keyword",
+                  "intro-keyword",
+                  "heading-coverage",
+                  "question-coverage",
+                )}
+              />
             </div>
             <div className="mt-4">
               <BlogKeywordIdeas
@@ -394,10 +454,13 @@ export function BlogEditorForm({ initialPost, originalSlug }: BlogEditorFormProp
                 <Globe2 aria-hidden="true" className="size-5" />
               </span>
               <div>
-                <p className="text-sm font-semibold uppercase tracking-[0.16em] text-muted-foreground">Search and social</p>
+                <p className="text-sm font-semibold uppercase tracking-[0.16em] text-muted-foreground">
+                  Search and social
+                </p>
                 <h2 className="mt-1 text-xl font-semibold tracking-tight">SEO preview</h2>
                 <p className="mt-2 text-sm leading-6 text-muted-foreground">
-                  These fields control the document title, meta description, social preview, and Article schema.
+                  These fields control the document title, meta description, social preview, and
+                  Article schema.
                 </p>
               </div>
             </div>
@@ -412,7 +475,9 @@ export function BlogEditorForm({ initialPost, originalSlug }: BlogEditorFormProp
                   className={inputClass}
                   placeholder={post.title || "SEO title"}
                 />
-                <span className="text-xs font-normal text-muted-foreground">{post.seoTitle.length}/70 characters</span>
+                <span className="text-xs font-normal text-muted-foreground">
+                  {post.seoTitle.length}/70 characters
+                </span>
               </label>
               <BlogAuditFeedback checks={feedbackFor("seo-title-keyword")} />
 
@@ -425,15 +490,25 @@ export function BlogEditorForm({ initialPost, originalSlug }: BlogEditorFormProp
                   className={`${textareaClass} min-h-28`}
                   placeholder={post.excerpt || "SEO description"}
                 />
-                <span className="text-xs font-normal text-muted-foreground">{post.seoDescription.length}/180 characters</span>
+                <span className="text-xs font-normal text-muted-foreground">
+                  {post.seoDescription.length}/180 characters
+                </span>
               </label>
               <BlogAuditFeedback checks={feedbackFor("seo-description-keyword")} />
 
               <div className="rounded-md border border-border bg-background p-4">
-                <p className="text-xs font-semibold uppercase tracking-[0.16em] text-muted-foreground">Search preview</p>
-                <p className="mt-3 truncate text-lg font-semibold text-primary">{post.seoTitle || post.title || "Article title"}</p>
-                <p className="mt-1 text-sm text-emerald-700 dark:text-emerald-400">www.niagarat.com{publicUrl}</p>
-                <p className="mt-2 text-sm leading-6 text-muted-foreground">{post.seoDescription || post.excerpt || "Your description will appear here."}</p>
+                <p className="text-xs font-semibold uppercase tracking-[0.16em] text-muted-foreground">
+                  Search preview
+                </p>
+                <p className="mt-3 truncate text-lg font-semibold text-primary">
+                  {post.seoTitle || post.title || "Article title"}
+                </p>
+                <p className="mt-1 text-sm text-emerald-700 dark:text-emerald-400">
+                  www.niagarat.com{publicUrl}
+                </p>
+                <p className="mt-2 text-sm leading-6 text-muted-foreground">
+                  {post.seoDescription || post.excerpt || "Your description will appear here."}
+                </p>
               </div>
             </div>
           </section>
@@ -448,17 +523,35 @@ export function BlogEditorForm({ initialPost, originalSlug }: BlogEditorFormProp
               <div>
                 <h2 className="font-semibold">Publishing</h2>
                 <p className="mt-2 text-sm leading-6 text-muted-foreground">
-                  Saving creates a GitHub commit. Vercel deploys changed content automatically.
+                  Saving writes directly to Neon and refreshes the public article route immediately.
                 </p>
               </div>
             </div>
             <div className="mt-5 grid gap-3">
-              <button type="button" onClick={() => save("draft")} disabled={saving !== null} className={secondaryButtonClass}>
-                {saving === "draft" ? <Loader2 aria-hidden="true" className="size-4 animate-spin" /> : <Save aria-hidden="true" className="size-4" />}
+              <button
+                type="button"
+                onClick={() => save("draft")}
+                disabled={saving !== null}
+                className={secondaryButtonClass}
+              >
+                {saving === "draft" ? (
+                  <Loader2 aria-hidden="true" className="size-4 animate-spin" />
+                ) : (
+                  <Save aria-hidden="true" className="size-4" />
+                )}
                 {saving === "draft" ? "Saving draft..." : "Save draft"}
               </button>
-              <button type="button" onClick={() => save("publish")} disabled={saving !== null} className={primaryButtonClass}>
-                {saving === "publish" ? <Loader2 aria-hidden="true" className="size-4 animate-spin" /> : <Send aria-hidden="true" className="size-4" />}
+              <button
+                type="button"
+                onClick={() => save("publish")}
+                disabled={saving !== null}
+                className={primaryButtonClass}
+              >
+                {saving === "publish" ? (
+                  <Loader2 aria-hidden="true" className="size-4 animate-spin" />
+                ) : (
+                  <Send aria-hidden="true" className="size-4" />
+                )}
                 {saving === "publish" ? "Publishing..." : "Publish article"}
               </button>
             </div>
@@ -474,13 +567,18 @@ export function BlogEditorForm({ initialPost, originalSlug }: BlogEditorFormProp
 
           <BlogAuditPanel article={auditArticle} result={auditResult} onResult={setAuditResult} />
 
-          {error ? <p className="rounded-md border border-rose-200 bg-rose-50 p-4 text-sm text-rose-950 dark:border-rose-400/30 dark:bg-rose-400/15 dark:text-rose-50">{error}</p> : null}
-          {success ? <p className="rounded-md border border-emerald-200 bg-emerald-50 p-4 text-sm text-emerald-950 dark:border-emerald-400/30 dark:bg-emerald-400/15 dark:text-emerald-50">{success}</p> : null}
+          {error ? (
+            <p className="rounded-md border border-rose-200 bg-rose-50 p-4 text-sm text-rose-950 dark:border-rose-400/30 dark:bg-rose-400/15 dark:text-rose-50">
+              {error}
+            </p>
+          ) : null}
+          {success ? (
+            <p className="rounded-md border border-emerald-200 bg-emerald-50 p-4 text-sm text-emerald-950 dark:border-emerald-400/30 dark:bg-emerald-400/15 dark:text-emerald-50">
+              {success}
+            </p>
+          ) : null}
         </aside>
       </div>
     </div>
   );
 }
-
-
-
