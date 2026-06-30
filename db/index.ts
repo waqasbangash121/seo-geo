@@ -20,7 +20,10 @@ function databaseUrl(): string {
 
 export function getDb(): Database {
   if (!database) {
-    database = drizzle(neon(databaseUrl()), { schema });
+    database = drizzle({
+      client: neon(databaseUrl()),
+      schema,
+    });
   }
 
   return database;
