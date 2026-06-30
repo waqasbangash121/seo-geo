@@ -6,6 +6,7 @@ import {
   LayoutDashboard,
   LogOut,
   Scale,
+  Settings2,
 } from "lucide-react";
 
 import { ThemeSwitcher } from "@/components/layout/theme-switcher";
@@ -44,6 +45,12 @@ const modules = [
     label: "Resources",
     description: "Guides, playbooks, and templates",
     Icon: FileText,
+  },
+  {
+    href: "/admin/settings",
+    label: "Settings",
+    description: "AI connection and workspace preferences",
+    Icon: Settings2,
   },
 ];
 
@@ -153,7 +160,7 @@ export default async function ContentStudioLayout({ children }: { children: Reac
               </div>
             </div>
 
-            <nav aria-label="Mobile content modules" className="mt-3 grid grid-cols-2 gap-2 sm:grid-cols-4">
+            <nav aria-label="Mobile content modules" className="mt-3 grid grid-cols-2 gap-2 sm:grid-cols-5">
               {modules.map(({ href, label, Icon }) => (
                 <Link
                   key={href}
@@ -173,4 +180,3 @@ export default async function ContentStudioLayout({ children }: { children: Reac
     </main>
   );
 }
-

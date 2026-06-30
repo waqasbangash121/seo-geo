@@ -1,5 +1,7 @@
 import "server-only";
 
+import { AiSettingsError, getOpenAiWorkspaceConfiguration } from "@/lib/ai-settings";
+
 type ContentModule = "blog" | "comparison" | "resource";
 type GenerationTask = "outline" | "metadata" | "faq" | "section";
 
@@ -25,14 +27,9 @@ type OpenAIResponse = {
 const modules = new Set<ContentModule>(["blog", "comparison", "resource"]);
 const tasks = new Set<GenerationTask>(["outline", "metadata", "faq", "section"]);
 
-function requiredEnv(name: string): string {
-  const value = process.env[name]?.trim();
-  if (!value) throw new Error(`Missing required environment variable: ${name}`);
-  return value;
-}
-
 function optionalString(value: unknown, maxLength: number): string | undefined {
   if (typeof value !== "string") return undefined;
+
   const result = value.trim().slice(0, maxLength);
   return result || undefined;
 }
@@ -42,7 +39,9 @@ function clean(value: string | undefined, maxLength: number): string {
 }
 
 function parseRequest(value: unknown): ContentGenerationRequest {
-  if (!value || typeof value !== "object") throw new Error("Invalid content generation request.");
+  if (!value || typeof value !== "object") {
+    throw new AiSettingsError("Invalid content generation request.");
+  }
 
   const input = value as Record<string, unknown>;
   const module = input.module;
@@ -50,12 +49,16 @@ function parseRequest(value: unknown): ContentGenerationRequest {
   const title = optionalString(input.title, 160);
 
   if (typeof module !== "string" || !modules.has(module as ContentModule)) {
-    throw new Error("Choose a valid content module.");
+    throw new AiSettingsError("Choose a valid content module.");
   }
+
   if (typeof task !== "string" || !tasks.has(task as GenerationTask)) {
-    throw new Error("Choose a valid generation action.");
+    throw new AiSettingsError("Choose a valid generation action.");
   }
-  if (!title) throw new Error("Add a title before requesting content generation.");
+
+  if (!title) {
+    throw new AiSettingsError("Add a title before requesting content generation.");
+  }
 
   return {
     module: module as ContentModule,
@@ -69,9 +72,18 @@ function parseRequest(value: unknown): ContentGenerationRequest {
 }
 
 function taskInstruction(task: GenerationTask): string {
-  if (task === "outline") return "Create a detailed Markdown outline with an H1, logical H2 sections, and concise notes for each section.";
-  if (task === "metadata") return "Provide an SEO title, meta description, short excerpt, and 5 relevant tags. Use clear labels and no JSON.";
-  if (task === "faq") return "Create 5 concise FAQ questions and direct answers in Markdown. Do not invent factual claims.";
+  if (task === "outline") {
+    return "Create a detailed Markdown outline with an H1, logical H2 sections, and concise notes for each section.";
+  }
+
+  if (task === "metadata") {
+    return "Provide an SEO title, meta description, short excerpt, and 5 relevant tags. Use clear labels and no JSON.";
+  }
+
+  if (task === "faq") {
+    return "Create 5 concise FAQ questions and direct answers in Markdown. Do not invent factual claims.";
+  }
+
   return "Draft one useful Markdown section with an H2 heading, clear explanation, and practical steps. Do not invent facts, performance claims, pricing, or competitor features.";
 }
 
@@ -95,14 +107,44 @@ function responseText(response: OpenAIResponse): string {
     .join("\n")
     .trim();
 
-  if (!text) throw new Error("The content model returned no text.");
+  if (!text) {
+    throw new AiSettingsError("The AI provider returned no usable text. Please try again.", 502);
+  }
+
   return text;
+}
+
+function generationProviderError(status: number): AiSettingsError {
+  if (status === 401 || status === 403) {
+    return new AiSettingsError(
+      "The saved OpenAI API key was rejected. Replace it in Settings.",
+      400,
+    );
+  }
+
+  if (status === 404) {
+    return new AiSettingsError(
+      "The selected OpenAI model is unavailable for this key. Update it in Settings.",
+      400,
+    );
+  }
+
+  if (status === 429) {
+    return new AiSettingsError(
+      "OpenAI is rate-limiting this key. Wait a moment and try again.",
+      429,
+    );
+  }
+
+  return new AiSettingsError(
+    "The AI provider could not complete this request. Try again shortly.",
+    502,
+  );
 }
 
 export async function generateContentSuggestion(value: unknown): Promise<string> {
   const input = parseRequest(value);
-  const apiKey = requiredEnv("CONTENT_AI_API_KEY");
-  const model = requiredEnv("CONTENT_AI_MODEL");
+  const { apiKey, model } = await getOpenAiWorkspaceConfiguration();
 
   const prompt = [
     "You are a careful B2B ecommerce content strategist for Hyper, a Shopify app brand.",
@@ -143,16 +185,20 @@ export async function generateContentSuggestion(value: unknown): Promise<string>
     });
 
     if (!response.ok) {
-      const message = await response.text();
-      throw new Error(`Content generation request failed (${response.status}): ${message.slice(0, 180)}`);
+      throw generationProviderError(response.status);
     }
 
     return responseText((await response.json()) as OpenAIResponse);
   } catch (error) {
-    if (error instanceof Error && error.name === "AbortError") {
-      throw new Error("Content generation timed out. Please try again.");
+    if (error instanceof AiSettingsError) {
+      throw error;
     }
-    throw error;
+
+    if (error instanceof Error && error.name === "AbortError") {
+      throw new AiSettingsError("Content generation timed out. Please try again.", 504);
+    }
+
+    throw new AiSettingsError("The AI provider could not be reached. Try again shortly.", 502);
   } finally {
     clearTimeout(timeout);
   }
