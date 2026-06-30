@@ -51,8 +51,8 @@ const relatedLinks = [
   },
 ];
 
-export default function ComparisonsPage() {
-  const comparisons = getAllComparisons();
+export default async function ComparisonsPage() {
+  const comparisons = await getAllComparisons();
 
   return (
     <>
